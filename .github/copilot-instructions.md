@@ -124,15 +124,19 @@ spectatr/
 │   │   ├── validation/        # Pure validation functions
 │   │   └── config/            # Sport configs, field layouts
 │   ├── ui/                    # React + MUI + Vite
-│   │   ├── src/
-│   │   │   ├── components/    # React components
-│   │   │   ├── theme/         # MUI theme system (tokens, components, instances)
-│   │   │   ├── stores/        # Zustand stores (feature-based)
-│   │   │   ├── pages/         # Page components
-│   │   │   ├── features/      # Feature-specific components
-│   │   │   ├── mocks/         # Mock data (players, squads, leagues, rules)
-│   │   │   └── config/        # Config files (field layouts, validation errors)
+│   │   ├── env/               # Environment files (.env, .env.example)
+│   │   └── src/
+│   │       ├── components/    # React components
+│   │       ├── theme/         # MUI theme system (tokens, components, instances)
+│   │       ├── stores/        # Zustand stores (feature-based)
+│   │       ├── pages/         # Page components
+│   │       ├── features/      # Feature-specific components
+│   │       ├── mocks/         # UI mock data (leagues, leagueRules)
+│   │       └── config/        # Config files (field layouts, validation errors)
 │   └── server/                # tRPC API + Prisma + PostgreSQL
+│       └── env/               # Environment files (.env, .env.example)
+├── data/
+│   └── trc-2025/              # Seed data (players.json, squads.json, rounds.json)
 ```
 
 ## Tech Stack

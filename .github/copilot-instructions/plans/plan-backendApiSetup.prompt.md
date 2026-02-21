@@ -45,7 +45,7 @@ A minimal but extensible Node.js backend to replace frontend mocks with live API
    - `players.getById` (single player details)
    - `squads.list` (static data, long cache TTL)
    - `rounds.list` (includes current round, match status, scores)
-   - Use Zod schemas from `@fantasy-union/shared-types` for validation
+   - Use Zod schemas from `@spectatr/shared-types` for validation
    - Set appropriate cache headers based on data volatility:
      - players.list: 60s TTL
      - squads.list: 24h TTL (static for season)
@@ -144,7 +144,7 @@ packages/server/src/
 
 **Framework: tRPC** (chosen for end-to-end type safety with zero boilerplate)
 - Automatic TypeScript types flow from server to client
-- Uses existing Zod schemas from `@fantasy-union/shared-types`
+- Uses existing Zod schemas from `@spectatr/shared-types`
 - Native TanStack Query integration (already in use)
 - Perfect for monorepo architecture
 - Rapid development with compile-time safety

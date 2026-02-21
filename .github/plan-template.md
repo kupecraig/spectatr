@@ -41,7 +41,7 @@ interface MyFeature {
   // ...
 }
 
-// Zod schema in @fantasy-union/shared-types
+// Zod schema in @spectatr/shared-types
 const MyFeatureSchema = z.object({
   id: z.number(),
   name: z.string(),
@@ -94,7 +94,7 @@ interface MyFeatureState {
 
 ### Zod Schemas
 
-[List Zod schemas needed in @fantasy-union/shared-types:]
+[List Zod schemas needed in @spectatr/shared-types:]
 
 - `MyFeatureSchema` - Main feature validation
 - `MyFeatureFilterSchema` - Filter validation

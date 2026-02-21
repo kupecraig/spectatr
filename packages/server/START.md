@@ -1,48 +1,26 @@
 # Backend Startup Guide
 
-## ✅ Pre-flight Checklist
+## 🚀 First Time Setup
 
-All issues resolved! Here's how to start the backend:
-
-### 1. Start Docker Services
 ```powershell
-# From project root
-docker-compose up -d
-
-# Verify containers are running
-docker ps
+docker compose up -d
+npm run db:migrate --workspace=@spectatr/server
+npm run db:seed --workspace=@spectatr/server
 ```
 
-**Expected output:**
-- `fantasy-union-db` (PostgreSQL) - Up
-- `fantasy-union-redis` (Redis) - Up
+## ✅ Starting the Server
 
-### 2. Generate Prisma Client
+### 1. Start Docker
 ```powershell
-cd packages/backend
-npm run db:generate
+docker compose up -d
 ```
 
-### 3. Run Database Migrations
+### 2. Start the Server
 ```powershell
-npm run db:migrate
-```
+# Server only
+npm run dev:server
 
-### 4. Seed Database
-```powershell
-npm run db:seed
-```
-
-**Expected output:**
-- ✅ Tenant created: The Rugby Championship 2025
-- ✅ 4 squads seeded
-- ✅ 198 players seeded
-- ✅ 1 tournament seeded
-- ✅ 6 rounds seeded
-- ✅ Gameweek state initialized
-
-### 5. Start Backend Server
-```powershell
+# Or full stack (shared-types + server + ui)
 npm run dev
 ```
 
@@ -85,8 +63,8 @@ curl -X POST http://localhost:3001/trpc/players.list `
 
 ### Docker not starting?
 ```powershell
-docker-compose down
-docker-compose up -d
+docker compose down
+docker compose up -d
 ```
 
 ### Database connection errors?
@@ -95,37 +73,6 @@ docker-compose up -d
 docker ps
 
 # Check logs
-docker logs fantasy-union-db
-docker logs fantasy-union-redis
+docker logs spectatr-db
+docker logs spectatr-redis
 ```
-
-### Port already in use?
-```powershell
-# Check what's using port 3001
-netstat -ano | findstr :3001
-
-# Kill process (replace PID)
-taskkill /PID <PID> /F
-```
-
-### Redis connection errors?
-Check REDIS_HOST and REDIS_PORT in `.env` match docker-compose.yml
-
-## 📝 Next Steps
-
-1. ✅ All 11 backend tasks complete
-2. ✅ Authentication implemented (Clerk with JWT verification)
-3. 🔜 Test frontend integration
-4. 🔜 Deploy to production
-
-## 🎯 All Issues Fixed
-
-- ✅ TypeScript build errors resolved
-- ✅ Linting issues fixed (replaceAll, RegExp.exec, localeCompare)
-- ✅ Top-level await in seed script
-- ✅ Environment variables updated (REDIS_HOST/PORT vs REDIS_URL)
-- ✅ Rate limiting with Redis
-- ✅ Checksum endpoint working
-- ✅ Auto-lock background jobs
-- ✅ Audit trail middleware
-- ✅ Multi-tenant architecture

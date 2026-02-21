@@ -6,8 +6,11 @@
 spectatr/
 ├── packages/
 │   ├── shared-types/          # Zod schemas, validation, sport configs
-│   ├── frontend/              # React + MUI + Vite
-│   └── backend/               # NestJS/tRPC (planned)
+│   ├── ui/                    # React + MUI + Vite
+│   └── server/                # tRPC API + Prisma + PostgreSQL
+├── data/
+│   └── trc-2025/              # Seed data (players, squads, rounds)
+└── docker-compose.yml         # PostgreSQL + Redis services
 ```
 
 **Benefits:** Shared validation logic, TypeScript types from Zod schemas, single source of truth for configurations.
@@ -33,7 +36,7 @@ spectatr/
 
 **Why tRPC:** Chose tRPC over NestJS for automatic TypeScript types across client/server boundary, zero boilerplate in monorepo setup, native TanStack Query integration, and direct imports of shared Zod schemas.
 
-See [Backend API Guide](../.github/copilot-instructions/backend-api.md) for patterns and examples.
+See [Backend API Guide](.github/copilot-instructions/backend-api.md) for patterns and examples.
 
 ## Multi-Tenancy Architecture
 
@@ -170,7 +173,7 @@ src/
   stores/          # Zustand stores (myTeamStore)
   theme/           # MUI theme (tokens/, components/, instances/)
   config/          # Configuration (fieldLayouts, validationErrors)
-  mocks/           # Mock data
+  mocks/           # UI mock data (leagues, leagueRules) - seed data in data/trc-2025/
 ```
 
 ## Testing Strategy

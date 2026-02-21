@@ -7,7 +7,7 @@
 2. Create a new branch: `git checkout -b test/ci-workflow`
 3. Commit: `git add test.yml && git commit -m "Test CI workflow"`
 4. Push: `git push origin test/ci-workflow`
-5. Check results at: https://github.com/YOUR_ORG/fantasy-union/actions
+5. Check results at: https://github.com/kupecraig/spectatr/actions
 
 ### Local Testing with act
 ```bash

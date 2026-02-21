@@ -4,7 +4,7 @@
 
 Add a dedicated Vitest project for unit tests alongside the existing Storybook test runner, then systematically test pure functions (validation, calculations) and store logic to complement component-level story tests.
 
-** All code must keep to constraints in C:\Users\CraigJackson\source\repos\craigj\fantasy-union\variable-theme\.github\copilot-instructions.md **
+** All code must keep to constraints in `.github/copilot-instructions.md` **
 
 ## Architecture and Design
 

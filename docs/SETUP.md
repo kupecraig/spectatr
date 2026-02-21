@@ -53,24 +53,26 @@ Multi-sport fantasy sports platform with Material-UI theming, shared validation,
 ### 1. Project Structure
 
 ```
-variable-theme/
-├── src/
-│   ├── components/
-│   │   ├── Dashboard.tsx          # Main dashboard layout
-│   │   └── SettingsDialog.tsx      # Settings modal with theme switcher
-│   ├── theme/
-│   │   ├── base.ts                 # Shared theme configuration
-│   │   ├── light.ts                # Light theme palette
-│   │   ├── dark.ts                 # Dark theme palette
-│   │   ├── rugby.ts                # Rugby theme palette
-│   │   ├── index.ts                # Theme registry and loader
-│   │   └── README.md               # Theme system documentation
-│   ├── mocks/
-│   │   ├── playerData.ts           # Player interfaces and utilities
-│   │   ├── players.json            # Mock player data
-│   │   └── squads.json             # Mock squad/team data
-│   ├── App.tsx
-│   └── main.tsx                    # App entry point with theme provider
+spectatr/
+├── data/
+│   └── trc-2025/              # Seed data (players.json, squads.json, rounds.json)
+├── packages/
+│   ├── shared-types/          # Zod schemas, validation, sport configs
+│   ├── ui/                    # React + MUI + Vite
+│   │   ├── env/               # Environment variables (.env)
+│   │   └── src/
+│   │       ├── components/    # React components (PlayerSlot, EmptySlot)
+│   │       ├── features/      # Feature components (players/, squad/)
+│   │       ├── theme/         # MUI theme system
+│   │       ├── stores/        # Zustand stores
+│   │       ├── pages/         # Page components
+│   │       ├── mocks/         # UI-only mock data (leagues, leagueRules)
+│   │       └── config/        # Field layouts, validation errors
+│   └── server/                # tRPC API + Prisma + PostgreSQL
+│       ├── env/               # Environment variables (.env)
+│       ├── prisma/            # Schema and migrations
+│       └── src/               # Server source code
+└── docker-compose.yml         # PostgreSQL + Redis
 ```
 
 ### 2. Theme Setup with Modular Architecture

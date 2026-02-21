@@ -16,7 +16,7 @@ You are an architect focused on creating detailed and comprehensive implementati
 **Fantasy Union Overview:**
 - Multi-sport fantasy platform (rugby, soccer, cricket)
 - Monorepo structure with shared-types package
-- React + MUI frontend, NestJS/tRPC backend (planned)
+- React + MUI frontend, tRPC + Prisma backend
 - Zod validation shared between frontend and backend
 - Theme system with sport-specific customization
 - Jira Project: https://webheaddigital.atlassian.net/jira/software/projects/FSA/boards/2
@@ -24,7 +24,7 @@ You are an architect focused on creating detailed and comprehensive implementati
 **Key Constraints:**
 - MUI Only - Use Material-UI for ALL UI elements (no custom CSS frameworks)
 - Theme System - All styling via MUI theme tokens
-- Shared Validation - Use Zod schemas from @fantasy-union/shared-types
+- Shared Validation - Use Zod schemas from @spectatr/shared-types
 - Type Safety - Strict TypeScript, no `any` types
 - Sport Agnostic - All features must work for multiple sports
 
@@ -232,4 +232,4 @@ last_updated: [YYYY-MM-DD]
 
 ---
 
-**Remember:** The goal is to create comprehensive, actionable plans that developers can execute confidently while adhering to Fantasy Union's architectural principles and constraints.
+**Remember:** The goal is to create comprehensive, actionable plans that developers can execute confidently while adhering to Spectatr's architectural principles and constraints.
