@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "leagueId": 1,
+    "name": "Standard Rules - TRC 2026",
+    "draftMode": false,
+    "pricingModel": "dynamic",
+    "priceCapEnabled": true,
+    "priceCap": 100000000,
+    "positionMatching": false,
+    "squadLimitPerTeam": 4,
+    "sharedPool": true,
+    "transfersPerRound": 3,
+    "wildcardRounds": [3, 5],
+    "tripleCaptainRounds": [6],
+    "benchBoostRounds": [4],
+    "createdAt": "2026-01-01T00:00:00Z",
+    "updatedAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": 2,
+    "leagueId": 2,
+    "name": "Draft Mode - Best Mates",
+    "draftMode": true,
+    "pricingModel": "fixed",
+    "priceCapEnabled": false,
+    "priceCap": null,
+    "positionMatching": true,
+    "squadLimitPerTeam": null,
+    "sharedPool": false,
+    "transfersPerRound": 2,
+    "wildcardRounds": [],
+    "tripleCaptainRounds": [],
+    "benchBoostRounds": [],
+    "draftSettings": {
+      "draftType": "snake",
+      "pickTimeLimit": 120,
+      "draftOrder": "random",
+      "scheduledDate": "2026-07-10T19:00:00Z"
+    },
+    "createdAt": "2026-01-15T00:00:00Z",
+    "updatedAt": "2026-01-15T00:00:00Z"
+  },
+  {
+    "id": 3,
+    "leagueId": 3,
+    "name": "Beginner Rules - Easy Mode",
+    "draftMode": false,
+    "pricingModel": "fixed",
+    "priceCapEnabled": true,
+    "priceCap": 100000000,
+    "positionMatching": false,
+    "squadLimitPerTeam": 5,
+    "sharedPool": true,
+    "transfersPerRound": 5,
+    "wildcardRounds": [2, 4, 6],
+    "tripleCaptainRounds": [3, 6],
+    "benchBoostRounds": [2, 5],
+    "createdAt": "2026-01-10T00:00:00Z",
+    "updatedAt": "2026-01-10T00:00:00Z"
+  }
+]

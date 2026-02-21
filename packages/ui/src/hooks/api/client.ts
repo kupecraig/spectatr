@@ -1,0 +1,51 @@
+import { API_CONFIG } from '@/config/constants';
+
+interface TrpcResponse<T> {
+  result: {
+    data: T;
+  };
+}
+
+/**
+ * Fetch from tRPC endpoint with optional authentication
+ * @param path - tRPC procedure path (e.g., 'players.list')
+ * @param input - Input parameters for the procedure
+ * @param getToken - Optional function to get authentication token
+ */
+export async function fetchTrpc<T>(
+  path: string,
+  input?: Record<string, unknown>,
+  getToken?: () => Promise<string | null>
+): Promise<T> {
+  const url = new URL(`${API_CONFIG.BASE_URL}/trpc/${path}`);
+
+  // Add input as query parameter (tRPC GET format)
+  if (input) {
+    url.searchParams.set('input', JSON.stringify({ json: input }));
+  }
+
+  const headers: HeadersInit = {
+    'Content-Type': 'application/json',
+    'x-tenant-id': 'trc-2025', // TODO: Make this configurable per tenant
+  };
+
+  // Add auth token if available
+  if (getToken) {
+    const token = await getToken();
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+  }
+
+  const response = await fetch(url.toString(), {
+    headers,
+  });
+
+  if (!response.ok) {
+    const message = await response.text();
+    throw new Error(message || `Request failed: ${response.status}`);
+  }
+
+  const data = (await response.json()) as TrpcResponse<T>;
+  return data.result.data;
+}

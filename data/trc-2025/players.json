@@ -1,0 +1,3842 @@
+[
+    {
+        "id": 1,
+        "feedId": 28160,
+        "squadId": 4,
+        "firstName": "Will",
+        "lastName": "Jordan",
+        "position": "outside_back",
+        "cost": 10000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 64.8
+        },
+        "imagePitch": "pitch\/28160.png",
+        "imageProfile": "profile\/28160.png"
+    },
+    {
+        "id": 2,
+        "feedId": 20584,
+        "squadId": 1,
+        "firstName": "Cheslin",
+        "lastName": "Kolbe",
+        "position": "outside_back",
+        "cost": 10000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 37.8
+        },
+        "imagePitch": "pitch\/20584.png",
+        "imageProfile": "profile\/20584.png"
+    },
+    {
+        "id": 3,
+        "feedId": 11612,
+        "squadId": 4,
+        "firstName": "Beauden",
+        "lastName": "Barrett",
+        "position": "fly_half",
+        "cost": 9500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 21.1
+        },
+        "imagePitch": "pitch\/11612.png",
+        "imageProfile": "profile\/11612.png"
+    },
+    {
+        "id": 4,
+        "feedId": 34084,
+        "squadId": 1,
+        "firstName": "Kurt-Lee",
+        "lastName": "Arendse",
+        "position": "outside_back",
+        "cost": 9000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 18.5
+        },
+        "imagePitch": "pitch\/34084.png",
+        "imageProfile": "profile\/34084.png"
+    },
+    {
+        "id": 5,
+        "feedId": 26115,
+        "squadId": 4,
+        "firstName": "Sevu",
+        "lastName": "Reece",
+        "position": "outside_back",
+        "cost": 8500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 9.6
+        },
+        "imagePitch": "pitch\/26115.png",
+        "imageProfile": "profile\/26115.png"
+    },
+    {
+        "id": 6,
+        "feedId": 33500,
+        "squadId": 2,
+        "firstName": "Tom",
+        "lastName": "Wright",
+        "position": "outside_back",
+        "cost": 8500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 18.9
+        },
+        "imagePitch": "pitch\/33500.png",
+        "imageProfile": "profile\/33500.png"
+    },
+    {
+        "id": 7,
+        "feedId": 21740,
+        "squadId": 4,
+        "firstName": "Damian",
+        "lastName": "McKenzie",
+        "position": "fly_half",
+        "cost": 8500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 14.5
+        },
+        "imagePitch": "pitch\/21740.png",
+        "imageProfile": "profile\/21740.png"
+    },
+    {
+        "id": 8,
+        "feedId": 20064,
+        "squadId": 4,
+        "firstName": "Ardie",
+        "lastName": "Savea",
+        "position": "loose_forward",
+        "cost": 8500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 70.4
+        },
+        "imagePitch": "pitch\/20064.png",
+        "imageProfile": "profile\/20064.png"
+    },
+    {
+        "id": 9,
+        "feedId": 23535,
+        "squadId": 4,
+        "firstName": "Rieko",
+        "lastName": "Ioane",
+        "position": "outside_back",
+        "cost": 8500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 7.1
+        },
+        "imagePitch": "pitch\/23535.png",
+        "imageProfile": "profile\/23535.png"
+    },
+    {
+        "id": 10,
+        "feedId": 24843,
+        "squadId": 1,
+        "firstName": "Manie",
+        "lastName": "Libbok",
+        "position": "fly_half",
+        "cost": 8500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 5.7
+        },
+        "imagePitch": "pitch\/24843.png",
+        "imageProfile": "profile\/24843.png"
+    },
+    {
+        "id": 11,
+        "feedId": 19888,
+        "squadId": 1,
+        "firstName": "Handre",
+        "lastName": "Pollard",
+        "position": "fly_half",
+        "cost": 8500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 22.7
+        },
+        "imagePitch": "pitch\/19888.png",
+        "imageProfile": "profile\/19888.png"
+    },
+    {
+        "id": 12,
+        "feedId": 26869,
+        "squadId": 1,
+        "firstName": "Damian",
+        "lastName": "Willemse",
+        "position": "outside_back",
+        "cost": 8500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 6.7
+        },
+        "imagePitch": "pitch\/26869.png",
+        "imageProfile": "profile\/26869.png"
+    },
+    {
+        "id": 13,
+        "feedId": 20037,
+        "squadId": 1,
+        "firstName": "Damian",
+        "lastName": "de Allande",
+        "position": "center",
+        "cost": 8000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 12.1
+        },
+        "imagePitch": "pitch\/20037.png",
+        "imageProfile": "profile\/20037.png"
+    },
+    {
+        "id": 14,
+        "feedId": 24947,
+        "squadId": 4,
+        "firstName": "Jordie",
+        "lastName": "Barrett",
+        "position": "center",
+        "cost": 8000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 34.6
+        },
+        "imagePitch": "pitch\/24947.png",
+        "imageProfile": "profile\/24947.png"
+    },
+    {
+        "id": 15,
+        "feedId": 57757,
+        "squadId": 2,
+        "firstName": "Max",
+        "lastName": "Jorgensen",
+        "position": "outside_back",
+        "cost": 8000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 16.7
+        },
+        "imagePitch": "pitch\/57757.png",
+        "imageProfile": "profile\/57757.png"
+    },
+    {
+        "id": 16,
+        "feedId": 37597,
+        "squadId": 4,
+        "firstName": "Cam",
+        "lastName": "Roigard",
+        "position": "scrum_half",
+        "cost": 8000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 15.1
+        },
+        "imagePitch": "pitch\/37597.png",
+        "imageProfile": "profile\/37597.png"
+    },
+    {
+        "id": 17,
+        "feedId": 39074,
+        "squadId": 1,
+        "firstName": "Sacha",
+        "lastName": "Feinberg-Mngomezulu",
+        "position": "fly_half",
+        "cost": 8000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 11.7
+        },
+        "imagePitch": "pitch\/39074.png",
+        "imageProfile": "profile\/39074.png"
+    },
+    {
+        "id": 18,
+        "feedId": 17107,
+        "squadId": 1,
+        "firstName": "Siya",
+        "lastName": "Kolisi",
+        "position": "loose_forward",
+        "cost": 8000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 15.4
+        },
+        "imagePitch": "pitch\/17107.png",
+        "imageProfile": "profile\/17107.png"
+    },
+    {
+        "id": 19,
+        "feedId": 39135,
+        "squadId": 1,
+        "firstName": "Canan",
+        "lastName": "Moodie",
+        "position": "outside_back",
+        "cost": 8000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 3.6
+        },
+        "imagePitch": "pitch\/39135.png",
+        "imageProfile": "profile\/39135.png"
+    },
+    {
+        "id": 20,
+        "feedId": 28237,
+        "squadId": 3,
+        "firstName": "Tom\u00e1s",
+        "lastName": "Albornoz",
+        "position": "fly_half",
+        "cost": 8000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 15
+        },
+        "imagePitch": "pitch\/28237.png",
+        "imageProfile": "profile\/28237.png"
+    },
+    {
+        "id": 21,
+        "feedId": 19736,
+        "squadId": 1,
+        "firstName": "Pieter-Steph",
+        "lastName": "Du Toit",
+        "position": "loose_forward",
+        "cost": 7500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 37.4
+        },
+        "imagePitch": "pitch\/19736.png",
+        "imageProfile": "profile\/19736.png"
+    },
+    {
+        "id": 22,
+        "feedId": 21468,
+        "squadId": 1,
+        "firstName": "Andr\u00e9",
+        "lastName": "Esterhuizen",
+        "position": "center",
+        "cost": 7500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 2
+        },
+        "imagePitch": "pitch\/21468.png",
+        "imageProfile": "profile\/21468.png"
+    },
+    {
+        "id": 23,
+        "feedId": 32171,
+        "squadId": 2,
+        "firstName": "Corey",
+        "lastName": "Toole",
+        "position": "outside_back",
+        "cost": 7500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 3
+        },
+        "imagePitch": "pitch\/32171.png",
+        "imageProfile": "profile\/32171.png"
+    },
+    {
+        "id": 24,
+        "feedId": 30387,
+        "squadId": 2,
+        "firstName": "Harry",
+        "lastName": "Potter",
+        "position": "outside_back",
+        "cost": 7500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 7.5
+        },
+        "imagePitch": "pitch\/30387.png",
+        "imageProfile": "profile\/30387.png"
+    },
+    {
+        "id": 25,
+        "feedId": 31305,
+        "squadId": 2,
+        "firstName": "Ben",
+        "lastName": "Donaldson",
+        "position": "fly_half",
+        "cost": 7500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 3
+        },
+        "imagePitch": "pitch\/31305.png",
+        "imageProfile": "profile\/31305.png"
+    },
+    {
+        "id": 26,
+        "feedId": 20669,
+        "squadId": 1,
+        "firstName": "Jesse",
+        "lastName": "Kriel",
+        "position": "center",
+        "cost": 7500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 16.6
+        },
+        "imagePitch": "pitch\/20669.png",
+        "imageProfile": "profile\/20669.png"
+    },
+    {
+        "id": 27,
+        "feedId": 19709,
+        "squadId": 1,
+        "firstName": "Willie",
+        "lastName": "le Roux",
+        "position": "outside_back",
+        "cost": 7500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 3.9
+        },
+        "imagePitch": "pitch\/19709.png",
+        "imageProfile": "profile\/19709.png"
+    },
+    {
+        "id": 28,
+        "feedId": 21467,
+        "squadId": 1,
+        "firstName": "Malcolm",
+        "lastName": "Marx",
+        "position": "hooker",
+        "cost": 7500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 14.7
+        },
+        "imagePitch": "pitch\/21467.png",
+        "imageProfile": "profile\/21467.png"
+    },
+    {
+        "id": 29,
+        "feedId": 28238,
+        "squadId": 3,
+        "firstName": "Santiago",
+        "lastName": "Carreras",
+        "position": "outside_back",
+        "cost": 7500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 37.1
+        },
+        "imagePitch": "pitch\/28238.png",
+        "imageProfile": "profile\/28238.png"
+    },
+    {
+        "id": 30,
+        "feedId": 29777,
+        "squadId": 1,
+        "firstName": "Grant",
+        "lastName": "Williams",
+        "position": "scrum_half",
+        "cost": 7500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 16.7
+        },
+        "imagePitch": "pitch\/29777.png",
+        "imageProfile": "profile\/29777.png"
+    },
+    {
+        "id": 31,
+        "feedId": 23362,
+        "squadId": 3,
+        "firstName": "Juan Cruz",
+        "lastName": "Mall\u00eda",
+        "position": "outside_back",
+        "cost": 7500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 7.4
+        },
+        "imagePitch": "pitch\/23362.png",
+        "imageProfile": "profile\/23362.png"
+    },
+    {
+        "id": 32,
+        "feedId": 29423,
+        "squadId": 4,
+        "firstName": "Billy",
+        "lastName": "Proctor",
+        "position": "center",
+        "cost": 7000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 7.7
+        },
+        "imagePitch": "pitch\/29423.png",
+        "imageProfile": "profile\/29423.png"
+    },
+    {
+        "id": 33,
+        "feedId": 35652,
+        "squadId": 2,
+        "firstName": "Joseph",
+        "lastName": "Sua'ali'i",
+        "position": "center",
+        "cost": 7000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 50.7
+        },
+        "imagePitch": "pitch\/35652.png",
+        "imageProfile": "profile\/35652.png"
+    },
+    {
+        "id": 34,
+        "feedId": 25509,
+        "squadId": 2,
+        "firstName": "Harry",
+        "lastName": "Wilson",
+        "position": "loose_forward",
+        "cost": 7000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 10
+        },
+        "imagePitch": "pitch\/25509.png",
+        "imageProfile": "profile\/25509.png"
+    },
+    {
+        "id": 35,
+        "feedId": 18808,
+        "squadId": 4,
+        "firstName": "Codie",
+        "lastName": "Taylor",
+        "position": "hooker",
+        "cost": 7000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 20.6
+        },
+        "imagePitch": "pitch\/18808.png",
+        "imageProfile": "profile\/18808.png"
+    },
+    {
+        "id": 36,
+        "feedId": 21789,
+        "squadId": 2,
+        "firstName": "Andrew",
+        "lastName": "Kellaway",
+        "position": "outside_back",
+        "cost": 7000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 2.8
+        },
+        "imagePitch": "pitch\/21789.png",
+        "imageProfile": "profile\/21789.png"
+    },
+    {
+        "id": 37,
+        "feedId": 40527,
+        "squadId": 2,
+        "firstName": "Tom",
+        "lastName": "Lynagh",
+        "position": "fly_half",
+        "cost": 7000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 4
+        },
+        "imagePitch": "pitch\/40527.png",
+        "imageProfile": "profile\/40527.png"
+    },
+    {
+        "id": 38,
+        "feedId": 30914,
+        "squadId": 3,
+        "firstName": "Santiago",
+        "lastName": "Chocobares",
+        "position": "center",
+        "cost": 7000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 23.5
+        },
+        "imagePitch": "pitch\/30914.png",
+        "imageProfile": "profile\/30914.png"
+    },
+    {
+        "id": 39,
+        "feedId": 20776,
+        "squadId": 3,
+        "firstName": "Juli\u00e1n",
+        "lastName": "Montoya",
+        "position": "hooker",
+        "cost": 7000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 22.3
+        },
+        "imagePitch": "pitch\/20776.png",
+        "imageProfile": "profile\/20776.png"
+    },
+    {
+        "id": 40,
+        "feedId": 34536,
+        "squadId": 3,
+        "firstName": "Rodrigo",
+        "lastName": "Isgr\u00f3",
+        "position": "outside_back",
+        "cost": 7000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 2.4
+        },
+        "imagePitch": "pitch\/34536.png",
+        "imageProfile": "profile\/34536.png"
+    },
+    {
+        "id": 41,
+        "feedId": 30911,
+        "squadId": 3,
+        "firstName": "Mateo",
+        "lastName": "Carreras",
+        "position": "outside_back",
+        "cost": 7000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 11.2
+        },
+        "imagePitch": "pitch\/30911.png",
+        "imageProfile": "profile\/30911.png"
+    },
+    {
+        "id": 42,
+        "feedId": 31813,
+        "squadId": 1,
+        "firstName": "Aphelele",
+        "lastName": "Fassi",
+        "position": "outside_back",
+        "cost": 6500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 5.4
+        },
+        "imagePitch": "pitch\/31813.png",
+        "imageProfile": "profile\/31813.png"
+    },
+    {
+        "id": 43,
+        "feedId": 26989,
+        "squadId": 2,
+        "firstName": "Rob",
+        "lastName": "Valetini",
+        "position": "loose_forward",
+        "cost": 6500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 22.6
+        },
+        "imagePitch": "pitch\/26989.png",
+        "imageProfile": "profile\/26989.png"
+    },
+    {
+        "id": 44,
+        "feedId": 25683,
+        "squadId": 2,
+        "firstName": "Fraser",
+        "lastName": "McReight",
+        "position": "loose_forward",
+        "cost": 6500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 12.3
+        },
+        "imagePitch": "pitch\/25683.png",
+        "imageProfile": "profile\/25683.png"
+    },
+    {
+        "id": 45,
+        "feedId": 25551,
+        "squadId": 2,
+        "firstName": "Len",
+        "lastName": "Ikitau",
+        "position": "center",
+        "cost": 6500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 17
+        },
+        "imagePitch": "pitch\/25551.png",
+        "imageProfile": "profile\/25551.png"
+    },
+    {
+        "id": 46,
+        "feedId": 31477,
+        "squadId": 4,
+        "firstName": "Tupou",
+        "lastName": "Vaa'i",
+        "position": "lock",
+        "cost": 4500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 17
+        },
+        "imagePitch": "pitch\/31477.png",
+        "imageProfile": "profile\/31477.png"
+    },
+    {
+        "id": 47,
+        "feedId": 19761,
+        "squadId": 3,
+        "firstName": "Pablo",
+        "lastName": "Matera",
+        "position": "loose_forward",
+        "cost": 6500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 41.8
+        },
+        "imagePitch": "pitch\/19761.png",
+        "imageProfile": "profile\/19761.png"
+    },
+    {
+        "id": 48,
+        "feedId": 27376,
+        "squadId": 2,
+        "firstName": "Tate",
+        "lastName": "McDermott",
+        "position": "scrum_half",
+        "cost": 6500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 23
+        },
+        "imagePitch": "pitch\/27376.png",
+        "imageProfile": "profile\/27376.png"
+    },
+    {
+        "id": 49,
+        "feedId": 9680,
+        "squadId": 2,
+        "firstName": "James",
+        "lastName": "O'Connor",
+        "position": "fly_half",
+        "cost": 6500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 0.9
+        },
+        "imagePitch": "pitch\/9680.png",
+        "imageProfile": "profile\/9680.png"
+    },
+    {
+        "id": 50,
+        "feedId": 28868,
+        "squadId": 2,
+        "firstName": "Filipo",
+        "lastName": "Daugunu",
+        "position": "outside_back",
+        "cost": 6500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 2.6
+        },
+        "imagePitch": "pitch\/28868.png",
+        "imageProfile": "profile\/28868.png"
+    },
+    {
+        "id": 51,
+        "feedId": 27375,
+        "squadId": 2,
+        "firstName": "Dylan",
+        "lastName": "Pietsch",
+        "position": "outside_back",
+        "cost": 6500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 6.8
+        },
+        "imagePitch": "pitch\/27375.png",
+        "imageProfile": "profile\/27375.png"
+    },
+    {
+        "id": 52,
+        "feedId": 36014,
+        "squadId": 4,
+        "firstName": "Ruben",
+        "lastName": "Love",
+        "position": "outside_back",
+        "cost": 6500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 3.2
+        },
+        "imagePitch": "pitch\/36014.png",
+        "imageProfile": "profile\/36014.png"
+    },
+    {
+        "id": 53,
+        "feedId": 33586,
+        "squadId": 3,
+        "firstName": "Lucio",
+        "lastName": "Cinti",
+        "position": "center",
+        "cost": 6500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 6.8
+        },
+        "imagePitch": "pitch\/33586.png",
+        "imageProfile": "profile\/33586.png"
+    },
+    {
+        "id": 54,
+        "feedId": 25014,
+        "squadId": 1,
+        "firstName": "Edwill",
+        "lastName": "van der Merwe",
+        "position": "outside_back",
+        "cost": 6500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 3.5
+        },
+        "imagePitch": "pitch\/25014.png",
+        "imageProfile": "profile\/25014.png"
+    },
+    {
+        "id": 55,
+        "feedId": 20788,
+        "squadId": 3,
+        "firstName": "Emiliano",
+        "lastName": "Boffelli",
+        "position": "outside_back",
+        "cost": 6500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 11.1
+        },
+        "imagePitch": "pitch\/20788.png",
+        "imageProfile": "profile\/20788.png"
+    },
+    {
+        "id": 56,
+        "feedId": 24729,
+        "squadId": 3,
+        "firstName": "Bautista",
+        "lastName": "Delguy",
+        "position": "outside_back",
+        "cost": 6500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 1.8
+        },
+        "imagePitch": "pitch\/24729.png",
+        "imageProfile": "profile\/24729.png"
+    },
+    {
+        "id": 57,
+        "feedId": 44326,
+        "squadId": 1,
+        "firstName": "Ethan",
+        "lastName": "Hooker",
+        "position": "center",
+        "cost": 6000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 1.1
+        },
+        "imagePitch": "pitch\/44326.png",
+        "imageProfile": "profile\/44326.png"
+    },
+    {
+        "id": 58,
+        "feedId": 21463,
+        "squadId": 4,
+        "firstName": "Anton",
+        "lastName": "Lienert-Brown",
+        "position": "center",
+        "cost": 6000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 3.5
+        },
+        "imagePitch": "pitch\/21463.png",
+        "imageProfile": "profile\/21463.png"
+    },
+    {
+        "id": 59,
+        "feedId": 31486,
+        "squadId": 4,
+        "firstName": "Quinn",
+        "lastName": "Tupaea",
+        "position": "center",
+        "cost": 6000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 5.6
+        },
+        "imagePitch": "pitch\/31486.png",
+        "imageProfile": "profile\/31486.png"
+    },
+    {
+        "id": 60,
+        "feedId": 39113,
+        "squadId": 4,
+        "firstName": "Timoci",
+        "lastName": "Tavatavanawai",
+        "position": "center",
+        "cost": 6000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 4.2
+        },
+        "imagePitch": "pitch\/39113.png",
+        "imageProfile": "profile\/39113.png"
+    },
+    {
+        "id": 61,
+        "feedId": 27748,
+        "squadId": 2,
+        "firstName": "Hunter",
+        "lastName": "Paisami",
+        "position": "center",
+        "cost": 6000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 4.7
+        },
+        "imagePitch": "pitch\/27748.png",
+        "imageProfile": "profile\/27748.png"
+    },
+    {
+        "id": 62,
+        "feedId": 18901,
+        "squadId": 1,
+        "firstName": "Bongi",
+        "lastName": "Mbonambi",
+        "position": "hooker",
+        "cost": 6000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 10.5
+        },
+        "imagePitch": "pitch\/18901.png",
+        "imageProfile": "profile\/18901.png"
+    },
+    {
+        "id": 64,
+        "feedId": 56232,
+        "squadId": 4,
+        "firstName": "Wallace",
+        "lastName": "Sititi",
+        "position": "loose_forward",
+        "cost": 6000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 21.6
+        },
+        "imagePitch": "pitch\/56232.png",
+        "imageProfile": "profile\/56232.png"
+    },
+    {
+        "id": 65,
+        "feedId": 22344,
+        "squadId": 2,
+        "firstName": "Dave",
+        "lastName": "Porecki",
+        "position": "hooker",
+        "cost": 6000000,
+        "status": "eliminated",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 0.1
+        },
+        "imagePitch": "pitch\/22344.png",
+        "imageProfile": "profile\/22344.png"
+    },
+    {
+        "id": 66,
+        "feedId": 37618,
+        "squadId": 4,
+        "firstName": "Cortez",
+        "lastName": "Ratima",
+        "position": "scrum_half",
+        "cost": 6000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 16.1
+        },
+        "imagePitch": "pitch\/37618.png",
+        "imageProfile": "profile\/37618.png"
+    },
+    {
+        "id": 67,
+        "feedId": 25094,
+        "squadId": 3,
+        "firstName": "Marcos",
+        "lastName": "Kremer",
+        "position": "loose_forward",
+        "cost": 6000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 8.8
+        },
+        "imagePitch": "pitch\/25094.png",
+        "imageProfile": "profile\/25094.png"
+    },
+    {
+        "id": 68,
+        "feedId": 20655,
+        "squadId": 1,
+        "firstName": "Kwagga",
+        "lastName": "Smith",
+        "position": "loose_forward",
+        "cost": 6000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 7.7
+        },
+        "imagePitch": "pitch\/20655.png",
+        "imageProfile": "profile\/20655.png"
+    },
+    {
+        "id": 69,
+        "feedId": 34534,
+        "squadId": 3,
+        "firstName": "Juan Martin",
+        "lastName": "Gonz\u00e1lez",
+        "position": "loose_forward",
+        "cost": 6000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 12.1
+        },
+        "imagePitch": "pitch\/34534.png",
+        "imageProfile": "profile\/34534.png"
+    },
+    {
+        "id": 70,
+        "feedId": 23457,
+        "squadId": 3,
+        "firstName": "Gonzalo",
+        "lastName": "Bertranou",
+        "position": "scrum_half",
+        "cost": 6000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 1.4
+        },
+        "imagePitch": "pitch\/23457.png",
+        "imageProfile": "profile\/23457.png"
+    },
+    {
+        "id": 71,
+        "feedId": 28242,
+        "squadId": 3,
+        "firstName": "Gonzalo",
+        "lastName": "Garc\u00eda",
+        "position": "scrum_half",
+        "cost": 6000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 13.1
+        },
+        "imagePitch": "pitch\/28242.png",
+        "imageProfile": "profile\/28242.png"
+    },
+    {
+        "id": 72,
+        "feedId": 34542,
+        "squadId": 3,
+        "firstName": "Nicolas",
+        "lastName": "Roger",
+        "position": "fly_half",
+        "cost": 6000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 0.9
+        },
+        "imagePitch": "pitch\/34542.png",
+        "imageProfile": "profile\/34542.png"
+    },
+    {
+        "id": 73,
+        "feedId": 34541,
+        "squadId": 3,
+        "firstName": "Ger\u00f3nimo",
+        "lastName": "Prisciantelli",
+        "position": "fly_half",
+        "cost": 6000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 0.4
+        },
+        "imagePitch": "pitch\/34541.png",
+        "imageProfile": "profile\/34541.png"
+    },
+    {
+        "id": 74,
+        "feedId": 56208,
+        "squadId": 3,
+        "firstName": "Benjam\u00edn",
+        "lastName": "Elizalde",
+        "position": "outside_back",
+        "cost": 6000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 2.2
+        },
+        "imagePitch": "pitch\/56208.png",
+        "imageProfile": "profile\/56208.png"
+    },
+    {
+        "id": 75,
+        "feedId": 30904,
+        "squadId": 3,
+        "firstName": "Ignacio",
+        "lastName": "Mendy",
+        "position": "outside_back",
+        "cost": 6000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 1.5
+        },
+        "imagePitch": "pitch\/30904.png",
+        "imageProfile": "profile\/30904.png"
+    },
+    {
+        "id": 76,
+        "feedId": 18903,
+        "squadId": 1,
+        "firstName": "Eben",
+        "lastName": "Etzebeth",
+        "position": "lock",
+        "cost": 5500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 38.4
+        },
+        "imagePitch": "pitch\/18903.png",
+        "imageProfile": "profile\/18903.png"
+    },
+    {
+        "id": 77,
+        "feedId": 23371,
+        "squadId": 1,
+        "firstName": "Ox",
+        "lastName": "Nche",
+        "position": "prop",
+        "cost": 5500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 35.8
+        },
+        "imagePitch": "pitch\/23371.png",
+        "imageProfile": "profile\/23371.png"
+    },
+    {
+        "id": 79,
+        "feedId": 24944,
+        "squadId": 4,
+        "firstName": "Luke",
+        "lastName": "Jacobson",
+        "position": "loose_forward",
+        "cost": 5500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 0.9
+        },
+        "imagePitch": "pitch\/24944.png",
+        "imageProfile": "profile\/24944.png"
+    },
+    {
+        "id": 80,
+        "feedId": 19122,
+        "squadId": 1,
+        "firstName": "Cobus",
+        "lastName": "Reinach",
+        "position": "scrum_half",
+        "cost": 5500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 3.2
+        },
+        "imagePitch": "pitch\/19122.png",
+        "imageProfile": "profile\/19122.png"
+    },
+    {
+        "id": 81,
+        "feedId": 34444,
+        "squadId": 4,
+        "firstName": "Samipeni",
+        "lastName": "Finau",
+        "position": "loose_forward",
+        "cost": 5500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 1.5
+        },
+        "imagePitch": "pitch\/34444.png",
+        "imageProfile": "profile\/34444.png"
+    },
+    {
+        "id": 82,
+        "feedId": 29053,
+        "squadId": 4,
+        "firstName": "Du-Plessis",
+        "lastName": "Kirifi",
+        "position": "loose_forward",
+        "cost": 5500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 7.5
+        },
+        "imagePitch": "pitch\/29053.png",
+        "imageProfile": "profile\/29053.png"
+    },
+    {
+        "id": 83,
+        "feedId": 17209,
+        "squadId": 2,
+        "firstName": "Nic",
+        "lastName": "White",
+        "position": "scrum_half",
+        "cost": 5500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 5
+        },
+        "imagePitch": "pitch\/17209.png",
+        "imageProfile": "profile\/17209.png"
+    },
+    {
+        "id": 84,
+        "feedId": 27640,
+        "squadId": 4,
+        "firstName": "Samisoni",
+        "lastName": "Taukei'aho",
+        "position": "hooker",
+        "cost": 5500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 5.1
+        },
+        "imagePitch": "pitch\/27640.png",
+        "imageProfile": "profile\/27640.png"
+    },
+    {
+        "id": 85,
+        "feedId": 32078,
+        "squadId": 2,
+        "firstName": "Billy",
+        "lastName": "Pollard",
+        "position": "hooker",
+        "cost": 5500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 14.1
+        },
+        "imagePitch": "pitch\/32078.png",
+        "imageProfile": "profile\/32078.png"
+    },
+    {
+        "id": 86,
+        "feedId": 25639,
+        "squadId": 2,
+        "firstName": "Matt",
+        "lastName": "Faessler",
+        "position": "hooker",
+        "cost": 5500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 1.2
+        },
+        "imagePitch": "pitch\/25639.png",
+        "imageProfile": "profile\/25639.png"
+    },
+    {
+        "id": 87,
+        "feedId": 22275,
+        "squadId": 2,
+        "firstName": "Jake",
+        "lastName": "Gordon",
+        "position": "scrum_half",
+        "cost": 5500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 2.4
+        },
+        "imagePitch": "pitch\/22275.png",
+        "imageProfile": "profile\/22275.png"
+    },
+    {
+        "id": 88,
+        "feedId": 26815,
+        "squadId": 1,
+        "firstName": "Morne",
+        "lastName": "van den Berg",
+        "position": "scrum_half",
+        "cost": 5500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 1.1
+        },
+        "imagePitch": "pitch\/26815.png",
+        "imageProfile": "profile\/26815.png"
+    },
+    {
+        "id": 89,
+        "feedId": 30375,
+        "squadId": 2,
+        "firstName": "Nick",
+        "lastName": "Champion de Crespigny",
+        "position": "loose_forward",
+        "cost": 5500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 1.1
+        },
+        "imagePitch": "pitch\/30375.png",
+        "imageProfile": "profile\/30375.png"
+    },
+    {
+        "id": 90,
+        "feedId": 19760,
+        "squadId": 3,
+        "firstName": "Facundo",
+        "lastName": "Isa",
+        "position": "loose_forward",
+        "cost": 5500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 2.6
+        },
+        "imagePitch": "pitch\/19760.png",
+        "imageProfile": "profile\/19760.png"
+    },
+    {
+        "id": 91,
+        "feedId": 25018,
+        "squadId": 1,
+        "firstName": "Cobus",
+        "lastName": "Wiese",
+        "position": "loose_forward",
+        "cost": 5500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 2.6
+        },
+        "imagePitch": "pitch\/25018.png",
+        "imageProfile": "profile\/25018.png"
+    },
+    {
+        "id": 92,
+        "feedId": 18838,
+        "squadId": 3,
+        "firstName": "Mat\u00edas",
+        "lastName": "Moroni",
+        "position": "center",
+        "cost": 5000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 7.8
+        },
+        "imagePitch": "pitch\/18838.png",
+        "imageProfile": "profile\/18838.png"
+    },
+    {
+        "id": 93,
+        "feedId": 56214,
+        "squadId": 3,
+        "firstName": "Justo",
+        "lastName": "Piccardo",
+        "position": "center",
+        "cost": 5000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 1.5
+        },
+        "imagePitch": "pitch\/56214.png",
+        "imageProfile": "profile\/56214.png"
+    },
+    {
+        "id": 94,
+        "feedId": 56216,
+        "squadId": 3,
+        "firstName": "Faustino",
+        "lastName": "Sanchez Valarolo",
+        "position": "center",
+        "cost": 5000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 0.6
+        },
+        "imagePitch": "pitch\/56216.png",
+        "imageProfile": "profile\/56216.png"
+    },
+    {
+        "id": 95,
+        "feedId": 32982,
+        "squadId": 4,
+        "firstName": "Tamaiti",
+        "lastName": "Williams",
+        "position": "prop",
+        "cost": 5000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 15.1
+        },
+        "imagePitch": "pitch\/32982.png",
+        "imageProfile": "profile\/32982.png"
+    },
+    {
+        "id": 96,
+        "feedId": 20763,
+        "squadId": 4,
+        "firstName": "Scott",
+        "lastName": "Barrett",
+        "position": "lock",
+        "cost": 5000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 11.6
+        },
+        "imagePitch": "pitch\/20763.png",
+        "imageProfile": "profile\/20763.png"
+    },
+    {
+        "id": 97,
+        "feedId": 40509,
+        "squadId": 2,
+        "firstName": "Langi",
+        "lastName": "Gleeson",
+        "position": "loose_forward",
+        "cost": 5000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 1.6
+        },
+        "imagePitch": "pitch\/40509.png",
+        "imageProfile": "profile\/40509.png"
+    },
+    {
+        "id": 98,
+        "feedId": 32330,
+        "squadId": 2,
+        "firstName": "Carlo",
+        "lastName": "Tizzano",
+        "position": "loose_forward",
+        "cost": 5000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 10.3
+        },
+        "imagePitch": "pitch\/32330.png",
+        "imageProfile": "profile\/32330.png"
+    },
+    {
+        "id": 100,
+        "feedId": 37678,
+        "squadId": 3,
+        "firstName": "Joaqu\u00edn",
+        "lastName": "Oviedo",
+        "position": "loose_forward",
+        "cost": 5000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 3.9
+        },
+        "imagePitch": "pitch\/37678.png",
+        "imageProfile": "profile\/37678.png"
+    },
+    {
+        "id": 101,
+        "feedId": 39117,
+        "squadId": 4,
+        "firstName": "Noah",
+        "lastName": "Hotham",
+        "position": "scrum_half",
+        "cost": 5000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 0.9
+        },
+        "imagePitch": "pitch\/39117.png",
+        "imageProfile": "profile\/39117.png"
+    },
+    {
+        "id": 102,
+        "feedId": 26068,
+        "squadId": 1,
+        "firstName": "Marco",
+        "lastName": "van Staden",
+        "position": "loose_forward",
+        "cost": 5000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 1.6
+        },
+        "imagePitch": "pitch\/26068.png",
+        "imageProfile": "profile\/26068.png"
+    },
+    {
+        "id": 103,
+        "feedId": 31087,
+        "squadId": 4,
+        "firstName": "Brodie",
+        "lastName": "McAlister",
+        "position": "hooker",
+        "cost": 5000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 0.8
+        },
+        "imagePitch": "pitch\/31087.png",
+        "imageProfile": "profile\/31087.png"
+    },
+    {
+        "id": 104,
+        "feedId": 34751,
+        "squadId": 3,
+        "firstName": "Ignacio",
+        "lastName": "Ruiz",
+        "position": "hooker",
+        "cost": 5000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 5.7
+        },
+        "imagePitch": "pitch\/34751.png",
+        "imageProfile": "profile\/34751.png"
+    },
+    {
+        "id": 105,
+        "feedId": 37662,
+        "squadId": 1,
+        "firstName": "Jan-Hendrik",
+        "lastName": "Wessels",
+        "position": "hooker",
+        "cost": 5000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 1
+        },
+        "imagePitch": "pitch\/37662.png",
+        "imageProfile": "profile\/37662.png"
+    },
+    {
+        "id": 106,
+        "feedId": 58251,
+        "squadId": 3,
+        "firstName": "Simon",
+        "lastName": "Benitez Cruz",
+        "position": "scrum_half",
+        "cost": 5000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 0.9
+        },
+        "imagePitch": "pitch\/58251.png",
+        "imageProfile": "profile\/58251.png"
+    },
+    {
+        "id": 107,
+        "feedId": 57711,
+        "squadId": 3,
+        "firstName": "Agust\u00edn",
+        "lastName": "Moyano",
+        "position": "scrum_half",
+        "cost": 5000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 0.5
+        },
+        "imagePitch": "pitch\/57711.png",
+        "imageProfile": "profile\/57711.png"
+    },
+    {
+        "id": 108,
+        "feedId": 22730,
+        "squadId": 1,
+        "firstName": "RG",
+        "lastName": "Snyman",
+        "position": "lock",
+        "cost": 4500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 11.6
+        },
+        "imagePitch": "pitch\/22730.png",
+        "imageProfile": "profile\/22730.png"
+    },
+    {
+        "id": 109,
+        "feedId": 39086,
+        "squadId": 4,
+        "firstName": "Fabian",
+        "lastName": "Holland",
+        "position": "lock",
+        "cost": 4500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 23.4
+        },
+        "imagePitch": "pitch\/39086.png",
+        "imageProfile": "profile\/39086.png"
+    },
+    {
+        "id": 110,
+        "feedId": 30915,
+        "squadId": 3,
+        "firstName": "Santiago",
+        "lastName": "Grondona",
+        "position": "loose_forward",
+        "cost": 4500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 2.3
+        },
+        "imagePitch": "pitch\/30915.png",
+        "imageProfile": "profile\/30915.png"
+    },
+    {
+        "id": 111,
+        "feedId": 32694,
+        "squadId": 4,
+        "firstName": "Ethan",
+        "lastName": "de Groot",
+        "position": "prop",
+        "cost": 4500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 11.5
+        },
+        "imagePitch": "pitch\/32694.png",
+        "imageProfile": "profile\/32694.png"
+    },
+    {
+        "id": 112,
+        "feedId": 23332,
+        "squadId": 4,
+        "firstName": "Tyrel",
+        "lastName": "Lomax",
+        "position": "prop",
+        "cost": 4500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 5.8
+        },
+        "imagePitch": "pitch\/23332.png",
+        "imageProfile": "profile\/23332.png"
+    },
+    {
+        "id": 113,
+        "feedId": 19813,
+        "squadId": 2,
+        "firstName": "Allan",
+        "lastName": "Alaalatoa",
+        "position": "prop",
+        "cost": 4500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 18.4
+        },
+        "imagePitch": "pitch\/19813.png",
+        "imageProfile": "profile\/19813.png"
+    },
+    {
+        "id": 114,
+        "feedId": 32109,
+        "squadId": 2,
+        "firstName": "Angus",
+        "lastName": "Bell",
+        "position": "prop",
+        "cost": 4500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 12.8
+        },
+        "imagePitch": "pitch\/32109.png",
+        "imageProfile": "profile\/32109.png"
+    },
+    {
+        "id": 115,
+        "feedId": 20593,
+        "squadId": 2,
+        "firstName": "Will",
+        "lastName": "Skelton",
+        "position": "lock",
+        "cost": 4500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 42.3
+        },
+        "imagePitch": "pitch\/20593.png",
+        "imageProfile": "profile\/20593.png"
+    },
+    {
+        "id": 116,
+        "feedId": 20524,
+        "squadId": 1,
+        "firstName": "Lood",
+        "lastName": "de Jager",
+        "position": "lock",
+        "cost": 4000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 4
+        },
+        "imagePitch": "pitch\/20524.png",
+        "imageProfile": "profile\/20524.png"
+    },
+    {
+        "id": 117,
+        "feedId": 21703,
+        "squadId": 1,
+        "firstName": "Jean-Luc",
+        "lastName": "du Preez",
+        "position": "lock",
+        "cost": 4000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 1.2
+        },
+        "imagePitch": "pitch\/21703.png",
+        "imageProfile": "profile\/21703.png"
+    },
+    {
+        "id": 118,
+        "feedId": 34532,
+        "squadId": 3,
+        "firstName": "Thomas",
+        "lastName": "Gallo",
+        "position": "prop",
+        "cost": 4000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 13.3
+        },
+        "imagePitch": "pitch\/34532.png",
+        "imageProfile": "profile\/34532.png"
+    },
+    {
+        "id": 119,
+        "feedId": 21708,
+        "squadId": 1,
+        "firstName": "Wilco",
+        "lastName": "Louw",
+        "position": "prop",
+        "cost": 4000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 11.9
+        },
+        "imagePitch": "pitch\/21708.png",
+        "imageProfile": "profile\/21708.png"
+    },
+    {
+        "id": 120,
+        "feedId": 20097,
+        "squadId": 1,
+        "firstName": "Franco",
+        "lastName": "Mostert",
+        "position": "lock",
+        "cost": 4000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 2.1
+        },
+        "imagePitch": "pitch\/20097.png",
+        "imageProfile": "profile\/20097.png"
+    },
+    {
+        "id": 121,
+        "feedId": 30946,
+        "squadId": 1,
+        "firstName": "Ruan",
+        "lastName": "Nortje",
+        "position": "lock",
+        "cost": 4000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 1.8
+        },
+        "imagePitch": "pitch\/30946.png",
+        "imageProfile": "profile\/30946.png"
+    },
+    {
+        "id": 122,
+        "feedId": 25359,
+        "squadId": 1,
+        "firstName": "Marnus",
+        "lastName": "van der Merwe",
+        "position": "hooker",
+        "cost": 4000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 1.7
+        },
+        "imagePitch": "pitch\/25359.png",
+        "imageProfile": "profile\/25359.png"
+    },
+    {
+        "id": 123,
+        "feedId": 59710,
+        "squadId": 3,
+        "firstName": "Benjam\u00edn",
+        "lastName": "Grondona",
+        "position": "loose_forward",
+        "cost": 4000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 1.6
+        },
+        "imagePitch": "pitch\/59710.png",
+        "imageProfile": "profile\/59710.png"
+    },
+    {
+        "id": 124,
+        "feedId": 63898,
+        "squadId": 3,
+        "firstName": "Joaquin",
+        "lastName": "Moro",
+        "position": "loose_forward",
+        "cost": 4000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 0.9
+        },
+        "imagePitch": "pitch\/63898.png",
+        "imageProfile": "profile\/63898.png"
+    },
+    {
+        "id": 125,
+        "feedId": 20779,
+        "squadId": 3,
+        "firstName": "Guido",
+        "lastName": "Petti",
+        "position": "lock",
+        "cost": 4000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 18.1
+        },
+        "imagePitch": "pitch\/20779.png",
+        "imageProfile": "profile\/20779.png"
+    },
+    {
+        "id": 126,
+        "feedId": 27075,
+        "squadId": 3,
+        "firstName": "Joel",
+        "lastName": "Sclavi",
+        "position": "prop",
+        "cost": 4000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 31.1
+        },
+        "imagePitch": "pitch\/27075.png",
+        "imageProfile": "profile\/27075.png"
+    },
+    {
+        "id": 127,
+        "feedId": 34448,
+        "squadId": 4,
+        "firstName": "Fletcher",
+        "lastName": "Newell",
+        "position": "prop",
+        "cost": 4000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 4.9
+        },
+        "imagePitch": "pitch\/34448.png",
+        "imageProfile": "profile\/34448.png"
+    },
+    {
+        "id": 128,
+        "feedId": 20765,
+        "squadId": 4,
+        "firstName": "Patrick",
+        "lastName": "Tuipulotu",
+        "position": "lock",
+        "cost": 4000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 2.9
+        },
+        "imagePitch": "pitch\/20765.png",
+        "imageProfile": "profile\/20765.png"
+    },
+    {
+        "id": 129,
+        "feedId": 34524,
+        "squadId": 2,
+        "firstName": "Nick",
+        "lastName": "Frost",
+        "position": "lock",
+        "cost": 4000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 9.6
+        },
+        "imagePitch": "pitch\/34524.png",
+        "imageProfile": "profile\/34524.png"
+    },
+    {
+        "id": 130,
+        "feedId": 18825,
+        "squadId": 3,
+        "firstName": "Mat\u00edas",
+        "lastName": "Alemanno",
+        "position": "lock",
+        "cost": 4000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 2.6
+        },
+        "imagePitch": "pitch\/18825.png",
+        "imageProfile": "profile\/18825.png"
+    },
+    {
+        "id": 131,
+        "feedId": 28248,
+        "squadId": 3,
+        "firstName": "Leonel",
+        "lastName": "Oviedo",
+        "position": "hooker",
+        "cost": 4000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 1.3
+        },
+        "imagePitch": "pitch\/28248.png",
+        "imageProfile": "profile\/28248.png"
+    },
+    {
+        "id": 132,
+        "feedId": 38307,
+        "squadId": 3,
+        "firstName": "Bautista",
+        "lastName": "Bernasconi",
+        "position": "hooker",
+        "cost": 4000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 0.8
+        },
+        "imagePitch": "pitch\/38307.png",
+        "imageProfile": "profile\/38307.png"
+    },
+    {
+        "id": 133,
+        "feedId": 11161,
+        "squadId": 2,
+        "firstName": "James",
+        "lastName": "Slipper",
+        "position": "prop",
+        "cost": 4000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 6
+        },
+        "imagePitch": "pitch\/11161.png",
+        "imageProfile": "profile\/11161.png"
+    },
+    {
+        "id": 134,
+        "feedId": 22099,
+        "squadId": 1,
+        "firstName": "Vincent",
+        "lastName": "Koch",
+        "position": "prop",
+        "cost": 3500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 3.9
+        },
+        "imagePitch": "pitch\/22099.png",
+        "imageProfile": "profile\/22099.png"
+    },
+    {
+        "id": 135,
+        "feedId": 68542,
+        "squadId": 3,
+        "firstName": "Pedro",
+        "lastName": "Delgado",
+        "position": "prop",
+        "cost": 3500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 3.3
+        },
+        "imagePitch": "pitch\/68542.png",
+        "imageProfile": "profile\/68542.png"
+    },
+    {
+        "id": 136,
+        "feedId": 28253,
+        "squadId": 3,
+        "firstName": "Maycos",
+        "lastName": "Vivas",
+        "position": "prop",
+        "cost": 3500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 1
+        },
+        "imagePitch": "pitch\/28253.png",
+        "imageProfile": "profile\/28253.png"
+    },
+    {
+        "id": 137,
+        "feedId": 34530,
+        "squadId": 3,
+        "firstName": "Francisco",
+        "lastName": "Coria Marchetti",
+        "position": "prop",
+        "cost": 3500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 0.8
+        },
+        "imagePitch": "pitch\/34530.png",
+        "imageProfile": "profile\/34530.png"
+    },
+    {
+        "id": 138,
+        "feedId": 17306,
+        "squadId": 3,
+        "firstName": "Nahuel Tetaz",
+        "lastName": "Chaparro",
+        "position": "prop",
+        "cost": 3500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 0.8
+        },
+        "imagePitch": "pitch\/17306.png",
+        "imageProfile": "profile\/17306.png"
+    },
+    {
+        "id": 139,
+        "feedId": 28246,
+        "squadId": 3,
+        "firstName": "Rodrigo",
+        "lastName": "Martinez",
+        "position": "prop",
+        "cost": 3500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 0.8
+        },
+        "imagePitch": "pitch\/28246.png",
+        "imageProfile": "profile\/28246.png"
+    },
+    {
+        "id": 140,
+        "feedId": 56223,
+        "squadId": 3,
+        "firstName": "Boris",
+        "lastName": "Wenger",
+        "position": "prop",
+        "cost": 3500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 0.9
+        },
+        "imagePitch": "pitch\/56223.png",
+        "imageProfile": "profile\/56223.png"
+    },
+    {
+        "id": 141,
+        "feedId": 30938,
+        "squadId": 1,
+        "firstName": "Asenathi",
+        "lastName": "Ntlabakanye",
+        "position": "prop",
+        "cost": 3500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 0.9
+        },
+        "imagePitch": "pitch\/30938.png",
+        "imageProfile": "profile\/30938.png"
+    },
+    {
+        "id": 142,
+        "feedId": 34502,
+        "squadId": 1,
+        "firstName": "Boan",
+        "lastName": "Venter",
+        "position": "prop",
+        "cost": 3500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 0.7
+        },
+        "imagePitch": "pitch\/34502.png",
+        "imageProfile": "profile\/34502.png"
+    },
+    {
+        "id": 143,
+        "feedId": 38493,
+        "squadId": 3,
+        "firstName": "Pedro",
+        "lastName": "Rubiolo",
+        "position": "lock",
+        "cost": 3500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 3.2
+        },
+        "imagePitch": "pitch\/38493.png",
+        "imageProfile": "profile\/38493.png"
+    },
+    {
+        "id": 144,
+        "feedId": 63273,
+        "squadId": 3,
+        "firstName": "Luciano",
+        "lastName": "Asevedo",
+        "position": "lock",
+        "cost": 3500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 0.6
+        },
+        "imagePitch": "pitch\/63273.png",
+        "imageProfile": "profile\/63273.png"
+    },
+    {
+        "id": 145,
+        "feedId": 28249,
+        "squadId": 3,
+        "firstName": "Lucas",
+        "lastName": "Paulos",
+        "position": "lock",
+        "cost": 3500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 0.7
+        },
+        "imagePitch": "pitch\/28249.png",
+        "imageProfile": "profile\/28249.png"
+    },
+    {
+        "id": 146,
+        "feedId": 25098,
+        "squadId": 3,
+        "firstName": "Franco",
+        "lastName": "Molina",
+        "position": "lock",
+        "cost": 3500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 1.2
+        },
+        "imagePitch": "pitch\/25098.png",
+        "imageProfile": "profile\/25098.png"
+    },
+    {
+        "id": 147,
+        "feedId": 56207,
+        "squadId": 3,
+        "firstName": "Efra\u00edn",
+        "lastName": "El\u00edas",
+        "position": "lock",
+        "cost": 3500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 0.7
+        },
+        "imagePitch": "pitch\/56207.png",
+        "imageProfile": "profile\/56207.png"
+    },
+    {
+        "id": 148,
+        "feedId": 31806,
+        "squadId": 2,
+        "firstName": "Tom",
+        "lastName": "Hooper",
+        "position": "lock",
+        "cost": 3500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 5.2
+        },
+        "imagePitch": "pitch\/31806.png",
+        "imageProfile": "profile\/31806.png"
+    },
+    {
+        "id": 149,
+        "feedId": 31064,
+        "squadId": 4,
+        "firstName": "Ollie",
+        "lastName": "Norris",
+        "position": "prop",
+        "cost": 3500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 0.9
+        },
+        "imagePitch": "pitch\/31064.png",
+        "imageProfile": "profile\/31064.png"
+    },
+    {
+        "id": 150,
+        "feedId": 33028,
+        "squadId": 4,
+        "firstName": "Pasilio",
+        "lastName": "Tosi",
+        "position": "prop",
+        "cost": 3500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 2,
+            "scores": null
+        },
+        "selected": {
+            "1": 1.2
+        },
+        "imagePitch": "pitch\/33028.png",
+        "imageProfile": "profile\/33028.png"
+    },
+    {
+        "id": 151,
+        "feedId": 32101,
+        "squadId": 2,
+        "firstName": "Jeremy",
+        "lastName": "Williams",
+        "position": "lock",
+        "cost": 3500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 1.2
+        },
+        "imagePitch": "pitch\/32101.png",
+        "imageProfile": "profile\/32101.png"
+    },
+    {
+        "id": 152,
+        "feedId": 32235,
+        "squadId": 2,
+        "firstName": "Josh",
+        "lastName": "Canham",
+        "position": "lock",
+        "cost": 3500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 0.4
+        },
+        "imagePitch": "pitch\/32235.png",
+        "imageProfile": "profile\/32235.png"
+    },
+    {
+        "id": 153,
+        "feedId": 31908,
+        "squadId": 2,
+        "firstName": "Zane",
+        "lastName": "Nonggorr",
+        "position": "prop",
+        "cost": 3500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 0.9
+        },
+        "imagePitch": "pitch\/31908.png",
+        "imageProfile": "profile\/31908.png"
+    },
+    {
+        "id": 154,
+        "feedId": 21975,
+        "squadId": 2,
+        "firstName": "Taniela",
+        "lastName": "Tupou",
+        "position": "prop",
+        "cost": 3500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 15.5
+        },
+        "imagePitch": "pitch\/21975.png",
+        "imageProfile": "profile\/21975.png"
+    },
+    {
+        "id": 155,
+        "feedId": 21779,
+        "squadId": 2,
+        "firstName": "Tom",
+        "lastName": "Robertson",
+        "position": "prop",
+        "cost": 3500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": 1,
+            "scores": null
+        },
+        "selected": {
+            "1": 1.3
+        },
+        "imagePitch": "pitch\/21779.png",
+        "imageProfile": "profile\/21779.png"
+    },
+    {
+        "id": 156,
+        "feedId": 33031,
+        "squadId": 4,
+        "firstName": "Emoni",
+        "lastName": "Narawa",
+        "position": "outside_back",
+        "cost": 7000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": null,
+            "scores": null
+        },
+        "selected": {
+            "1": 1.9
+        },
+        "imagePitch": "pitch\/33031.png",
+        "imageProfile": "profile\/33031.png"
+    },
+    {
+        "id": 157,
+        "feedId": 34451,
+        "squadId": 4,
+        "firstName": "Leroy",
+        "lastName": "Carter",
+        "position": "outside_back",
+        "cost": 6500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": null,
+            "scores": null
+        },
+        "selected": {
+            "1": 1.4
+        },
+        "imagePitch": "pitch\/34451.png",
+        "imageProfile": "profile\/34451.png"
+    },
+    {
+        "id": 158,
+        "feedId": 40267,
+        "squadId": 4,
+        "firstName": "Peter",
+        "lastName": "Lakai",
+        "position": "loose_forward",
+        "cost": 5000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": null,
+            "scores": null
+        },
+        "selected": {
+            "1": 0.6
+        },
+        "imagePitch": "pitch\/40267.png",
+        "imageProfile": "profile\/40267.png"
+    },
+    {
+        "id": 159,
+        "feedId": 32971,
+        "squadId": 4,
+        "firstName": "Simon",
+        "lastName": "Parker",
+        "position": "loose_forward",
+        "cost": 5000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": null,
+            "scores": null
+        },
+        "selected": {
+            "1": 1
+        },
+        "imagePitch": "pitch\/32971.png",
+        "imageProfile": "profile\/32971.png"
+    },
+    {
+        "id": 160,
+        "feedId": 26219,
+        "squadId": 4,
+        "firstName": "Finlay",
+        "lastName": "Christie",
+        "position": "scrum_half",
+        "cost": 5000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": null,
+            "scores": null
+        },
+        "selected": {
+            "1": 0.3
+        },
+        "imagePitch": "pitch\/26219.png",
+        "imageProfile": "profile\/26219.png"
+    },
+    {
+        "id": 161,
+        "feedId": 60141,
+        "squadId": 4,
+        "firstName": "Kyle",
+        "lastName": "Preston",
+        "position": "scrum_half",
+        "cost": 5000000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": null,
+            "scores": null
+        },
+        "selected": {
+            "1": 0.3
+        },
+        "imagePitch": "pitch\/60141.png",
+        "imageProfile": "profile\/60141.png"
+    },
+    {
+        "id": 162,
+        "feedId": 32984,
+        "squadId": 4,
+        "firstName": "Josh",
+        "lastName": "Lord",
+        "position": "lock",
+        "cost": 3500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": null,
+            "scores": null
+        },
+        "selected": {
+            "1": 0.3
+        },
+        "imagePitch": "pitch\/32984.png",
+        "imageProfile": "profile\/32984.png"
+    },
+    {
+        "id": 163,
+        "feedId": 22369,
+        "squadId": 4,
+        "firstName": "George",
+        "lastName": "Bower",
+        "position": "prop",
+        "cost": 3500000,
+        "status": "uncertain",
+        "isLocked": false,
+        "stats": {
+            "totalPoints": null,
+            "avgPoints": null,
+            "lastRoundPoints": null,
+            "positionRank": null,
+            "nextFixture": null,
+            "scores": null
+        },
+        "selected": {
+            "1": 0.7
+        },
+        "imagePitch": "pitch\/22369.png",
+        "imageProfile": "profile\/22369.png"
+    }
+]

@@ -1,0 +1,153 @@
+{
+  "aspectRatio": "16:9",
+  "backgroundImage": "/fields/rugby.svg",
+  "rows": [
+      {
+        "id": "row-1",
+        "justifyContent": "center",
+        "spacing": 2,
+        "positions": [
+          {
+            "id": "pos-fullback",
+            "type": "outside_back",
+            "label": "Outside Back",
+            "offsetX": 0,
+            "offsetY": 0
+          }
+        ]
+      },
+      {
+        "id": "row-2",
+        "justifyContent": "space-between",
+        "spacing": 3,
+        "positions": [
+          {
+            "id": "pos-left-wing",
+            "type": "outside_back",
+            "label": "Outside Back",
+            "offsetX": 0,
+            "offsetY": -10
+          },
+          {
+            "id": "pos-left-center",
+            "type": "center",
+            "label": "Center",
+            "offsetX": 0,
+            "offsetY": 0
+          },
+          {
+            "id": "pos-right-center",
+            "type": "center",
+            "label": "Center",
+            "offsetX": 0,
+            "offsetY": 0
+          },
+          {
+            "id": "pos-right-wing",
+            "type": "outside_back",
+            "label": "Outside Back",
+            "offsetX": 0,
+            "offsetY": -10
+          }
+        ]
+      },
+      {
+        "id": "row-3",
+        "justifyContent": "center",
+        "spacing": 4,
+        "positions": [
+          {
+            "id": "pos-fly-half",
+            "type": "fly_half",
+            "label": "Fly-Half",
+            "offsetX": -40,
+            "offsetY": 0
+          },
+          {
+            "id": "pos-scrum-half",
+            "type": "scrum_half",
+            "label": "Scrum-Half",
+            "offsetX": 40,
+            "offsetY": 0
+          }
+        ]
+      },
+      {
+        "id": "row-4",
+        "justifyContent": "center",
+        "spacing": 3,
+        "positions": [
+          {
+            "id": "pos-left-flanker",
+            "type": "loose_forward",
+            "label": "Loose Forward",
+            "offsetX": -60,
+            "offsetY": 0
+          },
+          {
+            "id": "pos-number-8",
+            "type": "loose_forward",
+            "label": "Loose Forward",
+            "offsetX": 0,
+            "offsetY": 0
+          },
+          {
+            "id": "pos-right-flanker",
+            "type": "loose_forward",
+            "label": "Loose Forward",
+            "offsetX": 60,
+            "offsetY": 0
+          }
+        ]
+      },
+      {
+        "id": "row-5",
+        "justifyContent": "center",
+        "spacing": 3,
+        "positions": [
+          {
+            "id": "pos-left-lock",
+            "type": "lock",
+            "label": "Lock",
+            "offsetX": -40,
+            "offsetY": 0
+          },
+          {
+            "id": "pos-right-lock",
+            "type": "lock",
+            "label": "Lock",
+            "offsetX": 40,
+            "offsetY": 0
+          }
+        ]
+      },
+      {
+        "id": "row-6",
+        "justifyContent": "center",
+        "spacing": 3,
+        "positions": [
+          {
+            "id": "pos-loosehead-prop",
+            "type": "prop",
+            "label": "Prop",
+            "offsetX": -60,
+            "offsetY": 0
+          },
+          {
+            "id": "pos-hooker",
+            "type": "hooker",
+            "label": "Hooker",
+            "offsetX": 0,
+            "offsetY": 0
+          },
+          {
+            "id": "pos-tighthead-prop",
+            "type": "prop",
+            "label": "Prop",
+            "offsetX": 60,
+            "offsetY": 0
+          }
+        ]
+      }
+    ]
+}

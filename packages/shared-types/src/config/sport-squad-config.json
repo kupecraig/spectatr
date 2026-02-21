@@ -1,0 +1,53 @@
+{
+  "maxPlayers": 15,
+  "positions": {
+    "outside_back": {
+      "required": 3,
+      "min": 3,
+      "max": 3,
+      "label": "Outside Back"
+    },
+    "center": {
+      "required": 2,
+      "min": 2,
+      "max": 2,
+      "label": "Center"
+    },
+    "fly_half": {
+      "required": 1,
+      "min": 1,
+      "max": 1,
+      "label": "Fly Half"
+    },
+    "scrum_half": {
+      "required": 1,
+      "min": 1,
+      "max": 1,
+      "label": "Scrum Half"
+    },
+    "loose_forward": {
+      "required": 3,
+      "min": 3,
+      "max": 3,
+      "label": "Back Row"
+    },
+    "lock": {
+      "required": 2,
+      "min": 2,
+      "max": 2,
+      "label": "Lock"
+    },
+    "prop": {
+      "required": 2,
+      "min": 2,
+      "max": 2,
+      "label": "Prop"
+    },
+    "hooker": {
+      "required": 1,
+      "min": 1,
+      "max": 1,
+      "label": "Hooker"
+    }
+  }
+}

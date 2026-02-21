@@ -1,0 +1,117 @@
+# Example CI Workflow for Spectatr Testing
+# Copy to .github/workflows/test.yml to enable
+
+name: Tests
+
+on:
+  push:
+    branches: [main, develop]    
+    paths-ignore:              # Skip for docs-only changes
+      - '**.md'
+      - 'docs/**'
+  pull_request:
+    branches: [main, develop]
+    paths-ignore:              # Skip for docs-only changes
+      - '**.md'
+      - 'docs/**'
+
+# Cancel in-progress runs when new commits are pushed
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # Fast unit tests run first for quick feedback
+  unit-tests:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run shared-types tests
+        run: npm test
+        working-directory: packages/shared-types
+      
+      - name: Run frontend unit tests
+        run: npm run test:unit
+        working-directory: packages/frontend
+      
+      - name: Generate coverage report
+        run: npm run test:coverage
+        working-directory: packages/ui
+      
+      - name: Upload coverage to Codecov (optional)
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./packages/ui/coverage/coverage-final.json
+          flags: unittests
+          name: unit-tests
+
+  # Storybook tests run after unit tests pass
+  storybook-tests:
+    name: Storybook Tests
+    runs-on: ubuntu-latest
+    needs: unit-tests  # Only run if unit tests pass
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Install Playwright
+        run: npx playwright install --with-deps chromium
+        working-directory: packages/frontend
+      
+      - name: Run Storybook tests
+        run: npm run test-storybook:ci
+        working-directory: packages/frontend
+      
+      - name: Upload test results
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: storybook-test-results
+          path: packages/frontend/playwright-report
+
+  # Build check (optional)
+  build:
+    name: Build Check
+    runs-on: ubuntu-latest
+    needs: unit-tests
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Build shared-types
+        run: npm run build
+        working-directory: packages/shared-types
+      
+      - name: Build frontend
+        run: npm run build
+        working-directory: packages/frontend

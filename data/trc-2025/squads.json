@@ -1,0 +1,30 @@
+[
+    {
+        "id": 1,
+        "name": "South Africa",
+        "abbreviation": "SA",
+        "badge": null,
+        "backgroundColor": ""
+    },
+    {
+        "id": 2,
+        "name": "Australia",
+        "abbreviation": "AUS",
+        "badge": null,
+        "backgroundColor": ""
+    },
+    {
+        "id": 3,
+        "name": "Argentina",
+        "abbreviation": "ARG",
+        "badge": null,
+        "backgroundColor": ""
+    },
+    {
+        "id": 4,
+        "name": "New Zealand",
+        "abbreviation": "NZ",
+        "badge": null,
+        "backgroundColor": ""
+    }
+]

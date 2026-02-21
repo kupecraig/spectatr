@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "name": "The Rugby Championship 2026",
+    "description": "Official Rugby Championship fantasy league",
+    "creatorId": 1,
+    "isPublic": true,
+    "status": "active",
+    "participantCount": 1247,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": 2,
+    "name": "Private League - Best Mates",
+    "description": "Weekly bragging rights with the boys",
+    "creatorId": 2,
+    "isPublic": false,
+    "status": "active",
+    "participantCount": 12,
+    "createdAt": "2026-01-15T00:00:00Z"
+  },
+  {
+    "id": 3,
+    "name": "Beginner Friendly League",
+    "description": "New to fantasy rugby? Start here!",
+    "creatorId": 1,
+    "isPublic": true,
+    "status": "active",
+    "participantCount": 523,
+    "createdAt": "2026-01-10T00:00:00Z"
+  }
+]

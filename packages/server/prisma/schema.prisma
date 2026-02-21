@@ -1,0 +1,331 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================================================
+// USER MANAGEMENT (Shared across all instances)
+// ============================================================================
+
+model User {
+  id            String    @id @default(cuid())
+  clerkUserId   String    @unique  // Clerk user ID (user_xxx)
+  email         String    @unique
+  username      String?   @unique
+  avatar        String?
+  emailVerified DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Relations (for future use)
+  teams      Team[]
+  auditLogs  AuditLog[]
+
+  @@index([email])
+  @@index([clerkUserId])
+  @@map("users")
+}
+
+// ============================================================================
+// TENANT (Brand/Competition - e.g., 'trc-2025', 'hsbc-svns', 'nrl-2025')
+// ============================================================================
+
+model Tenant {
+  id           String   @id // 'trc-2025', 'hsbc-svns', 'nrl-2025'
+  name         String   // "The Rugby Championship 2025"
+  slug         String   @unique
+  sportType    String   // 'rugby-union', 'rugby-league', 'soccer'
+  isActive     Boolean  @default(true)
+  
+  // Branding
+  logoUrl      String?
+  primaryColor String?
+  theme        Json?    // Custom theme overrides
+  
+  // Configuration
+  config       Json     @default("{}") // Tenant-specific settings
+  
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relations
+  squads         Squad[]
+  players        Player[]
+  tournaments    Tournament[]
+  rounds         Round[]
+  gameweekStates GameweekState[]
+  scoringEvents  ScoringEvent[]
+  checksums      Checksum[]
+  leagues        League[]
+  teams          Team[]
+
+  @@index([slug])
+  @@index([isActive])
+  @@map("tenants")
+}
+
+// ============================================================================
+// SPORT DATA (Tenant-specific via tenantId)
+// ============================================================================
+
+model Squad {
+  id              Int      @id @default(autoincrement())
+  tenantId        String
+  name            String
+  abbreviation    String
+  badge           String?
+  backgroundColor String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relations
+  tenant  Tenant   @relation(fields: [tenantId], references: [id])
+  players Player[]
+
+  @@unique([tenantId, abbreviation])
+  @@index([tenantId])
+  @@map("squads")
+}
+
+model Player {
+  id           Int      @id @default(autoincrement())
+  tenantId     String
+  feedId       Int      // External data feed ID
+  squadId      Int
+  firstName    String
+  lastName     String
+  position     String
+  cost         Int      // Price in cents
+  status       String   // 'available', 'injured', 'uncertain', 'selected'
+  isLocked     Boolean  @default(false)
+  imagePitch   String?
+  imageProfile String?
+  stats        Json     @default("{}") // JSONB for flexible stats
+  selected     Json     @default("{}") // Selection percentage data
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relations
+  tenant         Tenant          @relation(fields: [tenantId], references: [id])
+  squad          Squad           @relation(fields: [squadId], references: [id])
+  scoringEvents  ScoringEvent[]
+  teamPlayers    TeamPlayer[]
+
+  @@unique([tenantId, feedId])
+  @@index([tenantId, position])
+  @@index([tenantId, squadId])
+  @@index([tenantId, cost])
+  @@map("players")
+}
+
+model Tournament {
+  id         Int      @id @default(autoincrement())
+  tenantId   String
+  name       String
+  season     String
+  startDate  DateTime
+  endDate    DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  // Relations
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+  rounds Round[]
+
+  @@index([tenantId])
+  @@map("tournaments")
+}
+
+model Round {
+  id           Int       @id @default(autoincrement())
+  tenantId     String
+  tournamentId Int
+  roundNumber  Int
+  name         String
+  startDate    DateTime
+  endDate      DateTime
+  status       String    // 'upcoming', 'live', 'complete'
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  // Relations
+  tenant         Tenant         @relation(fields: [tenantId], references: [id])
+  tournament     Tournament     @relation(fields: [tournamentId], references: [id])
+  scoringEvents  ScoringEvent[]
+
+  @@unique([tenantId, tournamentId, roundNumber])
+  @@index([tenantId, status])
+  @@map("rounds")
+}
+
+// ============================================================================
+// GAMEWEEK STATE (Singleton per instance)
+// ============================================================================
+
+model GameweekState {
+  id              Int      @id @default(autoincrement())
+  tenantId        String   @unique // Only one record per tenant
+  currentRound    Int
+  status          String   // 'pre_round', 'active', 'locked', 'processing', 'complete'
+  deadline        DateTime?
+  nextRoundStarts DateTime?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relations
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@map("gameweek_states")
+}
+
+// ============================================================================
+// SCORING & EVENT SOURCING
+// ============================================================================
+
+model ScoringEvent {
+  id         Int      @id @default(autoincrement())
+  tenantId   String
+  playerId   Int
+  roundId    Int
+  matchId    String?  // External match ID
+  eventType  String   // 'try', 'conversion', 'penalty', 'tackle', etc.
+  points     Int
+  occurredAt DateTime
+  metadata   Json     @default("{}") // Additional event data
+  createdAt  DateTime @default(now())
+
+  // Relations
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+  player Player @relation(fields: [playerId], references: [id])
+  round  Round  @relation(fields: [roundId], references: [id])
+
+  @@index([tenantId, playerId, roundId])
+  @@index([tenantId, roundId])
+  @@map("scoring_events")
+}
+
+// ============================================================================
+// CHECKSUMS (Auto-maintained by DB triggers)
+// ============================================================================
+
+model Checksum {
+  id         Int      @id @default(autoincrement())
+  tenantId   String
+  key        String   // 'players', 'rounds', 'squads', etc.
+  hash       String   // MD5 hash
+  updatedAt  DateTime @default(now())
+
+  // Relations
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@unique([tenantId, key])
+  @@index([tenantId])
+  @@map("checksums")
+}
+
+// ============================================================================
+// AUDIT TRAIL
+// ============================================================================
+
+model AuditLog {
+  id           Int      @id @default(autoincrement())
+  userId       String?
+  teamId       Int?
+  action       String   // 'player_selected', 'player_removed', 'round_locked', etc.
+  beforeState  Json?    // State before change
+  afterState   Json?    // State after change
+  ipAddress    String?
+  userAgent    String?
+  createdAt    DateTime @default(now())
+
+  // Relations
+  user User? @relation(fields: [userId], references: [id])
+  team Team? @relation(fields: [teamId], references: [id])
+
+  @@index([teamId, createdAt])
+  @@index([userId, createdAt])
+  @@map("audit_logs")
+}
+
+// ============================================================================
+// USER FANTASY TEAMS (Future use)
+// ============================================================================
+
+model League {
+  id              Int      @id @default(autoincrement())
+  tenantId        String
+  name            String
+  creatorId       String
+  sportType       String
+  gameMode        String   // 'standard', 'round-robin', 'ranked'
+  season          String
+  status          String   // 'draft', 'active', 'completed'
+  isPublic        Boolean  @default(false)
+  inviteCode      String?  @unique
+  maxParticipants Int      @default(10)
+  startDate       DateTime
+  endDate         DateTime?
+  rules           Json     @default("{}") // League-specific rules
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relations
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+  teams  Team[]
+
+  @@index([tenantId])
+  @@index([creatorId])
+  @@map("leagues")
+}
+
+model Team {
+  id        Int      @id @default(autoincrement())
+  tenantId  String
+  userId    String
+  leagueId  Int
+  name      String
+  budget    Int      @default(42000000) // Budget in cents
+  totalCost Int      @default(0)
+  points    Int      @default(0)
+  rank      Int?
+  wins      Int      @default(0)
+  losses    Int      @default(0)
+  draws     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  tenant      Tenant       @relation(fields: [tenantId], references: [id])
+  user        User         @relation(fields: [userId], references: [id])
+  league      League       @relation(fields: [leagueId], references: [id])
+  teamPlayers TeamPlayer[]
+  auditLogs   AuditLog[]
+
+  @@unique([userId, leagueId])
+  @@index([tenantId])
+  @@index([leagueId])
+  @@map("teams")
+}
+
+model TeamPlayer {
+  id        Int      @id @default(autoincrement())
+  teamId    Int
+  playerId  Int
+  position  String
+  addedAt   DateTime @default(now())
+
+  // Relations
+  team   Team   @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  player Player @relation(fields: [playerId], references: [id])
+
+  @@unique([teamId, playerId])
+  @@index([teamId])
+  @@map("team_players")
+}
