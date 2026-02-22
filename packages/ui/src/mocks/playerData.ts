@@ -14,14 +14,26 @@ export interface PlayerSquad {
 
 export const squads: PlayerSquad[] = squadsData;
 
+/**
+ * @deprecated Uses hardcoded trc-2025 squads. Use `useSquadsQuery()` from
+ * `@/hooks/api` to fetch squads for the active tenant at runtime.
+ */
 export function getSquadById(squadId: number): PlayerSquad | undefined {
     return squads.find(squad => squad.id === squadId);
 }
 
+/**
+ * @deprecated Uses hardcoded trc-2025 squads. Use `useSquadsQuery()` from
+ * `@/hooks/api` to fetch squads for the active tenant at runtime.
+ */
 export function getSquadName(squadId: number): string {
     return getSquadById(squadId)?.name || 'Unknown';
 }
 
+/**
+ * @deprecated Uses hardcoded trc-2025 squads. Use `useSquadsQuery()` from
+ * `@/hooks/api` to fetch squads for the active tenant at runtime.
+ */
 export function getSquadAbbreviation(squadId: number): string {
     return getSquadById(squadId)?.abbreviation || 'N/A';
 }

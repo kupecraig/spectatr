@@ -1,5 +1,5 @@
-import { useQuery } from '@tanstack/react-query';
 import { useTrpcClient } from './useTrpcClient';
+import { useTenantQuery } from './useTenantQuery';
 
 export interface Round {
   id: number;
@@ -24,7 +24,7 @@ export interface RoundsQueryResult {
 export const useRoundsQuery = () => {
   const trpc = useTrpcClient();
   
-  return useQuery({
+  return useTenantQuery({
     queryKey: ['rounds'],
     queryFn: () => trpc<RoundsQueryResult>('rounds.list'),
     staleTime: 60 * 1000,

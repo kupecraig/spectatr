@@ -9,7 +9,8 @@ spectatr/
 │   ├── ui/                    # React + MUI + Vite
 │   └── server/                # tRPC API + Prisma + PostgreSQL
 ├── data/
-│   └── trc-2025/              # Seed data (players, squads, rounds)
+│   ├── trc-2025/              # Seed data: 160 players, 4 squads, 16 rounds
+│   └── super-2026/            # Seed data: 441 players, 11 squads, 16 rounds
 └── docker-compose.yml         # PostgreSQL + Redis services
 ```
 
@@ -40,29 +41,47 @@ See [Backend API Guide](.github/copilot-instructions/backend-api.md) for pattern
 
 ## Multi-Tenancy Architecture
 
-**Tenant Resolution:**
-- **Production:** Subdomain-based (`trc-2025.spectatr.com` → `trc-2025`)
-- **Development:** Environment variable (`VITE_TENANT_ID=trc-2025`)
-- **Fallback:** Default tenant (`trc-2025`)
+**Frontend Tenant Resolution** (`packages/ui/src/utils/tenant.ts`):
+1. **Dev only:** `?tenant=<id>` URL param → persisted to `sessionStorage` (survives SPA navigation, resets on tab close)
+2. **Dev only:** `sessionStorage` key `spectatr_tenant_id` (set by step 1 on prior navigation)
+3. **All modes:** `VITE_TENANT_ID` env var (baked in at build time)
 
-**Data Isolation:**
-- Each tenant has separate database scope via Prisma middleware
-- Backend resolves tenant from `x-tenant-id` header or subdomain
-- Users are global (not tenant-specific) - can participate in multiple tenants
-- Leagues exist within a single tenant (share player pool)
-
-**Example:**
+```typescript
+import { getActiveTenantId } from '@/utils/tenant';
+// or via hook:
+const { tenantId } = useTenant();
 ```
-Tenant: trc-2025
-  ├─ League: family-league
-  │   └─ Team: Craig's Team (User: craig@example.com)
-  └─ League: office-league
-      └─ Team: Craig's Office Team (User: craig@example.com)
 
-Tenant: svns
-  └─ League: mates-league
-      └─ Team: Craig's Sevens Squad (User: craig@example.com)
+**Dev tenant switching:** Append `?tenant=super-2026` once — sessionStorage persists it for the tab.
+
+**`useTenantQuery`** (`packages/ui/src/hooks/api/useTenantQuery.ts`):
+- Drop-in for `useQuery` that auto-prefixes every cache key with `tenantId`
+- Switching tenant automatically invalidates all cached data (different key prefix)
+- All query hooks (`usePlayersQuery`, `useSquadsQuery`, etc.) use this
+
+```typescript
+// ✅ DO — tenant key auto-injected, cache isolated per tenant
+useTenantQuery({ queryKey: ['players', filters], queryFn: ... });
+
+// ❌ DON'T — missing tenant prefix, cross-tenant cache pollution
+useQuery({ queryKey: ['players', filters], queryFn: ... });
 ```
+
+**Backend Tenant Resolution:**
+- `x-tenant-id` request header (set by frontend `client.ts`)
+- Subdomain detection (production: `trc-2025.spectatr.com`)
+- Default: `trc-2025`
+
+**Dual-Layer Data Isolation** (`packages/server/src/trpc/context.ts`):
+
+| Layer | Enforced when | Mechanism |
+|---|---|---|
+| PostgreSQL RLS | `spectatr_app` role | `SET LOCAL "app.current_tenant"` + DB policy per table |
+| Prisma app-level | Always (incl. `postgres` superuser) | `tenantId` injected into every `where`/`create`/`update` |
+
+RLS policies created by migration `20260222000000_add_rls`. Seeds and migrations use the `postgres` superuser and bypass RLS intentionally.
+
+**Seeding:** `npm run db:seed -- --tenant trc-2025` or `--all`
 
 See [Tenant Configuration Plan](.github/copilot-instructions/plans/plan-tenantConfiguration.md) for implementation details.
 
@@ -91,6 +110,8 @@ export const useMyTeamStore = create<MyTeamState>()(
 Manages authentication (Clerk session), player data with caching, live scores, draft data, league/team data.
 
 **Benefits:** Auto refetching, cache invalidation, optimistic updates, request deduplication.
+
+**Tenant isolation:** Use `useTenantQuery` instead of `useQuery` — automatically scopes cache keys by tenant. See [Multi-Tenancy Architecture](#multi-tenancy-architecture).
 
 **Auth Integration:** Token injection via `getToken()` in all tRPC requests (`Authorization: Bearer` header).
 

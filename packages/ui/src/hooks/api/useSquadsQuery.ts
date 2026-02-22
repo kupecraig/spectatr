@@ -1,5 +1,5 @@
-import { useQuery } from '@tanstack/react-query';
 import { useTrpcClient } from './useTrpcClient';
+import { useTenantQuery } from './useTenantQuery';
 
 export interface Squad {
   id: number;
@@ -15,7 +15,7 @@ export interface Squad {
 export const useSquadsQuery = () => {
   const trpc = useTrpcClient();
   
-  return useQuery({
+  return useTenantQuery({
     queryKey: ['squads'],
     queryFn: () => trpc<Squad[]>('squads.list'),
     staleTime: 24 * 60 * 60 * 1000,

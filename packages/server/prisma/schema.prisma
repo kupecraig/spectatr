@@ -291,7 +291,7 @@ model Team {
   userId    String
   leagueId  Int
   name      String
-  budget    Int      @default(42000000) // Budget in cents
+  budget    Int
   totalCost Int      @default(0)
   points    Int      @default(0)
   rank      Int?

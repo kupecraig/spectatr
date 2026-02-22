@@ -1,5 +1,5 @@
-import { useQuery } from '@tanstack/react-query';
 import { useTrpcClient } from './useTrpcClient';
+import { useTenantQuery } from './useTenantQuery';
 import type { Player } from '@/mocks/playerData';
 
 export interface PlayersQueryInput {
@@ -28,7 +28,7 @@ export const usePlayersQuery = (input: PlayersQueryInput = {}) => {
     ? (Object.fromEntries(entries) as PlayersQueryInput)
     : undefined;
 
-  return useQuery({
+  return useTenantQuery({
     queryKey: ['players', cleanInput ?? {}],
     queryFn: () => trpc<PlayersQueryResult>('players.list', cleanInput as Record<string, unknown> | undefined),
     staleTime: 60 * 1000,

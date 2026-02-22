@@ -15,7 +15,10 @@
     "build:ui": "npm run build --workspace=@spectatr/ui",
     "build:server": "npm run build --workspace=@spectatr/server",
     "lint": "npm run lint --workspaces",
-    "preview": "npm run preview --workspace=@spectatr/ui"
+    "preview": "npm run preview --workspace=@spectatr/ui",
+    "seed:trc": "npm run seed:trc --workspace=@spectatr/server",
+    "seed:super": "npm run seed:super --workspace=@spectatr/server",
+    "seed:all": "npm run seed:all --workspace=@spectatr/server"
   },
   "engines": {
     "node": ">=20.0.0",

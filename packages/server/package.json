@@ -12,6 +12,9 @@
     "db:migrate": "prisma migrate dev --env-file env/.env",
     "db:migrate:deploy": "prisma migrate deploy --env-file env/.env",
     "db:seed": "tsx src/scripts/seed.ts",
+    "seed:trc": "tsx src/scripts/seed.ts --tenant trc-2025",
+    "seed:super": "tsx src/scripts/seed.ts --tenant super-2026",
+    "seed:all": "tsx src/scripts/seed.ts --all",
     "db:studio": "prisma studio --env-file env/.env",
     "db:reset": "prisma migrate reset --env-file env/.env",
     "lint": "eslint ."

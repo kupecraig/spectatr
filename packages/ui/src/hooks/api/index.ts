@@ -5,6 +5,8 @@ export { useGameweekQuery } from './useGameweekQuery';
 export { useChecksumQuery } from './useChecksumQuery';
 export { useChecksumPoller } from './useChecksumPoller';
 export { useTrpcClient } from './useTrpcClient';
+export { useTenantQuery } from './useTenantQuery';
+export { useTenant } from '@/hooks/useTenant';
 
 export type { PlayersQueryInput, PlayersQueryResult } from './usePlayersQuery';
 export type { GameweekStatus, GameweekState } from './useGameweekQuery';
