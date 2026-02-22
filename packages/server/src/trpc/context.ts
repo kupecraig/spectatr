@@ -4,30 +4,60 @@ import { logger } from '../utils/logger.js';
 import { prisma } from '../db/prisma.js';
 
 /**
- * Create tenant-scoped Prisma client with PostgreSQL RLS
- * 
- * SECURITY: Defense in depth approach
- * 1. Database-level RLS (PostgreSQL policies) - Primary security layer
- * 2. Application-level filtering (Prisma middleware) - Convenience + fallback
- * 
- * Why both?
- * - RLS protects against direct DB access, admin tools, migrations
- * - Middleware provides better error messages and type safety
- * - Together = impossible to bypass, even with bugs or direct access
+ * Create tenant-scoped Prisma client.
+ *
+ * Two complementary layers of tenant isolation:
+ *
+ *  Layer 1 — PostgreSQL RLS (primary, production):
+ *    Sets `app.current_tenant` via SET LOCAL inside a transaction.
+ *    Effective when connecting as the `spectatr_app` role (see migration
+ *    20260222000000_add_rls). Superusers (postgres) bypass RLS by design,
+ *    so seeds and migrations are unaffected.
+ *
+ *  Layer 2 — Application-level filtering (belt-and-suspenders, local dev):
+ *    Injects `tenantId` into every Prisma where/create/update clause,
+ *    ensuring isolation even when connected as the postgres superuser.
  */
+
+// Prisma model names lowercased — these models carry a tenantId column
+const TENANT_SCOPED_MODELS = new Set([
+  'player', 'squad', 'round', 'tournament', 'league', 'team',
+  'gameweekstate', 'scoringevent', 'checksum',
+]);
+
 function createTenantScopedPrisma(tenantId: string) {
+  const safeTenantId = tenantId.replaceAll("'", "''");
+
   return prisma.$extends({
     query: {
-      // Set PostgreSQL session variable for RLS policies
-      async $allOperations({ args, query }) {
-        // Set tenant context for this transaction
-        const [, result] = await prisma.$transaction([
-          prisma.$executeRawUnsafe(
-            `SET LOCAL app.current_tenant = '${tenantId.replaceAll("'", "''")}'`
-          ),
-          query(args),
-        ]);
-        return result;
+      $allModels: {
+        async $allOperations({ model, operation, args, query }) {
+          // ── Layer 2: inject tenantId into Prisma where/create/update ──
+          if (model && TENANT_SCOPED_MODELS.has(model.toLowerCase())) {
+            if (['findMany', 'findFirst', 'findUnique', 'count', 'aggregate', 'groupBy'].includes(operation)) {
+              args.where = { ...args.where, tenantId };
+            }
+            if (operation === 'create') {
+              args.data = { ...args.data, tenantId };
+            }
+            if (operation === 'createMany') {
+              const records = Array.isArray(args.data) ? args.data : [args.data];
+              args.data = records.map((r: Record<string, unknown>) => ({ ...r, tenantId }));
+            }
+            if (['update', 'updateMany', 'delete', 'deleteMany'].includes(operation)) {
+              args.where = { ...args.where, tenantId };
+            }
+          }
+
+          // ── Layer 1: set PostgreSQL session variable for RLS policies ──
+          const [, result] = await prisma.$transaction([
+            prisma.$executeRawUnsafe(
+              `SET LOCAL "app.current_tenant" = '${safeTenantId}'`
+            ),
+            query(args),
+          ]);
+          return result;
+        },
       },
     },
   });

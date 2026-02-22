@@ -4,6 +4,7 @@ import type { Player } from '../mocks/playerData';
 import { getMaxPlayerCost } from '../mocks/playerData';
 import { VALIDATION, STORAGE_KEYS } from '../config/constants';
 import { getPositionsByType, getAllPositions } from '../config/fieldLayouts';
+import { getActiveTenantId } from '../utils/tenant';
 
 // Calculate max price from actual player data
 const MAX_PLAYER_PRICE = Math.ceil(getMaxPlayerCost() / 1_000_000);
@@ -236,7 +237,9 @@ export const useMyTeamStore = create<MyTeamState>()(
         }),
     }),
     {
-      name: STORAGE_KEYS.MY_TEAM,
+      // Scope the persistence key to the active tenant so each tenant
+      // (trc-2025, super-2026, …) maintains an independent squad.
+      name: `${STORAGE_KEYS.MY_TEAM}:${getActiveTenantId()}`,
       partialize: (state) => ({
         slots: state.slots,
         totalCost: state.totalCost,
