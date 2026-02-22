@@ -1,4 +1,5 @@
 import { API_CONFIG } from '@/config/constants';
+import { getActiveTenantId } from '@/utils/tenant';
 
 interface TrpcResponse<T> {
   result: {
@@ -26,7 +27,7 @@ export async function fetchTrpc<T>(
 
   const headers: HeadersInit = {
     'Content-Type': 'application/json',
-    'x-tenant-id': 'trc-2025', // TODO: Make this configurable per tenant
+    'x-tenant-id': getActiveTenantId(),
   };
 
   // Add auth token if available

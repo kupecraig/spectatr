@@ -44,6 +44,7 @@ export default defineConfig({
         }
       },
       {
+        extends: true,
         // Unit test project for pure functions and store logic
         test: {
           name: 'unit',

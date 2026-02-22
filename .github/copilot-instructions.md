@@ -194,6 +194,12 @@ All validation uses Zod schemas from `@spectatr/shared-types` package.
 ## Current Implementation Status
 
 **Completed:**
+- ✅ **Multi-tenant seed data** - `trc-2025` (160 players) + `super-2026` (441 players)
+  - Seed: `npm run db:seed -- --tenant trc-2025` or `--all`
+  - Dev switching: append `?tenant=super-2026` to URL (persists in sessionStorage)
+- ✅ **Dual-layer tenant isolation** - See [Multi-Tenancy Architecture](../ARCHITECTURE.md#multi-tenancy-architecture)
+  - PostgreSQL RLS (`spectatr_app` role) + Prisma app-level `tenantId` injection
+  - `useTenantQuery` hook auto-scopes TanStack Query cache keys by tenant
 - ✅ **Backend API with tRPC** - See [Backend API Guide](copilot-instructions/backend-api.md)
   - Multi-tenant architecture, Prisma ORM, PostgreSQL
   - Rate limiting (Redis), audit trail, background jobs
@@ -203,17 +209,12 @@ All validation uses Zod schemas from `@spectatr/shared-types` package.
   - JWT verification in Express middleware
   - User persistence with provider-agnostic IDs
   - Route guards (public dashboard, protected routes)
-  - Auth + tenant middleware composition
 - ✅ Monorepo structure with shared-types package
 - ✅ Theme system with 3 themes (rugby, light, dark) and custom tokens
-- ✅ Custom themed components (PlayerSlot, EmptySlot)
 - ✅ Dashboard with table view (public access)
-- ✅ React Router navigation with route protection
 - ✅ Player list with filtering (FilterPanel, PlayerListItem, PlayerList)
-- ✅ Field layout configuration system
 - ✅ Zustand store (myTeamStore) with validation integration
-- ✅ Storybook component testing (replaces test page)
-- ✅ Vitest unit testing
+- ✅ Storybook component testing + Vitest unit testing
 
 **In Progress:**
 - Field visualization view
@@ -240,9 +241,8 @@ All validation uses Zod schemas from `@spectatr/shared-types` package.
 - Use the [plan template](plan-template.md) for new implementation plans
 
 **Mock Data:**
-- `data/trc-2025/players.json` - Full player dataset
-- `data/trc-2025/squads.json` - Real-world team data
-- `data/trc-2025/rounds.json` - Round/fixture data
+- `data/trc-2025/` - The Rugby Championship 2025 (160 players, 4 squads, 16 rounds)
+- `data/super-2026/` - Super Rugby Pacific 2026 (441 players, 11 squads, 16 rounds)
 - `packages/ui/src/mocks/leagues.json` - Sample leagues
 - `packages/ui/src/mocks/leagueRules.json` - League rule configurations
 

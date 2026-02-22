@@ -1,5 +1,5 @@
-import { useQuery } from '@tanstack/react-query';
 import { useTrpcClient } from './useTrpcClient';
+import { useTenantQuery } from './useTenantQuery';
 
 export interface ChecksumResponse {
   version: number;
@@ -18,7 +18,7 @@ export interface ChecksumResponse {
 export const useChecksumQuery = () => {
   const trpc = useTrpcClient();
   
-  return useQuery({
+  return useTenantQuery({
     queryKey: ['checksum', 'current'],
     queryFn: () => trpc<ChecksumResponse>('checksum.current'),
     staleTime: 0, // Always consider stale for accurate polling
