@@ -24,9 +24,10 @@ model User {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
-  // Relations (for future use)
-  teams      Team[]
-  auditLogs  AuditLog[]
+  // Relations
+  teams         Team[]
+  auditLogs     AuditLog[]
+  leagueMembers UserLeague[]
 
   @@index([email])
   @@index([clerkUserId])
@@ -270,15 +271,14 @@ model League {
   isPublic        Boolean  @default(false)
   inviteCode      String?  @unique
   maxParticipants Int      @default(10)
-  startDate       DateTime
-  endDate         DateTime?
   rules           Json     @default("{}") // League-specific rules
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
   // Relations
-  tenant Tenant @relation(fields: [tenantId], references: [id])
-  teams  Team[]
+  tenant  Tenant       @relation(fields: [tenantId], references: [id])
+  teams   Team[]
+  members UserLeague[]
 
   @@index([tenantId])
   @@index([creatorId])
@@ -304,7 +304,7 @@ model Team {
   // Relations
   tenant      Tenant       @relation(fields: [tenantId], references: [id])
   user        User         @relation(fields: [userId], references: [id])
-  league      League       @relation(fields: [leagueId], references: [id])
+  league      League       @relation(fields: [leagueId], references: [id], onDelete: Cascade)
   teamPlayers TeamPlayer[]
   auditLogs   AuditLog[]
 
@@ -328,4 +328,25 @@ model TeamPlayer {
   @@unique([teamId, playerId])
   @@index([teamId])
   @@map("team_players")
+}
+
+// ============================================================================
+// LEAGUE MEMBERSHIPS
+// ============================================================================
+
+model UserLeague {
+  id       Int      @id @default(autoincrement())
+  userId   String
+  leagueId Int
+  role     String   @default("member") // 'creator' | 'member'
+  joinedAt DateTime @default(now())
+
+  // Relations
+  user   User   @relation(fields: [userId], references: [id])
+  league League @relation(fields: [leagueId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, leagueId])
+  @@index([userId])
+  @@index([leagueId])
+  @@map("user_leagues")
 }

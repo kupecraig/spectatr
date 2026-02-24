@@ -24,6 +24,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import HomeIcon from '@mui/icons-material/Home';
 import SportsIcon from '@mui/icons-material/Sports';
 import LeaderboardIcon from '@mui/icons-material/Leaderboard';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import SettingsDialog from '@/components/SettingsDialog';
 import { useMyTeamStore } from '@/stores';
 import { PlayerList } from '@/features/players';
@@ -53,6 +54,7 @@ export const MyTeamPage: FC = () => {
   const menuItems = [
     { text: 'Home', icon: <HomeIcon />, path: '/' },
     { text: 'My Team', icon: <SportsIcon />, path: '/my-team' },
+    { text: 'Leagues', icon: <EmojiEventsIcon />, path: '/leagues' },
     { text: 'Leaderboard', icon: <LeaderboardIcon />, path: '/leaderboard' },
   ];
 

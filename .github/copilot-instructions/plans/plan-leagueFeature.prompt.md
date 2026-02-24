@@ -5,6 +5,9 @@ Full lifecycle — browse, create, join, manage, view standings — wired from D
 
 **Jira Ticket:** FSA-XXX
 
+**UI Reference:** Review the league page screenshot before implementing any UI components — it shows the tab structure ("My Leagues" / "List of Leagues"), the "Create a League" CTA button placement, and the create form layout:
+[`.github/copilot-instructions/docs/team-page-images/create-league-page.png`](../docs/team-page-images/create-league-page.png) - MUST REVIEW BEFORE IMPLEMENTATION
+
 ---
 
 ## Architecture and Design

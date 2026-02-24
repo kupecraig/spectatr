@@ -1,5 +1,24 @@
 export { usePlayersQuery } from './usePlayersQuery';
 export { useSquadsQuery } from './useSquadsQuery';
+export {
+  useLeagueListQuery,
+  useMyLeaguesQuery,
+  useLeagueDetailQuery,
+  useLeagueStandingsQuery,
+  useCreateLeagueMutation,
+  useJoinLeagueMutation,
+  useUpdateLeagueMutation,
+  useLeaveLeagueMutation,
+  useDeleteLeagueMutation,
+} from './useLeaguesQuery';
+export type {
+  LeagueWithCount,
+  LeagueListResult,
+  MyLeague,
+  LeagueMember,
+  LeagueDetail,
+  LeagueStanding,
+} from './useLeaguesQuery';
 export { useRoundsQuery } from './useRoundsQuery';
 export { useGameweekQuery } from './useGameweekQuery';
 export { useChecksumQuery } from './useChecksumQuery';

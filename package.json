@@ -9,7 +9,7 @@
     "dev:ui": "npm --silent run dev --workspace=@spectatr/ui",
     "dev:server": "npm --silent run dev --workspace=@spectatr/server",
     "dev:shared": "npm --silent run dev --workspace=@spectatr/shared-types",
-    "dev": "concurrently --names \"shared,server,ui\" --prefix-colors \"bgMagenta.bold,bgCyan.bold,bgGreen.bold\" --prefix \"[{name}]\" --kill-others-on-fail \"npm run dev:shared\" \"npm run dev:server\" \"npm run dev:ui\"",
+    "dev": "npm run build:shared && concurrently --names \"shared,server,ui\" --prefix-colors \"bgMagenta.bold,bgCyan.bold,bgGreen.bold\" --prefix \"[{name}]\" --kill-others-on-fail \"npm run dev:shared\" \"npm run dev:server\" \"npm run dev:ui\"",
     "build": "npm run build --workspace=@spectatr/shared-types && npm run build --workspace=@spectatr/ui && npm run build --workspace=@spectatr/server",
     "build:shared": "npm run build --workspace=@spectatr/shared-types",
     "build:ui": "npm run build --workspace=@spectatr/ui",

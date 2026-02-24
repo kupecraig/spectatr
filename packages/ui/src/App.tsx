@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { DashboardPage, MyTeamPage } from '@/pages';
+import { DashboardPage, MyTeamPage, LeaguesPage } from '@/pages';
 import { ProtectedRoute } from '@/components/auth';
 
 function App() {
@@ -15,6 +15,17 @@ function App() {
           element={
             <ProtectedRoute>
               <MyTeamPage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Leagues — browse is public, create/join requires auth */}
+        <Route path="/leagues" element={<LeaguesPage />} />
+        <Route
+          path="/leagues/:leagueId"
+          element={
+            <ProtectedRoute>
+              <LeaguesPage />
             </ProtectedRoute>
           }
         />

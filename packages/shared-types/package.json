@@ -1,6 +1,7 @@
 {
   "name": "@spectatr/shared-types",
   "version": "1.0.0",
+  "type": "module",
   "description": "Shared TypeScript types, Zod schemas, and validation logic for Spectatr",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

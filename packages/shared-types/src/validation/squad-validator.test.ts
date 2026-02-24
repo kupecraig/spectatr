@@ -11,9 +11,6 @@ describe('validateSquad', () => {
   
   // Helper to create minimal LeagueRules for testing
   const createTestLeagueRules = (overrides: Partial<LeagueRules> = {}): LeagueRules => ({
-    id: 1,
-    leagueId: 1,
-    name: 'Test League Rules',
     draftMode: false,
     pricingModel: 'fixed',
     priceCapEnabled: false,
@@ -21,12 +18,10 @@ describe('validateSquad', () => {
     positionMatching: false,
     squadLimitPerTeam: null,
     sharedPool: false,
-    transfersPerRound: 1,
+    transfersPerRound: 3,
     wildcardRounds: [],
     tripleCaptainRounds: [],
     benchBoostRounds: [],
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
     ...overrides,
   });
   

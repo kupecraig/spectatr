@@ -28,7 +28,7 @@ For each task:
 2. Execute the task following project guidelines (MUI-only, theme system, Zod validation, etc.)
 3. Verify the task completion (run tests, check for errors, validate output)
 4. Mark the task as "completed" using `manage_todo_list`
-5. **Ask the user if they want to continue to the next task or stop**
+5. You MUST - **Ask the user if they want to continue to the next task or stop**
 
 ## Step 5: Progress Tracking
 - Update todo list status after each task completion
