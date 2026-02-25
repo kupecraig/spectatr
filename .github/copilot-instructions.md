@@ -113,6 +113,8 @@ const squadSize = sportSquadConfig.maxSquadSize;
 - Create and apply migrations with `npm run db:migrate`
 - Do not use `db:push` for shared or reviewed changes
 - Update seeds when schema changes affect seeded data
+- **Every new table must be evaluated for RLS** — see [Database Migrations Guide](copilot-instructions/database-migrations.md) for the decision tree and checklist
+- Migrations that touch roles, RLS, or grants must be run with `npm run db:migrate:superuser`
 
 ## Project Structure
 
@@ -230,14 +232,15 @@ All validation uses Zod schemas from `@spectatr/shared-types` package.
 - [Contributing Guidelines](../CONTRIBUTING.md)
 - [MUI Usage Guidelines](copilot-instructions/mui.md)
 - [Backend API Guide](copilot-instructions/backend-api.md) - tRPC patterns, multi-tenancy
+- [Database Migrations Guide](copilot-instructions/database-migrations.md) - migration scripts, RLS decisions, new table checklist
 - [Theme System Documentation](../packages/ui/src/theme/README.md)
 - [Testing & Storybook Guidelines](../packages/ui/TESTING.md)
 - [Project Setup Guide](../docs/SETUP.md)
 - [Data Model Overview](../docs/DATA_MODEL.md)
 
 **Implementation Plans:**
-- [Backend Setup Plan](copilot-instructions/plans/plan-backendSetup.md) - ✅ Complete
-- [State Management Plan](copilot-instructions/plans/plan-stateManagement.md)
+- Current plans: `.github/copilot-instructions/plans/plan-*.md`
+- Archived plans: `copilot-instructions/plans/archive/`
 - Use the [plan template](plan-template.md) for new implementation plans
 
 **Mock Data:**

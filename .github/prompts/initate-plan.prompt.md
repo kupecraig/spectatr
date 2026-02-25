@@ -9,8 +9,7 @@ description: Start executing a plan in a user friendly way
 First, identify which plan file to execute. Plan files are located in `.github/copilot-instructions/plans/` directory. If the user hasn't specified a plan, list available plans and ask which one to execute.
 
 Available plan locations:
-- `.github/copilot-instructions/plans/plan-*.md`
-- `.github/copilot-instructions/plans/plan-*.prompt.md`
+- `.github/copilot-instructions/plans/archive/plan-*.md`
 
 ## Step 2: Read and Parse the Plan
 Read the specified plan file completely to understand:

@@ -395,3 +395,54 @@ export const LEAGUE_CREATE_ERRORS = {
 - `tsc --noEmit` passes across all packages
 - `npm run test:unit` passes in `shared-types` and `ui`
 - `npm run test-storybook` passes all story interaction tests
+
+---
+
+## Implementation Status
+
+*Last assessed: 2026-02-25. ~65% complete.*
+
+### ✅ Done
+
+**Phase 1 — Database:** `UserLeague` model, back-relations on `User` and `League`, `onDelete: Cascade` on `Team → League`, migrations applied.
+
+**Phase 2 — Shared-Types:** All schemas implemented — `leagueRulesSchema`, `createLeagueSchema`, `updateLeagueSchema`, `joinLeagueByCodeSchema`, `leagueSchema`, `teamSchema`. Unit tests in `league.schema.test.ts`.
+
+**Phase 3 — Backend tRPC Router:** All 10 procedures in `leagues.ts`: `list`, `myLeagues`, `getById`, `standings`, `create`, `join`, `leave`, `update`, `activate` (bonus, not in original plan), `delete`. Registered in `_app.ts`.
+
+**Phase 4 — Store:** `leagueStore.ts` with full `LeagueState` interface (create/join/settings dialogs, tab, game mode filter, form draft).
+
+**Phase 5 — TanStack Query Hooks:** All hooks in `useLeaguesQuery.ts` — `useLeagueListQuery`, `useMyLeaguesQuery`, `useLeagueDetailQuery`, `useLeagueStandingsQuery`, `useCreateLeagueMutation`, `useJoinLeagueMutation`, `useUpdateLeagueMutation`, `useLeaveLeagueMutation`, `useActivateLeagueMutation`, `useDeleteLeagueMutation`.
+
+**Phase 6 — Feature Components (partial):** `LeagueCard` + `LeagueCardSkeleton`, `CreateLeagueDialog`, `JoinLeagueDialog`, `MyLeagueListItem` + `MyLeagueListItemSkeleton`.
+
+**Phase 7 — Pages & Routing (partial):** `LeaguesPage` (browse + my leagues tabs), `LeagueSettingsPage`, routes `/leagues` and `/leagues/:leagueId/settings` in `App.tsx`.
+
+---
+
+### ❌ Still To Do
+
+**Phase 6 — Remaining feature components:**
+- `LeagueList` / `LeagueListSkeleton` (responsive grid wrapper with empty state)
+- `StandingsTable` / `StandingsTableSkeleton` (ranked team list)
+- `LeagueSettingsDialog` (edit rules inline on the detail page; creator-only; delete with confirmation)
+- `LeagueInvitePanel` (display + clipboard copy; Snackbar "Copied!" feedback)
+
+**Phase 7 — League detail page:**
+- `LeaguePage` at `/leagues/:leagueId` — league header, `LeagueInvitePanel`, `StandingsTable`, settings button (creator only), Leave button. The route currently renders `LeaguesPage` as a placeholder.
+
+**Phase 8 — Storybook Stories:** None created yet for any league component:
+- `LeagueCard.stories.tsx`
+- `CreateLeagueDialog.stories.tsx`
+- `JoinLeagueDialog.stories.tsx`
+- `LeagueSettingsDialog.stories.tsx`
+- `StandingsTable.stories.tsx`
+
+**Phase 9 — Unit Tests:**
+- `leagueStore.test.ts` (dialog state, tab switching, game mode filter)
+
+**Phase 10 — Polish:**
+- Verify `tsc --noEmit` across all packages
+- Remove any `console.log` statements from new files
+- JSDoc on exported functions and component prop interfaces
+- LEAGUE_CREATE_ERRORS constants in `config/constants.ts` (verify present)
