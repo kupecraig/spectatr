@@ -183,6 +183,22 @@ export const useLeaveLeagueMutation = () => {
   });
 };
 
+/** Activate a league (draft → active). Invalidates detail + myLeagues on success. */
+export const useActivateLeagueMutation = () => {
+  const trpc = useTrpcClient();
+  const queryClient = useQueryClient();
+  const { tenantId } = useTenant();
+
+  return useMutation({
+    mutationFn: (leagueId: number) =>
+      trpc<League>('leagues.activate', { id: leagueId }, 'POST'),
+    onSuccess: (_data, leagueId) => {
+      queryClient.invalidateQueries({ queryKey: [tenantId, 'leagues', 'detail', leagueId] });
+      queryClient.invalidateQueries({ queryKey: [tenantId, 'leagues', 'my'] });
+    },
+  });
+};
+
 /** Delete a league (creator only). Invalidates list + myLeagues on success. */
 export const useDeleteLeagueMutation = () => {
   const trpc = useTrpcClient();

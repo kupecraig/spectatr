@@ -19,7 +19,7 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 import { useLeagueStore } from '@/stores/leagueStore';
 import { useCreateLeagueMutation } from '@/hooks/api/useLeaguesQuery';
-import { createLeagueSchema, MIN_PARTICIPANTS, MIN_DRAFT_PARTICIPANTS, MAX_DRAFT_PARTICIPANTS } from '@spectatr/shared-types';
+import { createLeagueSchema, MIN_PARTICIPANTS } from '@spectatr/shared-types';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // CreateLeagueDialog
@@ -88,72 +88,50 @@ export function CreateLeagueDialog({ onSuccess }: CreateLeagueDialogProps) {
             inputProps={{ maxLength: 60 }}
           />
 
-          {/* Game Mode */}
-          <FormControl fullWidth required>
-            <InputLabel>Game Mode</InputLabel>
+          {/* Price Cap */}
+          <FormControl fullWidth>
+            <InputLabel>Price Cap</InputLabel>
             <Select
-              label="Game Mode"
-              value={formDraft.gameMode}
-              onChange={(e) =>
-                setFormDraft({ gameMode: e.target.value as typeof formDraft.gameMode })
-              }
+              label="Price Cap"
+              value={formDraft.rules?.priceCap ?? 'none'}
+              onChange={(e) => {
+                const val = e.target.value;
+                setFormDraft({ rules: { ...formDraft.rules, priceCap: val === 'none' ? null : Number(val) } });
+              }}
             >
-              <MenuItem value="standard">Standard</MenuItem>
-              <MenuItem value="round-robin">Round Robin</MenuItem>
-              <MenuItem value="ranked">Ranked</MenuItem>
+              <MenuItem value="none">Unlimited</MenuItem>
+              {[30, 35, 40, 42, 45, 50, 60, 75, 100].map((m) => (
+                <MenuItem key={m} value={m * 1_000_000}>{m}M</MenuItem>
+              ))}
             </Select>
           </FormControl>
 
-          {/* Draft Mode */}
-          <FormControlLabel
-            control={
-              <Switch
-                checked={Boolean(formDraft.rules?.draftMode)}
-                onChange={(e) =>
-                  setFormDraft({ rules: { ...formDraft.rules, draftMode: e.target.checked } })
-                }
-              />
-            }
-            label={
-              <Stack>
-                <Typography variant="body2">Draft Mode</Typography>
-                <Typography variant="caption" color="text.secondary">
-                  Players are picked in turns from a shared pool — max {MAX_DRAFT_PARTICIPANTS} participants
-                </Typography>
-              </Stack>
-            }
-          />
+          {/* Player Pricing */}
+          <FormControl fullWidth>
+            <InputLabel>Player Pricing</InputLabel>
+            <Select
+              label="Player Pricing"
+              value={formDraft.rules?.pricingModel ?? 'fixed'}
+              onChange={(e) =>
+                setFormDraft({ rules: { ...formDraft.rules, pricingModel: e.target.value as ('fixed' | 'dynamic') } })
+              }
+            >
+              <MenuItem value="fixed">Fixed — prices set at season start</MenuItem>
+              <MenuItem value="dynamic">Dynamic — prices rise and fall with performance</MenuItem>
+            </Select>
+          </FormControl>
 
-          {/* Max Participants */}
-          {(() => {
-            const isDraft = Boolean(formDraft.rules?.draftMode);
-            const modeMin = MIN_PARTICIPANTS[formDraft.gameMode];
-            const effectiveMin = isDraft ? Math.max(modeMin, MIN_DRAFT_PARTICIPANTS) : modeMin;
-            const effectiveMax = isDraft ? MAX_DRAFT_PARTICIPANTS : 100;
-            const modeLabels: Record<string, string> = {
-              standard:      'Standard',
-              'round-robin': 'Round Robin',
-              ranked:        'Ranked',
-            };
-            const label = modeLabels[formDraft.gameMode] ?? formDraft.gameMode;
-            const hint = isDraft
-              ? `Draft leagues: ${effectiveMin}–${effectiveMax} participants`
-              : `Min ${effectiveMin} for ${label} mode, max ${effectiveMax}`;
-            return (
-              <TextField
-                label="Max Participants"
-                type="number"
-                value={formDraft.maxParticipants}
-                onChange={(e) =>
-                  setFormDraft({ maxParticipants: Number(e.target.value) })
-                }
-                error={Boolean(formErrors.maxParticipants)}
-                helperText={formErrors.maxParticipants ?? hint}
-                inputProps={{ min: effectiveMin, max: effectiveMax }}
-                fullWidth
-              />
-            );
-          })()}
+          {/* Max Participants — game mode is hardcoded to 'standard' at MVP */}
+          <TextField
+            label="Max Participants"
+            type="number"
+            value={formDraft.maxParticipants}
+            onChange={(e) => setFormDraft({ maxParticipants: Number(e.target.value) })}
+            error={Boolean(formErrors.maxParticipants)}
+            helperText={formErrors.maxParticipants ?? `Min ${MIN_PARTICIPANTS['standard']}, max 100`}
+            slotProps={{ htmlInput: { min: MIN_PARTICIPANTS['standard'], max: 100 } }}
+            fullWidth
+          />
 
           {/* Public toggle */}
           <FormControlLabel

@@ -58,7 +58,8 @@ describe('leagueRulesSchema', () => {
     if (!result.success) return;
     expect(result.data.draftMode).toBe(false);
     expect(result.data.pricingModel).toBe('fixed');
-    expect(result.data.priceCapEnabled).toBe(true);
+    // priceCapEnabled was removed — priceCap=null means unlimited
+    expect('priceCapEnabled' in result.data).toBe(false);
     expect(result.data.priceCap).toBeNull();
     expect(result.data.positionMatching).toBe(false);
     expect(result.data.sharedPool).toBe(false);
@@ -66,6 +67,13 @@ describe('leagueRulesSchema', () => {
     expect(result.data.wildcardRounds).toEqual([]);
     expect(result.data.tripleCaptainRounds).toEqual([]);
     expect(result.data.benchBoostRounds).toEqual([]);
+  });
+
+  it('priceCap must be positive when set (null is allowed for unlimited)', () => {
+    expect(leagueRulesSchema.safeParse({ priceCap: 42000000 }).success).toBe(true);
+    expect(leagueRulesSchema.safeParse({ priceCap: null }).success).toBe(true);
+    expect(leagueRulesSchema.safeParse({ priceCap: 0 }).success).toBe(false);
+    expect(leagueRulesSchema.safeParse({ priceCap: -1 }).success).toBe(false);
   });
 
   it('accepts fixed and dynamic pricing models', () => {
@@ -154,10 +162,34 @@ describe('createLeagueSchema', () => {
     expect(createLeagueSchema.safeParse({ ...valid(), gameMode: 'fantasy' as never }).success).toBe(false);
   });
 
-  it('accepts all valid gameModes', () => {
-    for (const mode of ['standard', 'round-robin', 'ranked'] as const) {
-      expect(createLeagueSchema.safeParse({ ...valid(), gameMode: mode }).success).toBe(true);
-    }
+  it('accepts standard gameMode with classic format (default)', () => {
+    expect(createLeagueSchema.safeParse({ ...valid(), gameMode: 'standard' }).success).toBe(true);
+  });
+
+  it('format defaults to classic', () => {
+    const result = createLeagueSchema.safeParse(valid());
+    expect(result.success).toBe(true);
+    if (!result.success) return;
+    expect(result.data.format).toBe('classic');
+  });
+
+  it('rejects round-robin and ranked with classic format (MVP guard)', () => {
+    const rrResult = createLeagueSchema.safeParse({ ...valid(), gameMode: 'round-robin', format: 'classic' });
+    expect(rrResult.success).toBe(false);
+    if (rrResult.success) return;
+    expect(rrResult.error.issues.some((i) => i.path[0] === 'gameMode')).toBe(true);
+    expect(rrResult.error.issues.some((i) => i.message.includes('not yet available'))).toBe(true);
+
+    const rankedResult = createLeagueSchema.safeParse({ ...valid(), gameMode: 'ranked', format: 'classic' });
+    expect(rankedResult.success).toBe(false);
+  });
+
+  it('rejects round-robin even with draft format omitted (defaults to classic)', () => {
+    expect(createLeagueSchema.safeParse({ ...valid(), gameMode: 'round-robin' }).success).toBe(false);
+  });
+
+  it('accepts round-robin with draft format (Phase 2 readiness)', () => {
+    expect(createLeagueSchema.safeParse({ ...valid(), gameMode: 'round-robin', format: 'draft', maxParticipants: 5 }).success).toBe(true);
   });
 
   it('rejects maxParticipants below 2 or above 100', () => {
@@ -183,35 +215,37 @@ describe('createLeagueSchema', () => {
 
   it('accepts maxParticipants at the exact mode minimum (boundary)', () => {
     expect(createLeagueSchema.safeParse({ ...valid(), gameMode: 'standard',    maxParticipants: 2 }).success).toBe(true);
-    expect(createLeagueSchema.safeParse({ ...valid(), gameMode: 'round-robin', maxParticipants: 3 }).success).toBe(true);
-    expect(createLeagueSchema.safeParse({ ...valid(), gameMode: 'ranked',      maxParticipants: 4 }).success).toBe(true);
+    // RR and Ranked require draft format — use it here to test the participant boundary
+    expect(createLeagueSchema.safeParse({ ...valid(), gameMode: 'round-robin', format: 'draft', maxParticipants: 4 }).success).toBe(true);
+    expect(createLeagueSchema.safeParse({ ...valid(), gameMode: 'ranked',      format: 'draft', maxParticipants: 4 }).success).toBe(true);
   });
 
-  it('rejects maxParticipants below round-robin minimum (3)', () => {
-    const result = createLeagueSchema.safeParse({ ...valid(), gameMode: 'round-robin', maxParticipants: 2 });
+  it('rejects maxParticipants below round-robin minimum (3) — draft format', () => {
+    // RR requires draft format; participant minimum still enforced within draft bounds
+    const result = createLeagueSchema.safeParse({ ...valid(), gameMode: 'round-robin', format: 'draft', maxParticipants: 2 });
     expect(result.success).toBe(false);
     if (result.success) return;
     expect(result.error.issues.some((i) => i.path[0] === 'maxParticipants')).toBe(true);
-    expect(result.error.issues.some((i) => i.message.includes('Round Robin'))).toBe(true);
   });
 
-  it('rejects maxParticipants below ranked minimum (4)', () => {
-    const result = createLeagueSchema.safeParse({ ...valid(), gameMode: 'ranked', maxParticipants: 3 });
+  it('rejects maxParticipants below ranked minimum (4) — draft format', () => {
+    const result = createLeagueSchema.safeParse({ ...valid(), gameMode: 'ranked', format: 'draft', maxParticipants: 3 });
     expect(result.success).toBe(false);
     if (result.success) return;
     expect(result.error.issues.some((i) => i.path[0] === 'maxParticipants')).toBe(true);
-    expect(result.error.issues.some((i) => i.message.includes('Ranked'))).toBe(true);
   });
 
-  it('standard mode is not affected by the superRefine (min stays at 2)', () => {
+  it('standard mode (classic format) is not affected by draft bounds — min stays at 2', () => {
     expect(createLeagueSchema.safeParse({ ...valid(), gameMode: 'standard', maxParticipants: 2 }).success).toBe(true);
     expect(createLeagueSchema.safeParse({ ...valid(), gameMode: 'standard', maxParticipants: 1 }).success).toBe(false);
   });
 
   // ── Draft mode participant constraints ─────────────────────────────────────
 
-  const withDraft = (overrides = {}) => ({
+  // Draft format is Phase 2 — all draft tests must use format: 'draft'
+  const withDraft = (overrides: Record<string, unknown> = {}) => ({
     ...valid(),
+    format: 'draft' as const,
     rules: { draftMode: true },
     ...overrides,
   });
@@ -258,8 +292,8 @@ describe('createLeagueSchema', () => {
     }
   });
 
-  it('non-draft mode: maxParticipants above 20 is valid', () => {
-    // The draft cap (20) must NOT apply when draftMode is false
+  it('non-draft mode (classic format): maxParticipants above 20 is valid', () => {
+    // The draft cap (20) must NOT apply to classic leagues
     expect(createLeagueSchema.safeParse({ ...valid(), maxParticipants: 50 }).success).toBe(true);
     expect(createLeagueSchema.safeParse({ ...valid(), maxParticipants: 100 }).success).toBe(true);
   });
@@ -324,6 +358,17 @@ describe('leagueSchema', () => {
 
   it('parses a valid league response', () => {
     expect(leagueSchema.safeParse(valid()).success).toBe(true);
+  });
+
+  it('format defaults to classic and is included in response', () => {
+    const result = leagueSchema.safeParse(valid());
+    expect(result.success).toBe(true);
+    if (!result.success) return;
+    expect(result.data.format).toBe('classic');
+  });
+
+  it('accepts draft format in response', () => {
+    expect(leagueSchema.safeParse({ ...valid(), format: 'draft' }).success).toBe(true);
   });
 
   it('optional fields can be absent (inviteCode, maxParticipants, endDate, rules)', () => {

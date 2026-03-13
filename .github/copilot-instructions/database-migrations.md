@@ -167,6 +167,39 @@ A new table that has RLS added in a later migration is unprotected in between. P
 
 This happened with `user_leagues`: the table was created in `20260223000000` and the policy added in `20260223000002`. This is acceptable when intentional, but be aware of the gap.
 
+### `prisma migrate dev` fails with "permission denied to create database"
+`prisma migrate dev` creates a temporary shadow database to diff the schema. The `spectatr_app` role (used in `env/.env`) does not have `CREATE DATABASE` privilege, so the command fails with `P3014`.
+
+**Workaround — manual migration workflow (for simple column additions with no RLS):**
+
+1. Create the migration directory and SQL file manually:
+   ```
+   prisma/migrations/<timestamp>_<name>/migration.sql
+   ```
+   Use `yyyyMMddHHmmss` format for the timestamp, e.g. `20260225120000_add_league_format`.
+
+2. Write the SQL directly — Prisma will apply it as-is:
+   ```sql
+   -- AlterTable
+   ALTER TABLE "leagues" ADD COLUMN "format" TEXT NOT NULL DEFAULT 'classic';
+   ```
+
+3. Apply with the superuser script (no shadow DB needed for `migrate deploy`):
+   ```bash
+   npm run db:migrate:superuser
+   ```
+   If `cross-env` is not in PATH (common on Windows), set the variable directly in PowerShell instead:
+   ```powershell
+   $env:DATABASE_URL="postgresql://postgres:postgres@localhost:5432/spectatr"; npx prisma migrate deploy
+   ```
+
+4. Regenerate the Prisma client:
+   ```bash
+   npm run db:generate
+   ```
+
+This approach is safe for purely additive changes (new columns with defaults, new indexes). For changes that need Prisma's diff logic (renames, complex constraints), run `migrate dev` with a superuser `DATABASE_URL` temporarily set in your shell session instead of `env/.env`.
+
 ### `db:push` leaves no migration file
 Any schema changes applied with `db:push` will cause drift for other developers and will not be deployed to production via `db:migrate:deploy`. Never use it for changes that need to be shared or reviewed.
 

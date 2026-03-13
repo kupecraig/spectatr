@@ -16,6 +16,7 @@ import {
 import { useTheme } from '@mui/material/styles';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import SettingsIcon from '@mui/icons-material/Settings';
 import type { MyLeague } from '@/hooks/api/useLeaguesQuery';
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -25,6 +26,7 @@ import type { MyLeague } from '@/hooks/api/useLeaguesQuery';
 interface MyLeagueListItemProps {
   league: MyLeague;
   onView: () => void;
+  onSettings?: () => void;
   onLeave?: () => void;
 }
 
@@ -34,7 +36,7 @@ const GAME_MODE_LABEL: Record<string, string> = {
   ranked: 'Ranked',
 };
 
-export function MyLeagueListItem({ league, onView, onLeave }: MyLeagueListItemProps) {
+export function MyLeagueListItem({ league, onView, onSettings, onLeave }: MyLeagueListItemProps) {
   const theme = useTheme();
   const isCreator = league.role === 'creator';
 
@@ -76,6 +78,13 @@ export function MyLeagueListItem({ league, onView, onLeave }: MyLeagueListItemPr
               <ChevronRightIcon />
             </IconButton>
           </Tooltip>
+          {isCreator && onSettings && (
+            <Tooltip title="League settings">
+              <IconButton size="small" onClick={onSettings} aria-label="League settings">
+                <SettingsIcon fontSize="small" />
+              </IconButton>
+            </Tooltip>
+          )}
           {!isCreator && onLeave && (
             <Tooltip title="Leave league">
               <IconButton

@@ -43,19 +43,19 @@ Each tenant independently configurable:
 
 ## Game Modes
 
-### 1. Standard Mode
+### 1. Standard Mode *(MVP)*
 Classic league, most points wins. Individual competition, weekly/season scoring, public/private leagues.
 
 **Use Case:** Casual players, large public leagues
 
-### 2. Round Robin Mode
+### 2. Round Robin Mode *(Phase 2 — Draft format required)*
 Head-to-head weekly matchups with turn-based draft.
 
 **Mechanics:** Weekly H2H, shared player pool (drafted players unavailable to others), standings, playoff bracket
 
 **Use Case:** Friends/colleagues wanting competitive matchups
 
-### 3. Ranked Mode
+### 3. Ranked Mode *(Phase 2 — Classic format only)*
 ELO-based global ranking with H2H matches.
 
 **Mechanics:** Global pool, skill-based matchmaking, ELO rating affected by W/L
@@ -66,32 +66,46 @@ ELO-based global ranking with H2H matches.
 
 ## League Configuration
 
+### League Format
+
+Format is set at creation and cannot be changed. It determines which rules and game modes are available.
+
+| Format | Description | MVP? |
+|--------|-------------|------|
+| **Classic** | Open pool — managers build squads independently. Supports pricing, cap, transfers, chips. | ✅ |
+| **Draft** | Exclusive pool — turn-based draft. Fixed pricing only, no cap, waiver pickups. | 🔜 Phase 2 |
+
 ### Multi-League Support
 Create/join unlimited leagues with different teams per league.
 
-### Configurable Rules
+### Configurable Rules (Classic Format)
 
-**1. Draft Mode** (On/Off)  
-On: Turn-based selection, shared pool, draft order (random/snake/manual), timer per pick  
-Off: Open pool, independent squad building
-
-**2. Pricing Model** (Fixed/Dynamic)  
+**1. Pricing Model** (Fixed/Dynamic)  
 Fixed: Constant prices  
 Dynamic: Performance-based price changes (buy low, sell high strategy)
+
+**2. Price Cap** (`null` = unlimited)  
+Optional budget limit per team (e.g. 42M). Set to `null` to allow unlimited spending.
+
+**3. Position Matching** (On/Off)  
+On: Players must match position from last game  
+Off: Any eligible position
 
 **3. Price Cap**  
 Budget limit (e.g., 42M for rugby)
 
-**4. Position Matching** (On/Off)  
-On: Players must match position from last game  
-Off: Any eligible position
-
-**5. Squad Limits**  
+**4. Squad Limits**  
 Max players from same real-world team (e.g., max 3 from South Africa)
 
-**6. Shared Pool** (On/Off, default off)  
+**5. Shared Pool** (On/Off, default off)  
 On: Players available to all teams  
 Off: Each player on one team only (scarcity strategy)
+
+**6. Transfers per Round** (default 3)  
+Free player swaps per round. 0 = changes only via Wildcard chip.
+
+**7. Chips** (Wildcard, Triple Captain, Bench Boost)  
+Configured as round numbers on which each chip activates.
 
 ### Sport Squad Configs
 **Not league-configurable.** Sport-specific:

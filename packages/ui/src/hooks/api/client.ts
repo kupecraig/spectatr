@@ -39,7 +39,7 @@ export async function fetchTrpc<T>(
 
   // GET: input as query param; POST: input in body
   if (isGet && input) {
-    url.searchParams.set('input', JSON.stringify({ json: input }));
+    url.searchParams.set('input', JSON.stringify(input));
   }
 
   const response = await fetch(url.toString(), {

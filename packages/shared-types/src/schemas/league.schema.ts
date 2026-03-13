@@ -18,12 +18,14 @@ export type DraftSettings = z.infer<typeof draftSettingsSchema>;
  * League rules — client-facing shape only.
  * DB-admin fields (id, leagueId, name, createdAt, updatedAt) are intentionally excluded.
  * Stored as a JSONB blob on the League row.
+ *
+ * Note: priceCap is a single optional value — null means unlimited.
+ * There is no separate priceCapEnabled boolean; the presence of a value implies the cap is active.
  */
 export const leagueRulesSchema = z.object({
   draftMode:           z.boolean().default(false),
   pricingModel:        z.enum(['fixed', 'dynamic']).default('fixed'),
-  priceCapEnabled:     z.boolean().default(true),
-  priceCap:            z.number().nullable().default(null),
+  priceCap:            z.number().positive().max(200_000_000, 'Price cap cannot exceed 200M').nullable().default(null),
   positionMatching:    z.boolean().default(false),
   squadLimitPerTeam:   z.number().nullable().default(null),
   sharedPool:          z.boolean().default(false),
@@ -65,6 +67,7 @@ export const MAX_DRAFT_PARTICIPANTS = 20;
  */
 export const createLeagueBaseSchema = z.object({
   name:            z.string().min(3).max(60),
+  format:          z.enum(['classic', 'draft']).default('classic'),
   gameMode:        z.enum(['standard', 'round-robin', 'ranked']),
   isPublic:        z.boolean().default(false),
   maxParticipants: z.number().int().min(2).max(100).default(10),
@@ -74,12 +77,30 @@ export const createLeagueBaseSchema = z.object({
 /**
  * Input schema for creating a league.
  * `season` is intentionally omitted — it is resolved server-side from the active Tournament.
- * Adds mode-dependent minimum participant validation on top of the base shape.
+ * Enforces:
+ *   - MVP: Classic format only supports Standard game mode (RR/Ranked are Phase 2)
+ *   - RR requires Draft format by product definition
+ *   - Draft format: participant min/max bounds gated behind format === 'draft'
+ *   - Classic format: standard participant minimum only
  */
 export const createLeagueSchema = createLeagueBaseSchema.superRefine((data, ctx) => {
-  const isDraft = data.rules.draftMode;
-  const modeMin = MIN_PARTICIPANTS[data.gameMode];
-  const effectiveMin = isDraft ? Math.max(modeMin, MIN_DRAFT_PARTICIPANTS) : modeMin;
+  // MVP guard: Classic format only supports Standard game mode.
+  if (data.format === 'classic' && data.gameMode !== 'standard') {
+    ctx.addIssue({
+      code:    z.ZodIssueCode.custom,
+      message: 'Round Robin and Ranked modes are not yet available. Use Standard.',
+      path:    ['gameMode'],
+    });
+  }
+
+  // Product rule: Round Robin requires Draft format.
+  if (data.gameMode === 'round-robin' && data.format !== 'draft') {
+    ctx.addIssue({
+      code:    z.ZodIssueCode.custom,
+      message: 'Round Robin requires Draft format.',
+      path:    ['gameMode'],
+    });
+  }
 
   const modeLabels: Record<string, string> = {
     standard:      'Standard',
@@ -88,27 +109,47 @@ export const createLeagueSchema = createLeagueBaseSchema.superRefine((data, ctx)
   };
   const label = modeLabels[data.gameMode] ?? data.gameMode;
 
-  if (data.maxParticipants < effectiveMin) {
-    const qualifier = isDraft && MIN_DRAFT_PARTICIPANTS > modeMin ? `Draft ${label}` : label;
-    ctx.addIssue({
-      code:      z.ZodIssueCode.too_small,
-      minimum:   effectiveMin,
-      type:      'number',
-      inclusive: true,
-      message:   `${qualifier} leagues require at least ${effectiveMin} participants`,
-      path:      ['maxParticipants'],
-    });
-  }
+  if (data.format === 'draft') {
+    // Draft format: enforce draft-specific participant floor and ceiling.
+    const isDraft = data.rules.draftMode;
+    const modeMin  = MIN_PARTICIPANTS[data.gameMode] ?? 2;
+    const effectiveMin = isDraft ? Math.max(modeMin, MIN_DRAFT_PARTICIPANTS) : modeMin;
 
-  if (isDraft && data.maxParticipants > MAX_DRAFT_PARTICIPANTS) {
-    ctx.addIssue({
-      code:      z.ZodIssueCode.too_big,
-      maximum:   MAX_DRAFT_PARTICIPANTS,
-      type:      'number',
-      inclusive: true,
-      message:   `Draft leagues support a maximum of ${MAX_DRAFT_PARTICIPANTS} participants`,
-      path:      ['maxParticipants'],
-    });
+    if (data.maxParticipants < effectiveMin) {
+      const qualifier = isDraft && MIN_DRAFT_PARTICIPANTS > modeMin ? `Draft ${label}` : label;
+      ctx.addIssue({
+        code:      z.ZodIssueCode.too_small,
+        minimum:   effectiveMin,
+        type:      'number',
+        inclusive: true,
+        message:   `${qualifier} leagues require at least ${effectiveMin} participants`,
+        path:      ['maxParticipants'],
+      });
+    }
+
+    if (data.maxParticipants > MAX_DRAFT_PARTICIPANTS) {
+      ctx.addIssue({
+        code:      z.ZodIssueCode.too_big,
+        maximum:   MAX_DRAFT_PARTICIPANTS,
+        type:      'number',
+        inclusive: true,
+        message:   `Draft leagues support a maximum of ${MAX_DRAFT_PARTICIPANTS} participants`,
+        path:      ['maxParticipants'],
+      });
+    }
+  } else {
+    // Classic format: apply standard mode minimum only.
+    const modeMin = MIN_PARTICIPANTS[data.gameMode] ?? 2;
+    if (data.maxParticipants < modeMin) {
+      ctx.addIssue({
+        code:      z.ZodIssueCode.too_small,
+        minimum:   modeMin,
+        type:      'number',
+        inclusive: true,
+        message:   `${label} leagues require at least ${modeMin} participants`,
+        path:      ['maxParticipants'],
+      });
+    }
   }
 });
 
@@ -144,6 +185,7 @@ export const leagueSchema = z.object({
   name:            z.string(),
   creatorId:       z.string(),
   sportType:       z.string(),
+  format:          z.enum(['classic', 'draft']).default('classic'),
   gameMode:        z.enum(['standard', 'round-robin', 'ranked']),
   season:          z.string(),
   status:          z.enum(['draft', 'active', 'completed']),

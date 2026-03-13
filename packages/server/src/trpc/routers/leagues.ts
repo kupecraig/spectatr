@@ -7,6 +7,7 @@ import {
   createLeagueSchema,
   updateLeagueSchema,
   joinLeagueByCodeSchema,
+  type LeagueRules,
 } from '@spectatr/shared-types';
 
 export const leaguesRouter = router({
@@ -163,6 +164,7 @@ export const leaguesRouter = router({
             creatorId: userId,
             sportType: tournament.name, // derived from tenant's tournament
             gameMode: input.gameMode,
+            format: input.format ?? 'classic',
             season: tournament.season,
             status: 'draft',
             isPublic: input.isPublic,
@@ -186,7 +188,7 @@ export const leaguesRouter = router({
               tenantId,
               userId,
               name: `${userId.slice(0, 8)} Team`, // placeholder name; user can rename
-              budget: 42000000,
+              budget: input.rules?.priceCap ?? 42_000_000,
             },
           },
         },
@@ -246,7 +248,8 @@ export const leaguesRouter = router({
             userId,
             leagueId: league.id,
             name: input.teamName,
-            budget: 42000000,
+            // Derive budget from the league's price cap; fall back to 42M if unlimited.
+            budget: (league.rules as LeagueRules | null)?.priceCap ?? 42_000_000,
           },
         }),
       ]);
@@ -308,12 +311,73 @@ export const leaguesRouter = router({
         });
       }
 
+      // ── Rule lock ───────────────────────────────────────────────────────────
+      // Once a league moves out of draft, only maxParticipants can be changed
+      // (and only increased — we never kick people out).
+      if (league.status !== 'draft') {
+        const { maxParticipants: newMax, ...lockedChanges } = rest;
+        const hasLockedChange =
+          Object.values(lockedChanges).some((v) => v !== undefined) ||
+          rules !== undefined;
+
+        if (hasLockedChange) {
+          throw new TRPCError({
+            code: 'BAD_REQUEST',
+            message: 'League rules are locked once the league is active.',
+          });
+        }
+
+        if (newMax !== undefined && newMax < league.maxParticipants) {
+          throw new TRPCError({
+            code: 'BAD_REQUEST',
+            message: `Cannot reduce max participants below current value (${league.maxParticipants}).`,
+          });
+        }
+      }
+
       return prisma.league.update({
         where: { id },
         data: {
           ...rest,
           ...(rules !== undefined && { rules }),
         },
+      });
+    }),
+
+  /**
+   * Activate a league (draft → active) — creator only.
+   * Once active, rules are locked; only maxParticipants may still be increased.
+   */
+  activate: authedProcedure
+    .input(z.object({ id: z.number() }))
+    .mutation(async ({ ctx, input }) => {
+      const { prisma, userId, tenantId } = ctx;
+
+      const league = await prisma.league.findFirst({
+        where: { id: input.id, tenantId },
+      });
+
+      if (!league) {
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'League not found.' });
+      }
+
+      if (league.creatorId !== userId) {
+        throw new TRPCError({
+          code: 'FORBIDDEN',
+          message: 'Only the league creator can start the league.',
+        });
+      }
+
+      if (league.status !== 'draft') {
+        throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message: `League is already ${league.status}.`,
+        });
+      }
+
+      return prisma.league.update({
+        where: { id: input.id },
+        data: { status: 'active' },
       });
     }),
 

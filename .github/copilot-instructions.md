@@ -233,6 +233,7 @@ All validation uses Zod schemas from `@spectatr/shared-types` package.
 - [MUI Usage Guidelines](copilot-instructions/mui.md)
 - [Backend API Guide](copilot-instructions/backend-api.md) - tRPC patterns, multi-tenancy
 - [Database Migrations Guide](copilot-instructions/database-migrations.md) - migration scripts, RLS decisions, new table checklist
+- [League Rules Reference](copilot-instructions/league-rules.md) - formats, game modes, rules, MVP vs Phase 2 scope, hard constraints
 - [Theme System Documentation](../packages/ui/src/theme/README.md)
 - [Testing & Storybook Guidelines](../packages/ui/TESTING.md)
 - [Project Setup Guide](../docs/SETUP.md)

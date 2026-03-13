@@ -266,6 +266,7 @@ model League {
   creatorId       String
   sportType       String
   gameMode        String   // 'standard', 'round-robin', 'ranked'
+  format          String   @default("classic") // 'classic' | 'draft'
   season          String
   status          String   // 'draft', 'active', 'completed'
   isPublic        Boolean  @default(false)

@@ -209,6 +209,7 @@ export function LeaguesPage() {
                 key={league.id}
                 league={league}
                 onView={() => navigate(`/leagues/${league.id}`)}
+                onSettings={() => navigate(`/leagues/${league.id}/settings`)}
                 onLeave={() => handleLeave(league.id)}
               />
             ))}
@@ -275,7 +276,7 @@ export function LeaguesPage() {
       )}
 
       {/* Dialogs */}
-      <CreateLeagueDialog onSuccess={(id) => navigate(`/leagues/${id}`)} />
+      <CreateLeagueDialog onSuccess={(id) => navigate(`/leagues/${id}/settings`)} />
       <JoinLeagueDialog onSuccess={(id) => navigate(`/leagues/${id}`)} />
     </Container>
       </Box>

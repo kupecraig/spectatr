@@ -9,6 +9,7 @@ export type LeagueDialogMode = 'create' | 'join' | 'edit' | null;
 
 export interface LeagueFormDraft {
   name: string;
+  format: 'classic' | 'draft';
   gameMode: 'standard' | 'round-robin' | 'ranked';
   isPublic: boolean;
   maxParticipants: number;
@@ -77,6 +78,7 @@ export interface LeagueState {
 
 const defaultFormDraft: LeagueFormDraft = {
   name: '',
+  format: 'classic',
   gameMode: 'standard',
   isPublic: false,
   maxParticipants: 10,
