@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { DashboardPage, MyTeamPage, LeaguesPage, LeagueSettingsPage } from '@/pages';
+import { DashboardPage, MyTeamPage, LeaguesPage, LeagueSettingsPage, LeaguePage } from '@/pages';
 import { ProtectedRoute } from '@/components/auth';
 
 function App() {
@@ -32,7 +32,7 @@ function App() {
           path="/leagues/:leagueId"
           element={
             <ProtectedRoute>
-              <LeaguesPage />
+              <LeaguePage />
             </ProtectedRoute>
           }
         />

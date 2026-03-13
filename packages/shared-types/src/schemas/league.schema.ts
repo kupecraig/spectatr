@@ -67,6 +67,7 @@ export const MAX_DRAFT_PARTICIPANTS = 20;
  */
 export const createLeagueBaseSchema = z.object({
   name:            z.string().min(3).max(60),
+  teamName:        z.string().min(1, 'Team name is required').max(50),
   format:          z.enum(['classic', 'draft']).default('classic'),
   gameMode:        z.enum(['standard', 'round-robin', 'ranked']),
   isPublic:        z.boolean().default(false),

@@ -88,6 +88,18 @@ export function CreateLeagueDialog({ onSuccess }: CreateLeagueDialogProps) {
             inputProps={{ maxLength: 60 }}
           />
 
+          {/* Team Name */}
+          <TextField
+            label="Your Team Name"
+            value={formDraft.teamName}
+            onChange={(e) => setFormDraft({ teamName: e.target.value })}
+            error={Boolean(formDraft.teamName && formErrors.teamName)}
+            helperText={formDraft.teamName && formErrors.teamName}
+            required
+            fullWidth
+            inputProps={{ maxLength: 50 }}
+          />
+
           {/* Price Cap */}
           <FormControl fullWidth>
             <InputLabel>Price Cap</InputLabel>

@@ -82,7 +82,7 @@ export function JoinLeagueDialog({ onSuccess }: JoinLeagueDialogProps) {
           <TextField
             label="Invite Code"
             value={joinInviteCode}
-            onChange={(e) => setJoinInviteCode(e.target.value.toUpperCase())}
+            onChange={(e) => setJoinInviteCode(e.target.value)}
             error={Boolean(joinInviteCode && formErrors.inviteCode)}
             helperText={joinInviteCode ? formErrors.inviteCode : undefined}
             required

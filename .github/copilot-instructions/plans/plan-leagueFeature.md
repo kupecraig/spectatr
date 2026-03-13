@@ -400,23 +400,23 @@ export const LEAGUE_CREATE_ERRORS = {
 
 ## Implementation Status
 
-*Last assessed: 2026-02-25. ~65% complete.*
+*Last assessed: 2026-03-14. ~80% complete.*
 
 ### ✅ Done
 
-**Phase 1 — Database:** `UserLeague` model, back-relations on `User` and `League`, `onDelete: Cascade` on `Team → League`, migrations applied.
+**Phase 1 — Database:** `UserLeague` model, back-relations on `User` and `League`, `onDelete: Cascade` on `Team → League`, migrations applied. `format String @default("classic")` column added to `League` (via `plan-leagueRulesConflicts`).
 
-**Phase 2 — Shared-Types:** All schemas implemented — `leagueRulesSchema`, `createLeagueSchema`, `updateLeagueSchema`, `joinLeagueByCodeSchema`, `leagueSchema`, `teamSchema`. Unit tests in `league.schema.test.ts`.
+**Phase 2 — Shared-Types:** All schemas implemented — `leagueRulesSchema` (with `priceCapEnabled` removed; `priceCap: null` = unlimited), `createLeagueSchema` (with `format` field and `superRefine` guards for MVP mode restriction), `updateLeagueSchema`, `joinLeagueByCodeSchema`, `leagueSchema`, `teamSchema`. Unit tests in `league.schema.test.ts`. Completed via `plan-leagueRulesConflicts`.
 
-**Phase 3 — Backend tRPC Router:** All 10 procedures in `leagues.ts`: `list`, `myLeagues`, `getById`, `standings`, `create`, `join`, `leave`, `update`, `activate` (bonus, not in original plan), `delete`. Registered in `_app.ts`.
+**Phase 3 — Backend tRPC Router:** All 10 procedures in `leagues.ts`: `list`, `myLeagues`, `getById`, `standings`, `create`, `join`, `leave`, `update`, `activate`, `delete`. `format` stored on create. Team `budget` derived from `rules.priceCap` (not hardcoded). Registered in `_app.ts`. Completed via `plan-leagueRulesConflicts`.
 
 **Phase 4 — Store:** `leagueStore.ts` with full `LeagueState` interface (create/join/settings dialogs, tab, game mode filter, form draft).
 
 **Phase 5 — TanStack Query Hooks:** All hooks in `useLeaguesQuery.ts` — `useLeagueListQuery`, `useMyLeaguesQuery`, `useLeagueDetailQuery`, `useLeagueStandingsQuery`, `useCreateLeagueMutation`, `useJoinLeagueMutation`, `useUpdateLeagueMutation`, `useLeaveLeagueMutation`, `useActivateLeagueMutation`, `useDeleteLeagueMutation`.
 
-**Phase 6 — Feature Components (partial):** `LeagueCard` + `LeagueCardSkeleton`, `CreateLeagueDialog`, `JoinLeagueDialog`, `MyLeagueListItem` + `MyLeagueListItemSkeleton`.
+**Phase 6 — Feature Components (partial):** `LeagueCard` + `LeagueCardSkeleton`, `CreateLeagueDialog` (draft mode removed, Price Cap + Pricing Model fields added, hardcoded to `format: 'classic'`), `JoinLeagueDialog`, `MyLeagueListItem` + `MyLeagueListItemSkeleton`. Completed via `plan-leagueRulesConflicts`.
 
-**Phase 7 — Pages & Routing (partial):** `LeaguesPage` (browse + my leagues tabs), `LeagueSettingsPage`, routes `/leagues` and `/leagues/:leagueId/settings` in `App.tsx`.
+**Phase 7 — Pages & Routing (partial):** `LeaguesPage` (browse + my leagues tabs), `LeagueSettingsPage` (full Classic rules card: price cap, pricing model, position matching, squad limit, shared pool, transfers, chips; draft card removed; format shown as read-only; rules locked on activation), routes `/leagues` and `/leagues/:leagueId/settings` in `App.tsx`. Completed via `plan-leagueRulesConflicts`.
 
 ---
 
@@ -425,18 +425,18 @@ export const LEAGUE_CREATE_ERRORS = {
 **Phase 6 — Remaining feature components:**
 - `LeagueList` / `LeagueListSkeleton` (responsive grid wrapper with empty state)
 - `StandingsTable` / `StandingsTableSkeleton` (ranked team list)
-- `LeagueSettingsDialog` (edit rules inline on the detail page; creator-only; delete with confirmation)
 - `LeagueInvitePanel` (display + clipboard copy; Snackbar "Copied!" feedback)
+- ~~`LeagueSettingsDialog`~~ — superseded by `LeagueSettingsPage` (dedicated page, not inline dialog)
 
 **Phase 7 — League detail page:**
-- `LeaguePage` at `/leagues/:leagueId` — league header, `LeagueInvitePanel`, `StandingsTable`, settings button (creator only), Leave button. The route currently renders `LeaguesPage` as a placeholder.
+- `LeaguePage` at `/leagues/:leagueId` — league header, `LeagueInvitePanel`, `StandingsTable`, settings link (creator only), Leave button. The route currently renders `LeaguesPage` as a placeholder.
 
 **Phase 8 — Storybook Stories:** None created yet for any league component:
 - `LeagueCard.stories.tsx`
 - `CreateLeagueDialog.stories.tsx`
 - `JoinLeagueDialog.stories.tsx`
-- `LeagueSettingsDialog.stories.tsx`
 - `StandingsTable.stories.tsx`
+- `LeagueSettingsPage.stories.tsx` (replaces `LeagueSettingsDialog.stories.tsx`)
 
 **Phase 9 — Unit Tests:**
 - `leagueStore.test.ts` (dialog state, tab switching, game mode filter)
@@ -446,3 +446,4 @@ export const LEAGUE_CREATE_ERRORS = {
 - Remove any `console.log` statements from new files
 - JSDoc on exported functions and component prop interfaces
 - LEAGUE_CREATE_ERRORS constants in `config/constants.ts` (verify present)
+- Confirm no `priceCapEnabled` references remain (`grep -r priceCapEnabled packages/`)

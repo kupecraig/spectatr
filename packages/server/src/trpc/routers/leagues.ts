@@ -90,7 +90,7 @@ export const leaguesRouter = router({
         where: { id: input.id, tenantId },
         include: {
           members: {
-            include: { user: { select: { id: true, username: true, avatar: true } } },
+            include: { user: { select: { id: true, username: true, firstName: true, lastName: true, email: true, avatar: true } } },
           },
           teams: {
             orderBy: { points: 'desc' },
@@ -120,7 +120,7 @@ export const leaguesRouter = router({
         where: { leagueId: input.id, tenantId },
         orderBy: { points: 'desc' },
         include: {
-          user: { select: { id: true, username: true, avatar: true } },
+          user: { select: { id: true, username: true, firstName: true, lastName: true, email: true, avatar: true } },
         },
       });
 
@@ -187,7 +187,7 @@ export const leaguesRouter = router({
             create: {
               tenantId,
               userId,
-              name: `${userId.slice(0, 8)} Team`, // placeholder name; user can rename
+              name: input.teamName,
               budget: input.rules?.priceCap ?? 42_000_000,
             },
           },

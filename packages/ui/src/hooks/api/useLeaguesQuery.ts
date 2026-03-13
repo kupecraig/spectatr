@@ -35,7 +35,7 @@ export interface LeagueMember {
   leagueId: number;
   role: string;
   joinedAt: string;
-  user: { id: string; username: string | null; avatar: string | null };
+  user: { id: string; username: string | null; firstName: string | null; lastName: string | null; email: string; avatar: string | null };
 }
 
 export interface LeagueDetail extends League {
@@ -46,7 +46,7 @@ export interface LeagueDetail extends League {
 
 export interface LeagueStanding extends Team {
   rank: number;
-  user: { id: string; username: string | null; avatar: string | null };
+  user: { id: string; username: string | null; firstName: string | null; lastName: string | null; email: string; avatar: string | null };
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

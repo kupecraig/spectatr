@@ -19,6 +19,8 @@ model User {
   clerkUserId   String    @unique  // Clerk user ID (user_xxx)
   email         String    @unique
   username      String?   @unique
+  firstName     String?
+  lastName      String?
   avatar        String?
   emailVerified DateTime?
   createdAt     DateTime  @default(now())
