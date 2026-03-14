@@ -132,6 +132,7 @@ describe('leagueRulesSchema', () => {
 describe('createLeagueSchema', () => {
   const valid = () => ({
     name: 'Office League',
+    teamName: 'My Team',
     gameMode: 'standard' as const,
     startDate: '2026-03-01T00:00:00.000Z',
   });
