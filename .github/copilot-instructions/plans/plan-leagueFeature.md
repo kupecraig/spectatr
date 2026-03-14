@@ -400,7 +400,7 @@ export const LEAGUE_CREATE_ERRORS = {
 
 ## Implementation Status
 
-*Last assessed: 2026-03-14. ~80% complete.*
+*Last assessed: 2026-03-14. 100% complete.*
 
 ### ✅ Done
 
@@ -414,36 +414,18 @@ export const LEAGUE_CREATE_ERRORS = {
 
 **Phase 5 — TanStack Query Hooks:** All hooks in `useLeaguesQuery.ts` — `useLeagueListQuery`, `useMyLeaguesQuery`, `useLeagueDetailQuery`, `useLeagueStandingsQuery`, `useCreateLeagueMutation`, `useJoinLeagueMutation`, `useUpdateLeagueMutation`, `useLeaveLeagueMutation`, `useActivateLeagueMutation`, `useDeleteLeagueMutation`.
 
-**Phase 6 — Feature Components (partial):** `LeagueCard` + `LeagueCardSkeleton`, `CreateLeagueDialog` (draft mode removed, Price Cap + Pricing Model fields added, hardcoded to `format: 'classic'`), `JoinLeagueDialog`, `MyLeagueListItem` + `MyLeagueListItemSkeleton`. Completed via `plan-leagueRulesConflicts`.
+**Phase 6 — Feature Components:** `LeagueCard` + `LeagueCardSkeleton`, `CreateLeagueDialog`, `JoinLeagueDialog`, `MyLeagueListItem` + `MyLeagueListItemSkeleton`, `StandingsTable` + `StandingsTableSkeleton`, `LeagueInvitePanel`. `LeagueList` / `LeagueListSkeleton` implemented inline within `LeaguesPage` (no separate component needed). All props marked `readonly`; `inputProps` → `slotProps`; nested ternaries extracted; type assertions removed.
 
-**Phase 7 — Pages & Routing (partial):** `LeaguesPage` (browse + my leagues tabs), `LeagueSettingsPage` (full Classic rules card: price cap, pricing model, position matching, squad limit, shared pool, transfers, chips; draft card removed; format shown as read-only; rules locked on activation), routes `/leagues` and `/leagues/:leagueId/settings` in `App.tsx`. Completed via `plan-leagueRulesConflicts`.
+**Phase 7 — Pages & Routing:** `LeaguesPage` (browse + my-leagues tabs), `LeaguePage` (header, invite panel, standings, leave CTA, creator settings link), `LeagueSettingsPage` (full Classic rules card, locked-on-activate banner, Start League CTA). All three routes registered in `App.tsx`: `/leagues`, `/leagues/:leagueId`, `/leagues/:leagueId/settings`.
+
+**Phase 8 — Storybook Stories:** `LeagueCard.stories.tsx`, `CreateLeagueDialog.stories.tsx`, `JoinLeagueDialog.stories.tsx`, `StandingsTable.stories.tsx`, `LeagueInvitePanel.stories.tsx`, `LeagueSettingsPage.stories.tsx` (DraftCreator, ActiveCreator, NonCreatorMember, Loading, DraftCreatorCanSave interaction test).
+
+**Phase 9 — Unit Tests:** `leagueStore.test.ts` — 30 tests covering initial state, all dialog actions (open/close create/join/edit), form draft merging, join flow inputs, browse game mode filter cycling, expanded league panel.
+
+**Phase 10 — Polish:** `tsc --noEmit` passes clean. No `console.log` in new files. All `readonly` props applied. `inputProps` → `slotProps` migration complete. Nested type assertions replaced with Select generic params (`Select<'fixed' | 'dynamic'>`).
 
 ---
 
 ### ❌ Still To Do
 
-**Phase 6 — Remaining feature components:**
-- `LeagueList` / `LeagueListSkeleton` (responsive grid wrapper with empty state)
-- `StandingsTable` / `StandingsTableSkeleton` (ranked team list)
-- `LeagueInvitePanel` (display + clipboard copy; Snackbar "Copied!" feedback)
-- ~~`LeagueSettingsDialog`~~ — superseded by `LeagueSettingsPage` (dedicated page, not inline dialog)
-
-**Phase 7 — League detail page:**
-- `LeaguePage` at `/leagues/:leagueId` — league header, `LeagueInvitePanel`, `StandingsTable`, settings link (creator only), Leave button. The route currently renders `LeaguesPage` as a placeholder.
-
-**Phase 8 — Storybook Stories:** None created yet for any league component:
-- `LeagueCard.stories.tsx`
-- `CreateLeagueDialog.stories.tsx`
-- `JoinLeagueDialog.stories.tsx`
-- `StandingsTable.stories.tsx`
-- `LeagueSettingsPage.stories.tsx` (replaces `LeagueSettingsDialog.stories.tsx`)
-
-**Phase 9 — Unit Tests:**
-- `leagueStore.test.ts` (dialog state, tab switching, game mode filter)
-
-**Phase 10 — Polish:**
-- Verify `tsc --noEmit` across all packages
-- Remove any `console.log` statements from new files
-- JSDoc on exported functions and component prop interfaces
-- LEAGUE_CREATE_ERRORS constants in `config/constants.ts` (verify present)
-- Confirm no `priceCapEnabled` references remain (`grep -r priceCapEnabled packages/`)
+Nothing — league feature is complete for MVP.

@@ -27,7 +27,7 @@ import { createLeagueSchema, MIN_PARTICIPANTS } from '@spectatr/shared-types';
 
 interface CreateLeagueDialogProps {
   /** Called after a successful create */
-  onSuccess?: (leagueId: number) => void;
+  readonly onSuccess?: (leagueId: number) => void;
 }
 
 export function CreateLeagueDialog({ onSuccess }: CreateLeagueDialogProps) {
@@ -56,8 +56,9 @@ export function CreateLeagueDialog({ onSuccess }: CreateLeagueDialogProps) {
     }
   };
 
-  const serverError =
-    mutation.error instanceof Error ? mutation.error.message : mutation.error ? String(mutation.error) : null;
+  let serverError: string | null = null;
+  if (mutation.error instanceof Error) serverError = mutation.error.message;
+  else if (mutation.error) serverError = String(mutation.error);
 
   return (
     <Dialog open={open} onClose={closeDialog} maxWidth="sm" fullWidth>
@@ -85,7 +86,7 @@ export function CreateLeagueDialog({ onSuccess }: CreateLeagueDialogProps) {
             helperText={formDraft.name && formErrors.name}
             required
             fullWidth
-            inputProps={{ maxLength: 60 }}
+            slotProps={{ htmlInput: { maxLength: 60 } }}
           />
 
           {/* Team Name */}
@@ -97,7 +98,7 @@ export function CreateLeagueDialog({ onSuccess }: CreateLeagueDialogProps) {
             helperText={formDraft.teamName && formErrors.teamName}
             required
             fullWidth
-            inputProps={{ maxLength: 50 }}
+            slotProps={{ htmlInput: { maxLength: 50 } }}
           />
 
           {/* Price Cap */}
@@ -121,11 +122,11 @@ export function CreateLeagueDialog({ onSuccess }: CreateLeagueDialogProps) {
           {/* Player Pricing */}
           <FormControl fullWidth>
             <InputLabel>Player Pricing</InputLabel>
-            <Select
+            <Select<'fixed' | 'dynamic'>
               label="Player Pricing"
               value={formDraft.rules?.pricingModel ?? 'fixed'}
               onChange={(e) =>
-                setFormDraft({ rules: { ...formDraft.rules, pricingModel: e.target.value as ('fixed' | 'dynamic') } })
+                setFormDraft({ rules: { ...formDraft.rules, pricingModel: e.target.value } })
               }
             >
               <MenuItem value="fixed">Fixed — prices set at season start</MenuItem>

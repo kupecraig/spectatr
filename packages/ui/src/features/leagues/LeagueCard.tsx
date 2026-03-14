@@ -10,11 +10,11 @@ import type { LeagueWithCount } from '@/hooks/api/useLeaguesQuery';
 // ─────────────────────────────────────────────────────────────────────────────
 
 interface LeagueCardProps {
-  league: LeagueWithCount;
+  readonly league: LeagueWithCount;
   /** Whether the user is already a member */
-  isMember?: boolean;
-  onJoin?: () => void;
-  onView?: () => void;
+  readonly isMember?: boolean;
+  readonly onJoin?: () => void;
+  readonly onView?: () => void;
 }
 
 const GAME_MODE_LABEL: Record<string, string> = {

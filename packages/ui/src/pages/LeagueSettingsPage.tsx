@@ -282,10 +282,10 @@ export function LeagueSettingsPage() {
                 {/* Player Pricing */}
                 <FormControl fullWidth disabled={!canEdit}>
                   <InputLabel>Player Pricing</InputLabel>
-                  <Select
+                  <Select<'fixed' | 'dynamic'>
                     label="Player Pricing"
                     value={rules.pricingModel ?? 'fixed'}
-                    onChange={(e) => patchRules({ pricingModel: e.target.value as 'fixed' | 'dynamic' })}
+                    onChange={(e) => patchRules({ pricingModel: e.target.value })}
                   >
                     <MenuItem value="fixed">Fixed — prices stay constant</MenuItem>
                     <MenuItem value="dynamic">Dynamic — prices change with performance</MenuItem>

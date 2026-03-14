@@ -24,10 +24,10 @@ import type { MyLeague } from '@/hooks/api/useLeaguesQuery';
 // ─────────────────────────────────────────────────────────────────────────────
 
 interface MyLeagueListItemProps {
-  league: MyLeague;
-  onView: () => void;
-  onSettings?: () => void;
-  onLeave?: () => void;
+  readonly league: MyLeague;
+  readonly onView: () => void;
+  readonly onSettings?: () => void;
+  readonly onLeave?: () => void;
 }
 
 const GAME_MODE_LABEL: Record<string, string> = {
