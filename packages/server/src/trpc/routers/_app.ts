@@ -3,6 +3,7 @@ import { playersRouter } from './players.js';
 import { squadsRouter } from './squads.js';
 import { roundsRouter } from './rounds.js';
 import { gameweekRouter } from './gameweek.js';
+import { leaguesRouter } from './leagues.js';
 
 /**
  * Root tRPC router
@@ -13,6 +14,7 @@ export const appRouter = router({
   squads: squadsRouter,
   rounds: roundsRouter,
   gameweek: gameweekRouter,
+  leagues: leaguesRouter,
 });
 
 export type AppRouter = typeof appRouter;

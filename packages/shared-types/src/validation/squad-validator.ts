@@ -50,9 +50,9 @@ export function validateSquad(
     }
   }
 
-  // Validate budget (if league rules provided and price cap enabled)
+  // Validate budget — cap is active when priceCap is a positive number (null = unlimited)
   const totalCost = players.reduce((sum, player) => sum + player.cost, 0);
-  if (leagueRules?.priceCapEnabled && leagueRules.priceCap !== null && totalCost > leagueRules.priceCap) {
+  if (leagueRules?.priceCap != null && totalCost > leagueRules.priceCap) {
     errors.push(
       `Budget exceeded: ${(totalCost / 1_000_000).toFixed(1)}M, maximum allowed: ${(leagueRules.priceCap / 1_000_000).toFixed(0)}M`
     );

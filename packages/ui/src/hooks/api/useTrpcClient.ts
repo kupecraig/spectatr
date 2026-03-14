@@ -14,8 +14,8 @@ export function useTrpcClient() {
   const { getToken } = useAuth();
 
   const authenticatedFetch = useCallback(
-    async <T>(path: string, input?: Record<string, unknown>): Promise<T> => {
-      return fetchTrpc<T>(path, input, getToken);
+    async <T>(path: string, input?: Record<string, unknown>, method: 'GET' | 'POST' = 'GET'): Promise<T> => {
+      return fetchTrpc<T>(path, input, getToken, method);
     },
     [getToken]
   );

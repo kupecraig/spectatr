@@ -9,8 +9,7 @@ description: Start executing a plan in a user friendly way
 First, identify which plan file to execute. Plan files are located in `.github/copilot-instructions/plans/` directory. If the user hasn't specified a plan, list available plans and ask which one to execute.
 
 Available plan locations:
-- `.github/copilot-instructions/plans/plan-*.md`
-- `.github/copilot-instructions/plans/plan-*.prompt.md`
+- `.github/copilot-instructions/plans/archive/plan-*.md`
 
 ## Step 2: Read and Parse the Plan
 Read the specified plan file completely to understand:
@@ -28,7 +27,7 @@ For each task:
 2. Execute the task following project guidelines (MUI-only, theme system, Zod validation, etc.)
 3. Verify the task completion (run tests, check for errors, validate output)
 4. Mark the task as "completed" using `manage_todo_list`
-5. **Ask the user if they want to continue to the next task or stop**
+5. You MUST - **Ask the user if they want to continue to the next task or stop**
 
 ## Step 5: Progress Tracking
 - Update todo list status after each task completion

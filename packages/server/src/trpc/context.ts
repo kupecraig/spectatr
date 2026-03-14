@@ -34,18 +34,21 @@ function createTenantScopedPrisma(tenantId: string) {
         async $allOperations({ model, operation, args, query }) {
           // ── Layer 2: inject tenantId into Prisma where/create/update ──
           if (model && TENANT_SCOPED_MODELS.has(model.toLowerCase())) {
+            // Cast to any: the union of all model args is too wide for TypeScript to
+            // narrow here, but the runtime TENANT_SCOPED_MODELS guard ensures safety.
+            const a = args as any;
             if (['findMany', 'findFirst', 'findUnique', 'count', 'aggregate', 'groupBy'].includes(operation)) {
-              args.where = { ...args.where, tenantId };
+              a.where = { ...a.where, tenantId };
             }
             if (operation === 'create') {
-              args.data = { ...args.data, tenantId };
+              a.data = { ...a.data, tenantId };
             }
             if (operation === 'createMany') {
-              const records = Array.isArray(args.data) ? args.data : [args.data];
-              args.data = records.map((r: Record<string, unknown>) => ({ ...r, tenantId }));
+              const records = Array.isArray(a.data) ? a.data : [a.data];
+              a.data = records.map((r: Record<string, unknown>) => ({ ...r, tenantId }));
             }
             if (['update', 'updateMany', 'delete', 'deleteMany'].includes(operation)) {
-              args.where = { ...args.where, tenantId };
+              a.where = { ...a.where, tenantId };
             }
           }
 

@@ -79,7 +79,7 @@ describe('validateSquad', () => {
   
   it('should reject over-budget squad', () => {
     const expensiveSquad = createValidSquadFromConfig(10000000);
-    const leagueRules = { priceCap: 42000000, priceCapEnabled: true };
+    const leagueRules = { priceCap: 42000000 }; // non-null priceCap activates the cap
     
     const result = validateSquad(expensiveSquad, sportSquadConfig, leagueRules);
     
