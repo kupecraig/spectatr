@@ -188,7 +188,6 @@ export interface LeagueRules {
     name: string;
     draftMode: boolean;
     pricingModel: 'fixed' | 'dynamic';
-    priceCapEnabled: boolean;
     priceCap: number | null;
     positionMatching: boolean;
     squadLimitPerTeam: number | null;

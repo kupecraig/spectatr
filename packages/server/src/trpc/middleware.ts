@@ -109,6 +109,8 @@ export const authMiddleware = middleware(async ({ ctx, next }) => {
       update: {
         email: clerkUser.primaryEmailAddress?.emailAddress ?? '',
         username: clerkUser.username ?? null,
+        firstName: clerkUser.firstName ?? null,
+        lastName: clerkUser.lastName ?? null,
         avatar: clerkUser.imageUrl ?? null,
         emailVerified: clerkUser.emailAddresses[0]?.verification?.status === 'verified'
           ? new Date()
@@ -118,6 +120,8 @@ export const authMiddleware = middleware(async ({ ctx, next }) => {
         clerkUserId: ctx.clerkUserId,
         email: clerkUser.primaryEmailAddress?.emailAddress ?? '',
         username: clerkUser.username ?? null,
+        firstName: clerkUser.firstName ?? null,
+        lastName: clerkUser.lastName ?? null,
         avatar: clerkUser.imageUrl ?? null,
         emailVerified: clerkUser.emailAddresses[0]?.verification?.status === 'verified'
           ? new Date()

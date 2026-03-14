@@ -44,7 +44,7 @@ jobs:
       
       - name: Run frontend unit tests
         run: npm run test:unit
-        working-directory: packages/frontend
+        working-directory: packages/ui
       
       - name: Generate coverage report
         run: npm run test:coverage
@@ -77,18 +77,18 @@ jobs:
       
       - name: Install Playwright
         run: npx playwright install --with-deps chromium
-        working-directory: packages/frontend
+        working-directory: packages/ui
       
       - name: Run Storybook tests
         run: npm run test-storybook:ci
-        working-directory: packages/frontend
+        working-directory: packages/ui
       
       - name: Upload test results
         if: failure()
         uses: actions/upload-artifact@v3
         with:
           name: storybook-test-results
-          path: packages/frontend/playwright-report
+          path: packages/ui/playwright-report
 
   # Build check (optional)
   build:
@@ -114,4 +114,4 @@ jobs:
       
       - name: Build frontend
         run: npm run build
-        working-directory: packages/frontend
+        working-directory: packages/ui

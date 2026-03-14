@@ -11,22 +11,16 @@ describe('validateSquad', () => {
   
   // Helper to create minimal LeagueRules for testing
   const createTestLeagueRules = (overrides: Partial<LeagueRules> = {}): LeagueRules => ({
-    id: 1,
-    leagueId: 1,
-    name: 'Test League Rules',
     draftMode: false,
     pricingModel: 'fixed',
-    priceCapEnabled: false,
     priceCap: null,
     positionMatching: false,
     squadLimitPerTeam: null,
     sharedPool: false,
-    transfersPerRound: 1,
+    transfersPerRound: 3,
     wildcardRounds: [],
     tripleCaptainRounds: [],
     benchBoostRounds: [],
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
     ...overrides,
   });
   
@@ -93,7 +87,6 @@ describe('validateSquad', () => {
       const expensiveSquad = createValidSquadFromConfig(10000000); // 10M each = 150M total
 
       const leagueRules = createTestLeagueRules({
-        priceCapEnabled: true,
         priceCap: 42000000, // 42M cap
       });
 
@@ -107,7 +100,6 @@ describe('validateSquad', () => {
       const affordableSquad = createValidSquadFromConfig(2000000); // 2M each = 30M total
 
       const leagueRules = createTestLeagueRules({
-        priceCapEnabled: true,
         priceCap: 42000000,
       });
 
@@ -123,7 +115,6 @@ describe('validateSquad', () => {
       const exactBudgetSquad = createValidSquadFromConfig(costPerPlayer);
 
       const leagueRules = createTestLeagueRules({
-        priceCapEnabled: true,
         priceCap: budgetCap,
       });
 
