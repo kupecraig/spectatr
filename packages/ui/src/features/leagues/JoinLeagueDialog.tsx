@@ -21,7 +21,7 @@ import { joinLeagueByCodeSchema } from '@spectatr/shared-types';
 
 interface JoinLeagueDialogProps {
   /** Called after a successful join with the joined league ID */
-  onSuccess?: (leagueId: number) => void;
+  readonly onSuccess?: (leagueId: number) => void;
 }
 
 export function JoinLeagueDialog({ onSuccess }: JoinLeagueDialogProps) {
@@ -54,8 +54,9 @@ export function JoinLeagueDialog({ onSuccess }: JoinLeagueDialogProps) {
     }
   };
 
-  const serverError =
-    mutation.error instanceof Error ? mutation.error.message : mutation.error ? String(mutation.error) : null;
+  let serverError: string | null = null;
+  if (mutation.error instanceof Error) serverError = mutation.error.message;
+  else if (mutation.error) serverError = String(mutation.error);
 
   return (
     <Dialog open={open} onClose={closeDialog} maxWidth="xs" fullWidth>
@@ -87,7 +88,7 @@ export function JoinLeagueDialog({ onSuccess }: JoinLeagueDialogProps) {
             helperText={joinInviteCode ? formErrors.inviteCode : undefined}
             required
             fullWidth
-            inputProps={{ maxLength: 8, style: { letterSpacing: '0.25em', fontFamily: 'monospace' } }}
+            slotProps={{ htmlInput: { maxLength: 8, style: { letterSpacing: '0.25em', fontFamily: 'monospace' } } }}
             placeholder="ABCD1234"
           />
 
@@ -100,7 +101,7 @@ export function JoinLeagueDialog({ onSuccess }: JoinLeagueDialogProps) {
             helperText={joinTeamName ? formErrors.teamName : undefined}
             required
             fullWidth
-            inputProps={{ maxLength: 50 }}
+            slotProps={{ htmlInput: { maxLength: 50 } }}
           />
         </Stack>
       </DialogContent>

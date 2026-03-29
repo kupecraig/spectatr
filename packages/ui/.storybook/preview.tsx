@@ -2,19 +2,29 @@ import type { Preview } from '@storybook/react-vite';
 import type { Decorator } from '@storybook/react';
 import React from 'react';
 import { ThemeProvider, CssBaseline } from '@mui/material';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { ClerkProvider } from '@clerk/clerk-react';
 import { themes } from '../src/theme';
+import { storyQueryClient } from '../src/test/storyQueryClient';
 
-// Decorators wrap all stories with MUI ThemeProvider
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const clerkPubKey = (import.meta as any).env?.VITE_CLERK_PUBLISHABLE_KEY as string;
+
+// Decorators wrap all stories with MUI ThemeProvider + React Query + Clerk
 export const decorators: Decorator[] = [
   (Story, context) => {
     const themeName = context.globals.theme || 'rugby';
     const theme = themes[themeName];
-    
+
     return (
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Story />
-      </ThemeProvider>
+      <ClerkProvider publishableKey={clerkPubKey}>
+        <QueryClientProvider client={storyQueryClient}>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <Story />
+          </ThemeProvider>
+        </QueryClientProvider>
+      </ClerkProvider>
     );
   },
 ];

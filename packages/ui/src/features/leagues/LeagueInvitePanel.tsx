@@ -3,7 +3,7 @@ import { Box, Button, Snackbar, TextField, Typography } from '@mui/material';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
 interface LeagueInvitePanelProps {
-  inviteCode: string;
+  readonly inviteCode: string;
 }
 
 export function LeagueInvitePanel({ inviteCode }: LeagueInvitePanelProps) {

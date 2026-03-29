@@ -10,8 +10,6 @@ End-to-end plan for completing the league rules feature set for MVP. Product dec
 
 **MVP scope:** Classic format only, Standard game mode only. Draft, Round Robin, and Ranked are Phase 2.
 
-Jira: FSA-TODO
-
 ---
 
 ## Current State Assessment

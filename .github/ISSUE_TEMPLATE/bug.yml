@@ -1,0 +1,109 @@
+name: Bug Report
+description: Something is broken
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Fill in all sections. The agent needs enough context to reproduce and fix the bug without asking questions.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What is broken?
+      description: Clear description of the bug and its impact.
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to Reproduce
+      placeholder: |
+        1. Go to ...
+        2. Click ...
+        3. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behaviour
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behaviour
+    validations:
+      required: true
+
+  - type: textarea
+    id: root-cause
+    attributes:
+      label: Root Cause (if known)
+      description: If you've already diagnosed the problem, describe it here. Saves the agent from investigating what you already know.
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Affected Area
+      options:
+        - UI only (packages/ui)
+        - Backend / tRPC only (packages/server)
+        - Shared Types / Validation only (packages/shared-types)
+        - UI + Backend
+    validations:
+      required: true
+
+  - type: textarea
+    id: files
+    attributes:
+      label: Relevant Files
+      description: Files likely involved in the bug.
+      placeholder: |
+        - packages/ui/src/features/leagues/LeagueCard.tsx
+        - packages/server/src/trpc/routers/leagues.ts
+
+  - type: dropdown
+    id: db-migration
+    attributes:
+      label: Requires DB Migration?
+      options:
+        - "No"
+        - "Yes — standard migration (db:migrate)"
+        - "Yes — touches RLS or Postgres grants (db:migrate:superuser, human must run)"
+    validations:
+      required: true
+
+  - type: textarea
+    id: regression-test
+    attributes:
+      label: Regression Test Required
+      description: What test should be added to prevent this bug from returning? Be specific about what to assert.
+      placeholder: |
+        - Unit test: createLeagueSchema rejects teamName longer than 50 chars
+        - No regression test needed (UI-only visual bug)
+    validations:
+      required: true
+
+  - type: textarea
+    id: docs
+    attributes:
+      label: Documentation to Update
+      description: |
+        Only if the bug reveals a gap or error in project documentation.
+        Key docs: PRODUCT.md, ARCHITECTURE.md, CONTRIBUTING.md, copilot-instructions/*.md
+      placeholder: |
+        - No documentation changes required
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Additional Notes
+      description: Error messages, screenshots, console output, related issues.
+      placeholder: |
+        - Related: #7
+        - Console error: TypeError: Cannot read properties of undefined...
