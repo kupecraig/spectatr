@@ -9,8 +9,10 @@ import {
 } from '@mui/material';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
+import LockIcon from '@mui/icons-material/Lock';
 import { Player, getPositionDisplayName } from '@/mocks/playerData';
 import { useMyTeamStore } from '@/stores';
+import { PlayerStatusIcon } from './PlayerStatusIcon';
 
 interface PlayerListItemProps {
   player: Player;
@@ -74,7 +76,7 @@ export const PlayerListItem: FC<PlayerListItemProps> = ({
           <Typography variant="body1" fontWeight="bold">
             {player.firstName[0]}. {player.lastName.toUpperCase()}
           </Typography>
-          <Box sx={{ display: 'flex', gap: 0.5 }}>
+          <Box sx={{ display: 'flex', gap: 0.5, alignItems: 'center' }}>
             <Chip
               label={getPositionDisplayName(player.position).toUpperCase()}
               size="small"
@@ -96,6 +98,10 @@ export const PlayerListItem: FC<PlayerListItemProps> = ({
                 height: 20,
               }}
             />
+            <PlayerStatusIcon status={player.status} />
+            {player.isLocked && (
+              <LockIcon fontSize="small" sx={{ color: 'text.secondary' }} />
+            )}
           </Box>
         </Box>
 

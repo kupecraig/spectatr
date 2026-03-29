@@ -1,11 +1,12 @@
 import { z } from 'zod';
 import { router } from '../index.js';
 import { protectedProcedure } from '../procedures.js';
+import { playerStatusSchema } from '@spectatr/shared-types';
 
 export const playersRouter = router({
   /**
    * List players with filtering
-   * Tenant-scoped, supports position, squad, price range, search
+   * Tenant-scoped, supports position, squad, price range, search, statuses
    */
   list: protectedProcedure
     .input(
@@ -15,13 +16,14 @@ export const playersRouter = router({
         minCost: z.number().optional(),
         maxCost: z.number().optional(),
         search: z.string().optional(),
+        statuses: z.array(playerStatusSchema).optional(),
         limit: z.number().min(1).max(100).default(50),
         offset: z.number().min(0).default(0),
       })
     )
     .query(async ({ ctx, input }) => {
       const { prisma } = ctx;
-      const { position, squadId, minCost, maxCost, search, limit, offset } = input;
+      const { position, squadId, minCost, maxCost, search, statuses, limit, offset } = input;
 
       // Build where clause - tenantId automatically injected by Prisma middleware
       const where: any = {};
@@ -45,6 +47,10 @@ export const playersRouter = router({
           { firstName: { contains: search, mode: 'insensitive' } },
           { lastName: { contains: search, mode: 'insensitive' } },
         ];
+      }
+
+      if (statuses?.length) {
+        where.status = { in: statuses };
       }
 
       // Fetch players and total count

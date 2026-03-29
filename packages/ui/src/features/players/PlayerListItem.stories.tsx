@@ -86,29 +86,81 @@ export const PlayerStatuses = {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
         <div>
-          <h4 style={{ margin: '0 0 8px 0' }}>Uncertain</h4>
+          <h4 style={{ margin: '0 0 8px 0' }}>Available (no icon)</h4>
+          <PlayerListItem
+            player={{ ...player, status: 'available' }}
+            isDisabled={false}
+          />
+        </div>
+        <div>
+          <h4 style={{ margin: '0 0 8px 0' }}>Selected (no icon)</h4>
+          <PlayerListItem
+            player={{ ...player, status: 'selected' }}
+            isDisabled={false}
+          />
+        </div>
+        <div>
+          <h4 style={{ margin: '0 0 8px 0' }}>Not Selected (no icon)</h4>
+          <PlayerListItem
+            player={{ ...player, status: 'not-selected' }}
+            isDisabled={false}
+          />
+        </div>
+        <div>
+          <h4 style={{ margin: '0 0 8px 0' }}>Uncertain (amber HelpOutline icon)</h4>
           <PlayerListItem
             player={{ ...player, status: 'uncertain' }}
             isDisabled={false}
           />
         </div>
         <div>
-          <h4 style={{ margin: '0 0 8px 0' }}>Injured (Disabled)</h4>
+          <h4 style={{ margin: '0 0 8px 0' }}>Injured (red Healing icon)</h4>
           <PlayerListItem
             player={{ ...player, status: 'injured' }}
-            isDisabled={true}
-            validationError="Player injured"
+            isDisabled={false}
           />
         </div>
         <div>
-          <h4 style={{ margin: '0 0 8px 0' }}>Locked</h4>
+          <h4 style={{ margin: '0 0 8px 0' }}>Eliminated (disabled Block icon)</h4>
           <PlayerListItem
-            player={{ ...player, isLocked: true }}
-            isDisabled={true}
-            validationError="Player locked for gameweek"
+            player={{ ...player, status: 'eliminated' }}
+            isDisabled={false}
+          />
+        </div>
+        <div>
+          <h4 style={{ margin: '0 0 8px 0' }}>Benched (secondary EventSeat icon)</h4>
+          <PlayerListItem
+            player={{ ...player, status: 'benched' }}
+            isDisabled={false}
           />
         </div>
       </div>
+    );
+  },
+};
+
+// Locked player
+export const LockedPlayer = {
+  render: () => {
+    const player = players[0];
+    return (
+      <PlayerListItem
+        player={{ ...player, isLocked: true, status: 'available' }}
+        isDisabled={false}
+      />
+    );
+  },
+};
+
+// Locked and injured player (both icons visible simultaneously)
+export const LockedAndInjured = {
+  render: () => {
+    const player = players[0];
+    return (
+      <PlayerListItem
+        player={{ ...player, isLocked: true, status: 'injured' }}
+        isDisabled={false}
+      />
     );
   },
 };

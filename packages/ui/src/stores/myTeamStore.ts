@@ -5,6 +5,7 @@ import { getMaxPlayerCost } from '../mocks/playerData';
 import { VALIDATION, STORAGE_KEYS } from '../config/constants';
 import { getPositionsByType, getAllPositions } from '../config/fieldLayouts';
 import { getActiveTenantId } from '../utils/tenant';
+import type { PlayerStatus } from '@spectatr/shared-types';
 
 // Calculate max price from actual player data
 const MAX_PLAYER_PRICE = Math.ceil(getMaxPlayerCost() / 1_000_000);
@@ -19,6 +20,7 @@ export interface PlayerFilters {
   minPrice: number;
   maxPrice: number;
   withinBudget: boolean;
+  statuses: PlayerStatus[];
 }
 
 export interface MyTeamState {
@@ -62,6 +64,7 @@ const defaultFilters: PlayerFilters = {
   minPrice: VALIDATION.MIN_PRICE,
   maxPrice: MAX_PLAYER_PRICE,
   withinBudget: false,
+  statuses: [],
 };
 
 /**

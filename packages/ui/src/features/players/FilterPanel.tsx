@@ -16,13 +16,15 @@ import {
   Box,
   Typography,
   InputAdornment,
+  ListItemText,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import SearchIcon from '@mui/icons-material/Search';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { useMyTeamStore } from '@/stores';
 import { VALIDATION } from '@/config/constants';
-import { sportSquadConfig } from '@spectatr/shared-types';
+import { sportSquadConfig, playerStatusSchema } from '@spectatr/shared-types';
+import type { PlayerStatus } from '@spectatr/shared-types';
 
 interface FilterPanelProps {
   squadNames: string[];
@@ -44,6 +46,7 @@ export const FilterPanel: FC<FilterPanelProps> = ({ squadNames, maxPlayerPrice }
     filters.squad,
     isPriceFilterActive,
     filters.withinBudget,
+    filters.statuses.length > 0,
   ].filter(Boolean).length;
 
   // Get position options from sport config (sport-agnostic)
@@ -163,6 +166,30 @@ export const FilterPanel: FC<FilterPanelProps> = ({ squadNames, maxPlayerPrice }
             }
             label="Within my budget"
           />
+
+          {/* Status multi-select */}
+          <FormControl fullWidth size="small">
+            <InputLabel id="status-filter-label">Status</InputLabel>
+            <Select
+              labelId="status-filter-label"
+              id="status-filter"
+              multiple
+              value={filters.statuses}
+              label="Status"
+              onChange={(e) => setFilters({ statuses: e.target.value as PlayerStatus[] })}
+              renderValue={(selected) =>
+                selected.length === 0 ? 'All statuses' : selected.join(', ')
+              }
+              displayEmpty
+            >
+              {playerStatusSchema.options.map((s) => (
+                <MenuItem key={s} value={s}>
+                  <Checkbox checked={filters.statuses.includes(s)} size="small" />
+                  <ListItemText primary={s} />
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
 
           {/* Clear filters button */}
           <Button
