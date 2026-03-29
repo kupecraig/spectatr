@@ -55,6 +55,16 @@ export const FilterPanel: FC<FilterPanelProps> = ({ squadNames, maxPlayerPrice }
     label: config.label,
   }));
 
+const STATUS_LABELS: Record<string, string> = {
+  available: 'Available',
+  selected: 'Selected',
+  'not-selected': 'Not Selected',
+  uncertain: 'Uncertain',
+  injured: 'Injured',
+  eliminated: 'Eliminated',
+  benched: 'Benched',
+};
+
   return (
     <Accordion 
       expanded={filtersExpanded} 
@@ -178,14 +188,14 @@ export const FilterPanel: FC<FilterPanelProps> = ({ squadNames, maxPlayerPrice }
               label="Status"
               onChange={(e) => setFilters({ statuses: e.target.value as PlayerStatus[] })}
               renderValue={(selected) =>
-                selected.length === 0 ? 'All statuses' : selected.join(', ')
+                selected.length === 0 ? 'All statuses' : selected.map((s) => STATUS_LABELS[s] ?? s).join(', ')
               }
               displayEmpty
             >
               {playerStatusSchema.options.map((s) => (
                 <MenuItem key={s} value={s}>
                   <Checkbox checked={filters.statuses.includes(s)} size="small" />
-                  <ListItemText primary={s} />
+                  <ListItemText primary={STATUS_LABELS[s] ?? s} />
                 </MenuItem>
               ))}
             </Select>
