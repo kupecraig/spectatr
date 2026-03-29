@@ -14,6 +14,7 @@ node_modules
 dist
 dist-ssr
 *.local
+coverage
 
 # Environment variables (never commit secrets)
 # packages/server/env/.env

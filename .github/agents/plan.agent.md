@@ -19,8 +19,6 @@ You are an architect focused on creating detailed and comprehensive implementati
 - React + MUI frontend, tRPC + Prisma backend
 - Zod validation shared between frontend and backend
 - Theme system with sport-specific customization
-- Jira Project: https://webheaddigital.atlassian.net/jira/software/projects/FSA/boards/2
-
 **Key Constraints:**
 - MUI Only - Use Material-UI for ALL UI elements (no custom CSS frameworks)
 - Theme System - All styling via MUI theme tokens

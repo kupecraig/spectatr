@@ -302,7 +302,7 @@ Break down the implementation into smaller, manageable tasks:
 
 [Any additional notes, considerations, or references:]
 
-- Link to related Jira ticket: FSA-XXX
+- Link to related GitHub issue: #
 - Link to design mockups (if applicable)
 - Link to related features or dependencies
 - Performance considerations

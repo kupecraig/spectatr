@@ -3,8 +3,6 @@
 Full lifecycle — browse, create, join, manage, view standings — wired from DB through tRPC to React UI.
 `UserLeague` join table added for proper many-to-many memberships. `season` is backend-resolved from the tenant's active `Tournament`. Joining atomically creates a `UserLeague` + blank `Team`. All league routes require auth. Rules remain a JSONB blob on `League`.
 
-**Jira Ticket:** FSA-XXX
-
 **UI Reference:** Review the league page screenshot before implementing any UI components — it shows the tab structure ("My Leagues" / "List of Leagues"), the "Create a League" CTA button placement, and the create form layout:
 [`.github/copilot-instructions/docs/team-page-images/create-league-page.png`](../docs/team-page-images/create-league-page.png) - MUST REVIEW BEFORE IMPLEMENTATION
 

@@ -1,0 +1,144 @@
+name: Feature
+description: New feature or enhancement
+labels: ["feature"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Fill in all sections thoroughly. The issue body is the agent's complete spec — it cannot ask questions, so missing context leads to wrong assumptions. Be specific.
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What should be built and why? One short paragraph. Include relevant user context.
+    validations:
+      required: true
+
+  - type: textarea
+    id: out-of-scope
+    attributes:
+      label: Out of Scope
+      description: Explicitly list what should NOT be built. This prevents over-engineering.
+      placeholder: |
+        - Do not add X
+        - Do not change Y
+        - Phase 2 only: Z
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance Criteria
+      description: Testable conditions that must be true when done. Each item maps directly to a test or a manual check.
+      placeholder: |
+        - [ ] User can ...
+        - [ ] Validation shows "..." error when ...
+        - [ ] Component uses MUI Skeleton during loading
+        - [ ] No hardcoded sport-specific values
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Affected Area
+      options:
+        - UI only (packages/ui)
+        - Backend / tRPC only (packages/server)
+        - Shared Types / Validation only (packages/shared-types)
+        - UI + Backend (full stack)
+        - DevOps / CI
+    validations:
+      required: true
+
+  - type: textarea
+    id: files
+    attributes:
+      label: Relevant Files / Components
+      description: Existing files, components, stores, or routers involved. Be specific — the agent will start here.
+      placeholder: |
+        - packages/ui/src/features/leagues/LeagueCard.tsx
+        - packages/server/src/trpc/routers/leagues.ts
+        - packages/shared-types/src/schemas/league.ts
+
+  - type: textarea
+    id: api-changes
+    attributes:
+      label: API Changes
+      description: New or modified tRPC procedures. Include expected input/output shape if known.
+      placeholder: |
+        - New: `leagues.join` — input: { leagueId }, output: { league, team }
+        - Modified: `leagues.list` — add `memberCount` to response
+
+  - type: textarea
+    id: schema-changes
+    attributes:
+      label: Validation / Schema Changes
+      description: New or modified Zod schemas in packages/shared-types. Affects all three packages — be explicit.
+      placeholder: |
+        - Add `teamName` field to `createLeagueSchema` (optional, max 50 chars)
+        - No schema changes required
+
+  - type: dropdown
+    id: db-migration
+    attributes:
+      label: Requires DB Migration?
+      options:
+        - "No"
+        - "Yes — standard migration (db:migrate)"
+        - "Yes — touches RLS or Postgres grants (db:migrate:superuser, human must run)"
+    validations:
+      required: true
+
+  - type: textarea
+    id: db-migration-details
+    attributes:
+      label: DB Migration Details
+      description: If a migration is needed, describe the schema change. The agent creates the migration file; a human reviews and runs it.
+      placeholder: |
+        - Add `teamName VARCHAR(100)` to `League` table
+        - New `LeagueMember` table with FK to User and League
+
+  - type: textarea
+    id: testing
+    attributes:
+      label: Testing Requirements
+      description: What tests are expected. Be specific — name the units, stores, or user flows to cover.
+      placeholder: |
+        Unit tests:
+        - Zod schema validation for createLeagueSchema (valid, missing required field, name too long)
+        - Store action: joinLeague — success and error cases
+
+        Storybook stories (real UI components only):
+        - LeagueCard: default, loading skeleton, empty state
+        - JoinLeagueDialog: open, submitting, error
+    validations:
+      required: true
+
+  - type: textarea
+    id: docs
+    attributes:
+      label: Documentation to Update
+      description: |
+        List any project docs that need updating. Only required when the feature changes an architectural pattern or product behaviour.
+        Key docs: PRODUCT.md, ARCHITECTURE.md, CONTRIBUTING.md, copilot-instructions/*.md
+      placeholder: |
+        - PRODUCT.md — add league join flow to game modes section
+        - No documentation changes required
+
+  - type: textarea
+    id: plan
+    attributes:
+      label: Implementation Plan / Reference
+      description: Link to or paste a plan document if one exists (e.g. .github/copilot-instructions/plans/plan-*.md).
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Additional Notes
+      description: Screenshots, design references, constraints, related issues.
+      placeholder: |
+        - Related: #12
+        - Design reference: .github/copilot-instructions/docs/...

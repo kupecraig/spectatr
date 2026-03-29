@@ -1,0 +1,73 @@
+name: "Copilot Setup Steps"
+
+# This workflow is called by the GitHub Copilot coding agent before it begins
+# working on an issue. It bootstraps the monorepo so the agent can compile,
+# run tests, and verify changes during its session.
+#
+# Docs: https://docs.github.com/en/copilot/using-github-copilot/coding-agent/customizing-the-development-environment-for-githubs-copilot-coding-agent
+
+on: workflow_call
+
+jobs:
+  copilot-setup-steps:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Prisma client must be generated before any TypeScript can compile.
+      # The generated client lives in node_modules/@prisma/client and is not
+      # committed to source control — it must be regenerated from schema.prisma.
+      # DATABASE_URL is set to a placeholder; generate does not connect to the DB.
+      - name: Generate Prisma client
+        run: npx prisma generate --schema=packages/server/prisma/schema.prisma
+        env:
+          DATABASE_URL: postgresql://placeholder:placeholder@localhost:5432/spectatr
+
+      # Write env files so server/ui scripts can run without crashing on missing vars.
+      # These are fake-but-format-valid values — no real services are connected.
+      # The server validates env vars on startup (Zod), so it needs pk_/sk_ prefixes.
+      - name: Write server env file
+        run: |
+          mkdir -p packages/server/env
+          cat > packages/server/env/.env << 'EOF'
+          NODE_ENV=test
+          PORT=3001
+          DATABASE_URL=postgresql://placeholder:placeholder@localhost:5432/spectatr
+          FRONTEND_URL=http://localhost:5173
+          REDIS_HOST=localhost
+          REDIS_PORT=6379
+          CLERK_PUBLISHABLE_KEY=pk_test_placeholder
+          CLERK_SECRET_KEY=sk_test_placeholder
+          EOF
+
+      - name: Write UI env file
+        run: |
+          mkdir -p packages/ui/env
+          cat > packages/ui/env/.env << 'EOF'
+          VITE_CLERK_PUBLISHABLE_KEY=pk_test_placeholder
+          VITE_TENANT_ID=trc-2025
+          EOF
+
+      # shared-types must be compiled first — server and ui import from its dist/
+      - name: Build shared-types
+        run: npm run build:shared
+
+      # Verify server TypeScript compiles (no emit — just type-check)
+      - name: Type-check server
+        run: npx tsc --noEmit
+        working-directory: packages/server
+
+      # Verify UI TypeScript compiles (tsconfig.app.json already sets noEmit: true)
+      - name: Type-check UI
+        run: npx tsc --project tsconfig.app.json --noEmit
+        working-directory: packages/ui
