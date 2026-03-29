@@ -13,7 +13,7 @@ import {
 import type { LeagueStanding } from '@/hooks/api/useLeaguesQuery';
 
 interface StandingsTableProps {
-  standings: LeagueStanding[];
+  readonly standings: LeagueStanding[];
 }
 
 export function StandingsTable({ standings }: StandingsTableProps) {

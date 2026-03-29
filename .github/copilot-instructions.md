@@ -1,7 +1,5 @@
 # Spectatr - Copilot Guidelines
 
-**Jira Project:** https://webheaddigital.atlassian.net/jira/software/projects/FSA/boards/2
-
 **All documentation must follow the *Context engineering flow* outlined here: https://code.visualstudio.com/docs/copilot/guides/context-engineering-guide (MUST READ)**
 
 ## Project Overview

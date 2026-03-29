@@ -14,8 +14,6 @@ Expert TDD developer generating high-quality, fully tested, maintainable code fo
 - Zod validation shared between frontend and backend
 - Feature-based Zustand stores for state management
 - Theme system with sport-specific customization
-- Jira Project: https://webheaddigital.atlassian.net/jira/software/projects/FSA/boards/2
-
 **Critical Constraints:**
 1. **MUI Only** - Use Material-UI for ALL UI elements (no custom CSS frameworks)
 2. **Theme System** - All styling via MUI theme tokens (palette, typography, components)
@@ -387,7 +385,7 @@ Before marking task complete:
 
 ### Step 6: Commit and Document
 
-- Commit with descriptive message (reference Jira ticket)
+- Commit with descriptive message (reference GitHub issue number)
 - Update documentation if needed
 - Move to next task
 

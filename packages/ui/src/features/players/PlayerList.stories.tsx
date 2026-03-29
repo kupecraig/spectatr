@@ -4,9 +4,22 @@ import { PlayerList } from './PlayerList';
 import { useMyTeamStore } from '@/stores';
 import type { Player } from '@/mocks/playerData';
 import playersData from '@data/trc-2025/players.json';
+import squadsData from '@data/trc-2025/squads.json';
 import { sportSquadConfig } from '@spectatr/shared-types';
+import { storyQueryClient } from '@/test/storyQueryClient';
 
 const players = playersData as Player[];
+
+// Pre-seed the React Query cache so PlayerList renders without a live backend.
+// Keys mirror what useTenantQuery produces: [tenantId, ...queryKey]
+// PlayerList calls usePlayersQuery({ limit: 500, offset: 0 }) → cleanInput = { limit: 500, offset: 0 }
+function seedPlayerCache() {
+  storyQueryClient.setQueryData(
+    ['trc-2025', 'players', { limit: 500, offset: 0 }],
+    { players, total: players.length, limit: 500, offset: 0 },
+  );
+  storyQueryClient.setQueryData(['trc-2025', 'squads'], squadsData);
+}
 
 const meta = {
   title: 'Features/Players/PlayerList',
@@ -177,28 +190,26 @@ export const SelectPlayerInteraction: Story = {
     const store = useMyTeamStore.getState();
     store.clearSquad();
     store.resetFilters();
-    store.setIsLoading(false); // Ensure not in loading state
-    
+    store.setIsLoading(false);
+    seedPlayerCache();
+
     return <PlayerList />;
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    
-    // Wait for players to load - look for first player's name
+
+    // Wait for the first player to appear (cache is pre-seeded so this is fast)
     const firstPlayer = players[0];
     const firstPlayerName = `${firstPlayer.firstName[0]}. ${firstPlayer.lastName.toUpperCase()}`;
-    
-    await canvas.findByText(firstPlayerName, {}, { timeout: 3000 });
-    
-    // Find the first IconButton that's NOT disabled
+    await canvas.findByText(firstPlayerName, {}, { timeout: 5000 });
+
+    // Find the first non-disabled icon-only button and click it
     const allButtons = canvas.getAllByRole('button');
     const playerButton = allButtons.find(btn => {
-      // Look for icon buttons (round, with border) that aren't the filter/clear buttons
       const isIconButton = btn.querySelector('svg') && !btn.textContent;
       return isIconButton && !btn.hasAttribute('disabled');
     });
-    
-    // Click the button if found
+
     if (playerButton) {
       await userEvent.click(playerButton);
     }
@@ -212,33 +223,26 @@ export const RemovePlayerInteraction: Story = {
     store.clearSquad();
     store.resetFilters();
     store.setIsLoading(false);
-    
+    seedPlayerCache();
+
     // Pre-add a player to the squad
     const playerToRemove = players[0];
     store.addPlayer(playerToRemove);
-    
+
     return <PlayerList />;
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    
-    // Wait for players to load
+
+    // Wait for players to render
     const firstPlayer = players[0];
     const firstPlayerName = `${firstPlayer.firstName[0]}. ${firstPlayer.lastName.toUpperCase()}`;
-    
-    await canvas.findByText(firstPlayerName, {}, { timeout: 3000 });
-    
-    // Find all icon buttons
+    await canvas.findByText(firstPlayerName, {}, { timeout: 5000 });
+
+    // The first player is already selected — its button is the remove button
     const allButtons = canvas.getAllByRole('button');
-    
-    // Find the remove button (player is already selected, so it should be a remove button)
-    const removeButton = allButtons.find(btn => {
-      // Look for icon buttons with remove icon (PersonRemoveIcon)
-      const hasRemoveIcon = btn.querySelector('svg') && !btn.textContent;
-      return hasRemoveIcon;
-    });
-    
-    // Click the remove button if found
+    const removeButton = allButtons.find(btn => btn.querySelector('svg') && !btn.textContent);
+
     if (removeButton) {
       await userEvent.click(removeButton);
     }
