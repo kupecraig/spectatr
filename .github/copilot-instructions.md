@@ -242,6 +242,12 @@ All validation uses Zod schemas from `@spectatr/shared-types` package.
 - Archived plans: `copilot-instructions/plans/archive/`
 - Use the [plan template](plan-template.md) for new implementation plans
 
+**AI Memory (MemPalace):**
+- Local semantic memory system indexed from past AI sessions and repo docs
+- MCP server exposes `mempalace_search` — call it when retrieving past decisions, reasoning, or context
+- Search examples: `mempalace_search "why tRPC"`, `mempalace_search "RLS user_leagues"`, `mempalace_search "league format decision"`
+- Setup: [plan-mempalaceSetup.md](copilot-instructions/plans/plan-mempalaceSetup.md)
+
 **Mock Data:**
 - `data/trc-2025/` - The Rugby Championship 2025 (160 players, 4 squads, 16 rounds)
 - `data/super-2026/` - Super Rugby Pacific 2026 (441 players, 11 squads, 16 rounds)
@@ -265,6 +271,7 @@ All validation uses Zod schemas from `@spectatr/shared-types` package.
 - Reference ARCHITECTURE.md for technical patterns
 - Reference CONTRIBUTING.md for development standards
 - Use the plan template in `.github/plan-template.md`
+- **Use `mempalace_search` to retrieve past decisions** before re-designing something already decided
 
 ---
 
