@@ -38,4 +38,8 @@ packages/ui/env/.env.local
 .tmp
 
 *storybook.log
+
+# MemPalace — local AI memory config (palace lives in ~/.mempalace, not in repo)
+mempalace.yaml
+entities.json
 storybook-static
