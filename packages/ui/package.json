@@ -15,7 +15,7 @@
         "test:coverage": "vitest run --project=unit --coverage",
         "storybook": "storybook dev -p 6006",
         "build-storybook": "storybook build",
-        "test-storybook:ci": "concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"npm run build-storybook --quiet && npx http-server storybook-static --port 6006 --silent\" \"wait-on tcp:127.0.0.1:6006 && npm run test-storybook\""
+        "test-storybook:ci": "concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"npm run build-storybook --quiet && npx http-server storybook-static --port 6006 --silent\" \"wait-on tcp:127.0.0.1:6006 && npm run test:storybook\""
     },
     "dependencies": {
         "@clerk/clerk-react": "^5.60.1",

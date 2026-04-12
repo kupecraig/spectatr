@@ -170,7 +170,7 @@ Represents a real-world player available for selection.
 - `lastName` - Player last name
 - `position` - Player position (see Position enum below)
 - `cost` - Player cost (in cents)
-- `status` - Availability status (available, injured, uncertain, selected)
+- `status` - Canonical availability status (see `playerStatusSchema` in `@spectatr/shared-types`): `available | selected | not-selected | uncertain | injured | eliminated | benched`
 - `isLocked` - Whether player is locked for gameweek
 - `stats` - Player statistics (see PlayerStats below)
 - `selected` - Selection percentage (% of users who selected this player)
@@ -187,7 +187,7 @@ interface Player {
   lastName: string;
   position: PlayerPosition;
   cost: number; // in cents (10000000 = $10M)
-  status: 'available' | 'injured' | 'uncertain' | 'selected';
+  status: 'available' | 'selected' | 'not-selected' | 'uncertain' | 'injured' | 'eliminated' | 'benched';
   isLocked: boolean;
   stats: PlayerStats;
   selected: PlayerSelected;

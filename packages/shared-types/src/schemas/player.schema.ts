@@ -21,6 +21,21 @@ export const PlayerPosition = Object.keys(sportSquadConfig.positions).reduce((ac
 }, {} as Record<string, string>);
 
 /**
+ * Canonical player status values
+ */
+export const playerStatusSchema = z.enum([
+  'available',
+  'selected',
+  'not-selected',
+  'uncertain',
+  'injured',
+  'eliminated',
+  'benched',
+]);
+
+export type PlayerStatus = z.infer<typeof playerStatusSchema>;
+
+/**
  * Player schema - represents a rugby player
  */
 export const playerSchema = z.object({
@@ -31,7 +46,7 @@ export const playerSchema = z.object({
   lastName: z.string(),
   position: playerPositionSchema,
   cost: z.number().positive(),
-  status: z.string(),
+  status: playerStatusSchema,
   isLocked: z.boolean(),
   stats: z.object({
     totalPoints: z.number().nullable(),

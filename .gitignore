@@ -17,10 +17,10 @@ dist-ssr
 coverage
 
 # Environment variables (never commit secrets)
-# packages/server/env/.env
-# packages/server/env/.env.local
-# packages/ui/env/.env
-# packages/ui/env/.env.local
+packages/server/env/.env
+packages/server/env/.env.local
+packages/ui/env/.env
+packages/ui/env/.env.local
 
 # Editor directories and files
 .vscode/*
@@ -38,4 +38,8 @@ coverage
 .tmp
 
 *storybook.log
+
+# MemPalace — local AI memory config (palace lives in ~/.mempalace, not in repo)
+mempalace.yaml
+entities.json
 storybook-static

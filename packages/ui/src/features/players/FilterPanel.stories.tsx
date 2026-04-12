@@ -153,6 +153,18 @@ export const CollapsedWithActiveFilters = {
   },
 };
 
+// Status filter multi-select active
+export const StatusFilterMultiSelect = {
+  render: () => {
+    const store = useMyTeamStore.getState();
+    store.resetFilters();
+    store.setFilters({ statuses: ['injured', 'uncertain'] });
+    if (!store.filtersExpanded) store.toggleFilters();
+    
+    return <FilterPanel {...defaultProps} />;
+  },
+};
+
 // Interaction test - Toggle filters
 export const ToggleFiltersInteraction: StoryObj<typeof FilterPanel> = {
   render: () => {
