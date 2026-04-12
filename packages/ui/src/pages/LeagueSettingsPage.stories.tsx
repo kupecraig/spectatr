@@ -187,7 +187,7 @@ export const DraftCreatorCanSave: Story = {
     await expect(saveBtn).toBeDisabled();
 
     // Edit the league name → form becomes dirty
-    const nameInput = body.getByDisplayValue('Office League 2026');
+    const nameInput = await body.findByDisplayValue('Office League 2026');
     await userEvent.click(nameInput);
     await userEvent.type(nameInput, ' Updated');
 
