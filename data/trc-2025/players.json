@@ -7,7 +7,7 @@
         "lastName": "Jordan",
         "position": "outside_back",
         "cost": 10000000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -20,8 +20,8 @@
         "selected": {
             "1": 64.8
         },
-        "imagePitch": "pitch\/28160.png",
-        "imageProfile": "profile\/28160.png"
+        "imagePitch": "pitch/28160.png",
+        "imageProfile": "profile/28160.png"
     },
     {
         "id": 2,
@@ -31,7 +31,7 @@
         "lastName": "Kolbe",
         "position": "outside_back",
         "cost": 10000000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -44,8 +44,8 @@
         "selected": {
             "1": 37.8
         },
-        "imagePitch": "pitch\/20584.png",
-        "imageProfile": "profile\/20584.png"
+        "imagePitch": "pitch/20584.png",
+        "imageProfile": "profile/20584.png"
     },
     {
         "id": 3,
@@ -55,7 +55,7 @@
         "lastName": "Barrett",
         "position": "fly_half",
         "cost": 9500000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -68,8 +68,8 @@
         "selected": {
             "1": 21.1
         },
-        "imagePitch": "pitch\/11612.png",
-        "imageProfile": "profile\/11612.png"
+        "imagePitch": "pitch/11612.png",
+        "imageProfile": "profile/11612.png"
     },
     {
         "id": 4,
@@ -79,7 +79,7 @@
         "lastName": "Arendse",
         "position": "outside_back",
         "cost": 9000000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -92,8 +92,8 @@
         "selected": {
             "1": 18.5
         },
-        "imagePitch": "pitch\/34084.png",
-        "imageProfile": "profile\/34084.png"
+        "imagePitch": "pitch/34084.png",
+        "imageProfile": "profile/34084.png"
     },
     {
         "id": 5,
@@ -103,7 +103,7 @@
         "lastName": "Reece",
         "position": "outside_back",
         "cost": 8500000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -116,8 +116,8 @@
         "selected": {
             "1": 9.6
         },
-        "imagePitch": "pitch\/26115.png",
-        "imageProfile": "profile\/26115.png"
+        "imagePitch": "pitch/26115.png",
+        "imageProfile": "profile/26115.png"
     },
     {
         "id": 6,
@@ -127,7 +127,7 @@
         "lastName": "Wright",
         "position": "outside_back",
         "cost": 8500000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -140,8 +140,8 @@
         "selected": {
             "1": 18.9
         },
-        "imagePitch": "pitch\/33500.png",
-        "imageProfile": "profile\/33500.png"
+        "imagePitch": "pitch/33500.png",
+        "imageProfile": "profile/33500.png"
     },
     {
         "id": 7,
@@ -151,7 +151,7 @@
         "lastName": "McKenzie",
         "position": "fly_half",
         "cost": 8500000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -164,8 +164,8 @@
         "selected": {
             "1": 14.5
         },
-        "imagePitch": "pitch\/21740.png",
-        "imageProfile": "profile\/21740.png"
+        "imagePitch": "pitch/21740.png",
+        "imageProfile": "profile/21740.png"
     },
     {
         "id": 8,
@@ -175,7 +175,7 @@
         "lastName": "Savea",
         "position": "loose_forward",
         "cost": 8500000,
-        "status": "uncertain",
+        "status": "selected",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -188,8 +188,8 @@
         "selected": {
             "1": 70.4
         },
-        "imagePitch": "pitch\/20064.png",
-        "imageProfile": "profile\/20064.png"
+        "imagePitch": "pitch/20064.png",
+        "imageProfile": "profile/20064.png"
     },
     {
         "id": 9,
@@ -199,7 +199,7 @@
         "lastName": "Ioane",
         "position": "outside_back",
         "cost": 8500000,
-        "status": "uncertain",
+        "status": "selected",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -212,8 +212,8 @@
         "selected": {
             "1": 7.1
         },
-        "imagePitch": "pitch\/23535.png",
-        "imageProfile": "profile\/23535.png"
+        "imagePitch": "pitch/23535.png",
+        "imageProfile": "profile/23535.png"
     },
     {
         "id": 10,
@@ -223,7 +223,7 @@
         "lastName": "Libbok",
         "position": "fly_half",
         "cost": 8500000,
-        "status": "uncertain",
+        "status": "selected",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -236,8 +236,8 @@
         "selected": {
             "1": 5.7
         },
-        "imagePitch": "pitch\/24843.png",
-        "imageProfile": "profile\/24843.png"
+        "imagePitch": "pitch/24843.png",
+        "imageProfile": "profile/24843.png"
     },
     {
         "id": 11,
@@ -247,7 +247,7 @@
         "lastName": "Pollard",
         "position": "fly_half",
         "cost": 8500000,
-        "status": "uncertain",
+        "status": "selected",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -260,8 +260,8 @@
         "selected": {
             "1": 22.7
         },
-        "imagePitch": "pitch\/19888.png",
-        "imageProfile": "profile\/19888.png"
+        "imagePitch": "pitch/19888.png",
+        "imageProfile": "profile/19888.png"
     },
     {
         "id": 12,
@@ -284,8 +284,8 @@
         "selected": {
             "1": 6.7
         },
-        "imagePitch": "pitch\/26869.png",
-        "imageProfile": "profile\/26869.png"
+        "imagePitch": "pitch/26869.png",
+        "imageProfile": "profile/26869.png"
     },
     {
         "id": 13,
@@ -308,8 +308,8 @@
         "selected": {
             "1": 12.1
         },
-        "imagePitch": "pitch\/20037.png",
-        "imageProfile": "profile\/20037.png"
+        "imagePitch": "pitch/20037.png",
+        "imageProfile": "profile/20037.png"
     },
     {
         "id": 14,
@@ -319,7 +319,7 @@
         "lastName": "Barrett",
         "position": "center",
         "cost": 8000000,
-        "status": "uncertain",
+        "status": "injured",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -332,8 +332,8 @@
         "selected": {
             "1": 34.6
         },
-        "imagePitch": "pitch\/24947.png",
-        "imageProfile": "profile\/24947.png"
+        "imagePitch": "pitch/24947.png",
+        "imageProfile": "profile/24947.png"
     },
     {
         "id": 15,
@@ -343,7 +343,7 @@
         "lastName": "Jorgensen",
         "position": "outside_back",
         "cost": 8000000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -356,8 +356,8 @@
         "selected": {
             "1": 16.7
         },
-        "imagePitch": "pitch\/57757.png",
-        "imageProfile": "profile\/57757.png"
+        "imagePitch": "pitch/57757.png",
+        "imageProfile": "profile/57757.png"
     },
     {
         "id": 16,
@@ -367,7 +367,7 @@
         "lastName": "Roigard",
         "position": "scrum_half",
         "cost": 8000000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -380,8 +380,8 @@
         "selected": {
             "1": 15.1
         },
-        "imagePitch": "pitch\/37597.png",
-        "imageProfile": "profile\/37597.png"
+        "imagePitch": "pitch/37597.png",
+        "imageProfile": "profile/37597.png"
     },
     {
         "id": 17,
@@ -391,7 +391,7 @@
         "lastName": "Feinberg-Mngomezulu",
         "position": "fly_half",
         "cost": 8000000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -404,8 +404,8 @@
         "selected": {
             "1": 11.7
         },
-        "imagePitch": "pitch\/39074.png",
-        "imageProfile": "profile\/39074.png"
+        "imagePitch": "pitch/39074.png",
+        "imageProfile": "profile/39074.png"
     },
     {
         "id": 18,
@@ -415,7 +415,7 @@
         "lastName": "Kolisi",
         "position": "loose_forward",
         "cost": 8000000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -428,8 +428,8 @@
         "selected": {
             "1": 15.4
         },
-        "imagePitch": "pitch\/17107.png",
-        "imageProfile": "profile\/17107.png"
+        "imagePitch": "pitch/17107.png",
+        "imageProfile": "profile/17107.png"
     },
     {
         "id": 19,
@@ -439,7 +439,7 @@
         "lastName": "Moodie",
         "position": "outside_back",
         "cost": 8000000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -452,18 +452,18 @@
         "selected": {
             "1": 3.6
         },
-        "imagePitch": "pitch\/39135.png",
-        "imageProfile": "profile\/39135.png"
+        "imagePitch": "pitch/39135.png",
+        "imageProfile": "profile/39135.png"
     },
     {
         "id": 20,
         "feedId": 28237,
         "squadId": 3,
-        "firstName": "Tom\u00e1s",
+        "firstName": "Tomás",
         "lastName": "Albornoz",
         "position": "fly_half",
         "cost": 8000000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -476,8 +476,8 @@
         "selected": {
             "1": 15
         },
-        "imagePitch": "pitch\/28237.png",
-        "imageProfile": "profile\/28237.png"
+        "imagePitch": "pitch/28237.png",
+        "imageProfile": "profile/28237.png"
     },
     {
         "id": 21,
@@ -487,7 +487,7 @@
         "lastName": "Du Toit",
         "position": "loose_forward",
         "cost": 7500000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -500,18 +500,18 @@
         "selected": {
             "1": 37.4
         },
-        "imagePitch": "pitch\/19736.png",
-        "imageProfile": "profile\/19736.png"
+        "imagePitch": "pitch/19736.png",
+        "imageProfile": "profile/19736.png"
     },
     {
         "id": 22,
         "feedId": 21468,
         "squadId": 1,
-        "firstName": "Andr\u00e9",
+        "firstName": "André",
         "lastName": "Esterhuizen",
         "position": "center",
         "cost": 7500000,
-        "status": "uncertain",
+        "status": "selected",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -524,8 +524,8 @@
         "selected": {
             "1": 2
         },
-        "imagePitch": "pitch\/21468.png",
-        "imageProfile": "profile\/21468.png"
+        "imagePitch": "pitch/21468.png",
+        "imageProfile": "profile/21468.png"
     },
     {
         "id": 23,
@@ -535,7 +535,7 @@
         "lastName": "Toole",
         "position": "outside_back",
         "cost": 7500000,
-        "status": "uncertain",
+        "status": "selected",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -548,8 +548,8 @@
         "selected": {
             "1": 3
         },
-        "imagePitch": "pitch\/32171.png",
-        "imageProfile": "profile\/32171.png"
+        "imagePitch": "pitch/32171.png",
+        "imageProfile": "profile/32171.png"
     },
     {
         "id": 24,
@@ -559,7 +559,7 @@
         "lastName": "Potter",
         "position": "outside_back",
         "cost": 7500000,
-        "status": "uncertain",
+        "status": "selected",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -572,8 +572,8 @@
         "selected": {
             "1": 7.5
         },
-        "imagePitch": "pitch\/30387.png",
-        "imageProfile": "profile\/30387.png"
+        "imagePitch": "pitch/30387.png",
+        "imageProfile": "profile/30387.png"
     },
     {
         "id": 25,
@@ -583,7 +583,7 @@
         "lastName": "Donaldson",
         "position": "fly_half",
         "cost": 7500000,
-        "status": "uncertain",
+        "status": "selected",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -596,8 +596,8 @@
         "selected": {
             "1": 3
         },
-        "imagePitch": "pitch\/31305.png",
-        "imageProfile": "profile\/31305.png"
+        "imagePitch": "pitch/31305.png",
+        "imageProfile": "profile/31305.png"
     },
     {
         "id": 26,
@@ -620,8 +620,8 @@
         "selected": {
             "1": 16.6
         },
-        "imagePitch": "pitch\/20669.png",
-        "imageProfile": "profile\/20669.png"
+        "imagePitch": "pitch/20669.png",
+        "imageProfile": "profile/20669.png"
     },
     {
         "id": 27,
@@ -644,8 +644,8 @@
         "selected": {
             "1": 3.9
         },
-        "imagePitch": "pitch\/19709.png",
-        "imageProfile": "profile\/19709.png"
+        "imagePitch": "pitch/19709.png",
+        "imageProfile": "profile/19709.png"
     },
     {
         "id": 28,
@@ -655,7 +655,7 @@
         "lastName": "Marx",
         "position": "hooker",
         "cost": 7500000,
-        "status": "uncertain",
+        "status": "injured",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -668,8 +668,8 @@
         "selected": {
             "1": 14.7
         },
-        "imagePitch": "pitch\/21467.png",
-        "imageProfile": "profile\/21467.png"
+        "imagePitch": "pitch/21467.png",
+        "imageProfile": "profile/21467.png"
     },
     {
         "id": 29,
@@ -679,7 +679,7 @@
         "lastName": "Carreras",
         "position": "outside_back",
         "cost": 7500000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -692,8 +692,8 @@
         "selected": {
             "1": 37.1
         },
-        "imagePitch": "pitch\/28238.png",
-        "imageProfile": "profile\/28238.png"
+        "imagePitch": "pitch/28238.png",
+        "imageProfile": "profile/28238.png"
     },
     {
         "id": 30,
@@ -703,7 +703,7 @@
         "lastName": "Williams",
         "position": "scrum_half",
         "cost": 7500000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -716,18 +716,18 @@
         "selected": {
             "1": 16.7
         },
-        "imagePitch": "pitch\/29777.png",
-        "imageProfile": "profile\/29777.png"
+        "imagePitch": "pitch/29777.png",
+        "imageProfile": "profile/29777.png"
     },
     {
         "id": 31,
         "feedId": 23362,
         "squadId": 3,
         "firstName": "Juan Cruz",
-        "lastName": "Mall\u00eda",
+        "lastName": "Mallía",
         "position": "outside_back",
         "cost": 7500000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -740,8 +740,8 @@
         "selected": {
             "1": 7.4
         },
-        "imagePitch": "pitch\/23362.png",
-        "imageProfile": "profile\/23362.png"
+        "imagePitch": "pitch/23362.png",
+        "imageProfile": "profile/23362.png"
     },
     {
         "id": 32,
@@ -751,7 +751,7 @@
         "lastName": "Proctor",
         "position": "center",
         "cost": 7000000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -764,8 +764,8 @@
         "selected": {
             "1": 7.7
         },
-        "imagePitch": "pitch\/29423.png",
-        "imageProfile": "profile\/29423.png"
+        "imagePitch": "pitch/29423.png",
+        "imageProfile": "profile/29423.png"
     },
     {
         "id": 33,
@@ -775,7 +775,7 @@
         "lastName": "Sua'ali'i",
         "position": "center",
         "cost": 7000000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -788,8 +788,8 @@
         "selected": {
             "1": 50.7
         },
-        "imagePitch": "pitch\/35652.png",
-        "imageProfile": "profile\/35652.png"
+        "imagePitch": "pitch/35652.png",
+        "imageProfile": "profile/35652.png"
     },
     {
         "id": 34,
@@ -799,7 +799,7 @@
         "lastName": "Wilson",
         "position": "loose_forward",
         "cost": 7000000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -812,8 +812,8 @@
         "selected": {
             "1": 10
         },
-        "imagePitch": "pitch\/25509.png",
-        "imageProfile": "profile\/25509.png"
+        "imagePitch": "pitch/25509.png",
+        "imageProfile": "profile/25509.png"
     },
     {
         "id": 35,
@@ -823,7 +823,7 @@
         "lastName": "Taylor",
         "position": "hooker",
         "cost": 7000000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -836,8 +836,8 @@
         "selected": {
             "1": 20.6
         },
-        "imagePitch": "pitch\/18808.png",
-        "imageProfile": "profile\/18808.png"
+        "imagePitch": "pitch/18808.png",
+        "imageProfile": "profile/18808.png"
     },
     {
         "id": 36,
@@ -847,7 +847,7 @@
         "lastName": "Kellaway",
         "position": "outside_back",
         "cost": 7000000,
-        "status": "uncertain",
+        "status": "selected",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -860,8 +860,8 @@
         "selected": {
             "1": 2.8
         },
-        "imagePitch": "pitch\/21789.png",
-        "imageProfile": "profile\/21789.png"
+        "imagePitch": "pitch/21789.png",
+        "imageProfile": "profile/21789.png"
     },
     {
         "id": 37,
@@ -871,7 +871,7 @@
         "lastName": "Lynagh",
         "position": "fly_half",
         "cost": 7000000,
-        "status": "uncertain",
+        "status": "selected",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -884,8 +884,8 @@
         "selected": {
             "1": 4
         },
-        "imagePitch": "pitch\/40527.png",
-        "imageProfile": "profile\/40527.png"
+        "imagePitch": "pitch/40527.png",
+        "imageProfile": "profile/40527.png"
     },
     {
         "id": 38,
@@ -895,7 +895,7 @@
         "lastName": "Chocobares",
         "position": "center",
         "cost": 7000000,
-        "status": "uncertain",
+        "status": "selected",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -908,18 +908,18 @@
         "selected": {
             "1": 23.5
         },
-        "imagePitch": "pitch\/30914.png",
-        "imageProfile": "profile\/30914.png"
+        "imagePitch": "pitch/30914.png",
+        "imageProfile": "profile/30914.png"
     },
     {
         "id": 39,
         "feedId": 20776,
         "squadId": 3,
-        "firstName": "Juli\u00e1n",
+        "firstName": "Julián",
         "lastName": "Montoya",
         "position": "hooker",
         "cost": 7000000,
-        "status": "uncertain",
+        "status": "selected",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -932,15 +932,15 @@
         "selected": {
             "1": 22.3
         },
-        "imagePitch": "pitch\/20776.png",
-        "imageProfile": "profile\/20776.png"
+        "imagePitch": "pitch/20776.png",
+        "imageProfile": "profile/20776.png"
     },
     {
         "id": 40,
         "feedId": 34536,
         "squadId": 3,
         "firstName": "Rodrigo",
-        "lastName": "Isgr\u00f3",
+        "lastName": "Isgró",
         "position": "outside_back",
         "cost": 7000000,
         "status": "uncertain",
@@ -956,8 +956,8 @@
         "selected": {
             "1": 2.4
         },
-        "imagePitch": "pitch\/34536.png",
-        "imageProfile": "profile\/34536.png"
+        "imagePitch": "pitch/34536.png",
+        "imageProfile": "profile/34536.png"
     },
     {
         "id": 41,
@@ -980,8 +980,8 @@
         "selected": {
             "1": 11.2
         },
-        "imagePitch": "pitch\/30911.png",
-        "imageProfile": "profile\/30911.png"
+        "imagePitch": "pitch/30911.png",
+        "imageProfile": "profile/30911.png"
     },
     {
         "id": 42,
@@ -991,7 +991,7 @@
         "lastName": "Fassi",
         "position": "outside_back",
         "cost": 6500000,
-        "status": "uncertain",
+        "status": "injured",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -1004,8 +1004,8 @@
         "selected": {
             "1": 5.4
         },
-        "imagePitch": "pitch\/31813.png",
-        "imageProfile": "profile\/31813.png"
+        "imagePitch": "pitch/31813.png",
+        "imageProfile": "profile/31813.png"
     },
     {
         "id": 43,
@@ -1015,7 +1015,7 @@
         "lastName": "Valetini",
         "position": "loose_forward",
         "cost": 6500000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -1028,8 +1028,8 @@
         "selected": {
             "1": 22.6
         },
-        "imagePitch": "pitch\/26989.png",
-        "imageProfile": "profile\/26989.png"
+        "imagePitch": "pitch/26989.png",
+        "imageProfile": "profile/26989.png"
     },
     {
         "id": 44,
@@ -1039,7 +1039,7 @@
         "lastName": "McReight",
         "position": "loose_forward",
         "cost": 6500000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -1052,8 +1052,8 @@
         "selected": {
             "1": 12.3
         },
-        "imagePitch": "pitch\/25683.png",
-        "imageProfile": "profile\/25683.png"
+        "imagePitch": "pitch/25683.png",
+        "imageProfile": "profile/25683.png"
     },
     {
         "id": 45,
@@ -1063,7 +1063,7 @@
         "lastName": "Ikitau",
         "position": "center",
         "cost": 6500000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -1076,8 +1076,8 @@
         "selected": {
             "1": 17
         },
-        "imagePitch": "pitch\/25551.png",
-        "imageProfile": "profile\/25551.png"
+        "imagePitch": "pitch/25551.png",
+        "imageProfile": "profile/25551.png"
     },
     {
         "id": 46,
@@ -1087,7 +1087,7 @@
         "lastName": "Vaa'i",
         "position": "lock",
         "cost": 4500000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -1100,8 +1100,8 @@
         "selected": {
             "1": 17
         },
-        "imagePitch": "pitch\/31477.png",
-        "imageProfile": "profile\/31477.png"
+        "imagePitch": "pitch/31477.png",
+        "imageProfile": "profile/31477.png"
     },
     {
         "id": 47,
@@ -1111,7 +1111,7 @@
         "lastName": "Matera",
         "position": "loose_forward",
         "cost": 6500000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -1124,8 +1124,8 @@
         "selected": {
             "1": 41.8
         },
-        "imagePitch": "pitch\/19761.png",
-        "imageProfile": "profile\/19761.png"
+        "imagePitch": "pitch/19761.png",
+        "imageProfile": "profile/19761.png"
     },
     {
         "id": 48,
@@ -1135,7 +1135,7 @@
         "lastName": "McDermott",
         "position": "scrum_half",
         "cost": 6500000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -1148,8 +1148,8 @@
         "selected": {
             "1": 23
         },
-        "imagePitch": "pitch\/27376.png",
-        "imageProfile": "profile\/27376.png"
+        "imagePitch": "pitch/27376.png",
+        "imageProfile": "profile/27376.png"
     },
     {
         "id": 49,
@@ -1159,7 +1159,7 @@
         "lastName": "O'Connor",
         "position": "fly_half",
         "cost": 6500000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -1172,8 +1172,8 @@
         "selected": {
             "1": 0.9
         },
-        "imagePitch": "pitch\/9680.png",
-        "imageProfile": "profile\/9680.png"
+        "imagePitch": "pitch/9680.png",
+        "imageProfile": "profile/9680.png"
     },
     {
         "id": 50,
@@ -1183,7 +1183,7 @@
         "lastName": "Daugunu",
         "position": "outside_back",
         "cost": 6500000,
-        "status": "uncertain",
+        "status": "selected",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -1196,8 +1196,8 @@
         "selected": {
             "1": 2.6
         },
-        "imagePitch": "pitch\/28868.png",
-        "imageProfile": "profile\/28868.png"
+        "imagePitch": "pitch/28868.png",
+        "imageProfile": "profile/28868.png"
     },
     {
         "id": 51,
@@ -1207,7 +1207,7 @@
         "lastName": "Pietsch",
         "position": "outside_back",
         "cost": 6500000,
-        "status": "uncertain",
+        "status": "selected",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -1220,8 +1220,8 @@
         "selected": {
             "1": 6.8
         },
-        "imagePitch": "pitch\/27375.png",
-        "imageProfile": "profile\/27375.png"
+        "imagePitch": "pitch/27375.png",
+        "imageProfile": "profile/27375.png"
     },
     {
         "id": 52,
@@ -1231,7 +1231,7 @@
         "lastName": "Love",
         "position": "outside_back",
         "cost": 6500000,
-        "status": "uncertain",
+        "status": "selected",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -1244,8 +1244,8 @@
         "selected": {
             "1": 3.2
         },
-        "imagePitch": "pitch\/36014.png",
-        "imageProfile": "profile\/36014.png"
+        "imagePitch": "pitch/36014.png",
+        "imageProfile": "profile/36014.png"
     },
     {
         "id": 53,
@@ -1255,7 +1255,7 @@
         "lastName": "Cinti",
         "position": "center",
         "cost": 6500000,
-        "status": "uncertain",
+        "status": "selected",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -1268,8 +1268,8 @@
         "selected": {
             "1": 6.8
         },
-        "imagePitch": "pitch\/33586.png",
-        "imageProfile": "profile\/33586.png"
+        "imagePitch": "pitch/33586.png",
+        "imageProfile": "profile/33586.png"
     },
     {
         "id": 54,
@@ -1292,8 +1292,8 @@
         "selected": {
             "1": 3.5
         },
-        "imagePitch": "pitch\/25014.png",
-        "imageProfile": "profile\/25014.png"
+        "imagePitch": "pitch/25014.png",
+        "imageProfile": "profile/25014.png"
     },
     {
         "id": 55,
@@ -1316,8 +1316,8 @@
         "selected": {
             "1": 11.1
         },
-        "imagePitch": "pitch\/20788.png",
-        "imageProfile": "profile\/20788.png"
+        "imagePitch": "pitch/20788.png",
+        "imageProfile": "profile/20788.png"
     },
     {
         "id": 56,
@@ -1327,7 +1327,7 @@
         "lastName": "Delguy",
         "position": "outside_back",
         "cost": 6500000,
-        "status": "uncertain",
+        "status": "injured",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -1340,8 +1340,8 @@
         "selected": {
             "1": 1.8
         },
-        "imagePitch": "pitch\/24729.png",
-        "imageProfile": "profile\/24729.png"
+        "imagePitch": "pitch/24729.png",
+        "imageProfile": "profile/24729.png"
     },
     {
         "id": 57,
@@ -1351,7 +1351,7 @@
         "lastName": "Hooker",
         "position": "center",
         "cost": 6000000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -1364,8 +1364,8 @@
         "selected": {
             "1": 1.1
         },
-        "imagePitch": "pitch\/44326.png",
-        "imageProfile": "profile\/44326.png"
+        "imagePitch": "pitch/44326.png",
+        "imageProfile": "profile/44326.png"
     },
     {
         "id": 58,
@@ -1375,7 +1375,7 @@
         "lastName": "Lienert-Brown",
         "position": "center",
         "cost": 6000000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -1388,8 +1388,8 @@
         "selected": {
             "1": 3.5
         },
-        "imagePitch": "pitch\/21463.png",
-        "imageProfile": "profile\/21463.png"
+        "imagePitch": "pitch/21463.png",
+        "imageProfile": "profile/21463.png"
     },
     {
         "id": 59,
@@ -1399,7 +1399,7 @@
         "lastName": "Tupaea",
         "position": "center",
         "cost": 6000000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -1412,8 +1412,8 @@
         "selected": {
             "1": 5.6
         },
-        "imagePitch": "pitch\/31486.png",
-        "imageProfile": "profile\/31486.png"
+        "imagePitch": "pitch/31486.png",
+        "imageProfile": "profile/31486.png"
     },
     {
         "id": 60,
@@ -1423,7 +1423,7 @@
         "lastName": "Tavatavanawai",
         "position": "center",
         "cost": 6000000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -1436,8 +1436,8 @@
         "selected": {
             "1": 4.2
         },
-        "imagePitch": "pitch\/39113.png",
-        "imageProfile": "profile\/39113.png"
+        "imagePitch": "pitch/39113.png",
+        "imageProfile": "profile/39113.png"
     },
     {
         "id": 61,
@@ -1447,7 +1447,7 @@
         "lastName": "Paisami",
         "position": "center",
         "cost": 6000000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -1460,8 +1460,8 @@
         "selected": {
             "1": 4.7
         },
-        "imagePitch": "pitch\/27748.png",
-        "imageProfile": "profile\/27748.png"
+        "imagePitch": "pitch/27748.png",
+        "imageProfile": "profile/27748.png"
     },
     {
         "id": 62,
@@ -1471,7 +1471,7 @@
         "lastName": "Mbonambi",
         "position": "hooker",
         "cost": 6000000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -1484,8 +1484,8 @@
         "selected": {
             "1": 10.5
         },
-        "imagePitch": "pitch\/18901.png",
-        "imageProfile": "profile\/18901.png"
+        "imagePitch": "pitch/18901.png",
+        "imageProfile": "profile/18901.png"
     },
     {
         "id": 64,
@@ -1495,7 +1495,7 @@
         "lastName": "Sititi",
         "position": "loose_forward",
         "cost": 6000000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -1508,8 +1508,8 @@
         "selected": {
             "1": 21.6
         },
-        "imagePitch": "pitch\/56232.png",
-        "imageProfile": "profile\/56232.png"
+        "imagePitch": "pitch/56232.png",
+        "imageProfile": "profile/56232.png"
     },
     {
         "id": 65,
@@ -1519,7 +1519,7 @@
         "lastName": "Porecki",
         "position": "hooker",
         "cost": 6000000,
-        "status": "eliminated",
+        "status": "selected",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -1532,8 +1532,8 @@
         "selected": {
             "1": 0.1
         },
-        "imagePitch": "pitch\/22344.png",
-        "imageProfile": "profile\/22344.png"
+        "imagePitch": "pitch/22344.png",
+        "imageProfile": "profile/22344.png"
     },
     {
         "id": 66,
@@ -1543,7 +1543,7 @@
         "lastName": "Ratima",
         "position": "scrum_half",
         "cost": 6000000,
-        "status": "uncertain",
+        "status": "selected",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -1556,8 +1556,8 @@
         "selected": {
             "1": 16.1
         },
-        "imagePitch": "pitch\/37618.png",
-        "imageProfile": "profile\/37618.png"
+        "imagePitch": "pitch/37618.png",
+        "imageProfile": "profile/37618.png"
     },
     {
         "id": 67,
@@ -1567,7 +1567,7 @@
         "lastName": "Kremer",
         "position": "loose_forward",
         "cost": 6000000,
-        "status": "uncertain",
+        "status": "selected",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -1580,8 +1580,8 @@
         "selected": {
             "1": 8.8
         },
-        "imagePitch": "pitch\/25094.png",
-        "imageProfile": "profile\/25094.png"
+        "imagePitch": "pitch/25094.png",
+        "imageProfile": "profile/25094.png"
     },
     {
         "id": 68,
@@ -1591,7 +1591,7 @@
         "lastName": "Smith",
         "position": "loose_forward",
         "cost": 6000000,
-        "status": "uncertain",
+        "status": "selected",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -1604,15 +1604,15 @@
         "selected": {
             "1": 7.7
         },
-        "imagePitch": "pitch\/20655.png",
-        "imageProfile": "profile\/20655.png"
+        "imagePitch": "pitch/20655.png",
+        "imageProfile": "profile/20655.png"
     },
     {
         "id": 69,
         "feedId": 34534,
         "squadId": 3,
         "firstName": "Juan Martin",
-        "lastName": "Gonz\u00e1lez",
+        "lastName": "González",
         "position": "loose_forward",
         "cost": 6000000,
         "status": "uncertain",
@@ -1628,8 +1628,8 @@
         "selected": {
             "1": 12.1
         },
-        "imagePitch": "pitch\/34534.png",
-        "imageProfile": "profile\/34534.png"
+        "imagePitch": "pitch/34534.png",
+        "imageProfile": "profile/34534.png"
     },
     {
         "id": 70,
@@ -1652,18 +1652,18 @@
         "selected": {
             "1": 1.4
         },
-        "imagePitch": "pitch\/23457.png",
-        "imageProfile": "profile\/23457.png"
+        "imagePitch": "pitch/23457.png",
+        "imageProfile": "profile/23457.png"
     },
     {
         "id": 71,
         "feedId": 28242,
         "squadId": 3,
         "firstName": "Gonzalo",
-        "lastName": "Garc\u00eda",
+        "lastName": "García",
         "position": "scrum_half",
         "cost": 6000000,
-        "status": "uncertain",
+        "status": "injured",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -1676,8 +1676,8 @@
         "selected": {
             "1": 13.1
         },
-        "imagePitch": "pitch\/28242.png",
-        "imageProfile": "profile\/28242.png"
+        "imagePitch": "pitch/28242.png",
+        "imageProfile": "profile/28242.png"
     },
     {
         "id": 72,
@@ -1687,7 +1687,7 @@
         "lastName": "Roger",
         "position": "fly_half",
         "cost": 6000000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -1700,18 +1700,18 @@
         "selected": {
             "1": 0.9
         },
-        "imagePitch": "pitch\/34542.png",
-        "imageProfile": "profile\/34542.png"
+        "imagePitch": "pitch/34542.png",
+        "imageProfile": "profile/34542.png"
     },
     {
         "id": 73,
         "feedId": 34541,
         "squadId": 3,
-        "firstName": "Ger\u00f3nimo",
+        "firstName": "Gerónimo",
         "lastName": "Prisciantelli",
         "position": "fly_half",
         "cost": 6000000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -1724,18 +1724,18 @@
         "selected": {
             "1": 0.4
         },
-        "imagePitch": "pitch\/34541.png",
-        "imageProfile": "profile\/34541.png"
+        "imagePitch": "pitch/34541.png",
+        "imageProfile": "profile/34541.png"
     },
     {
         "id": 74,
         "feedId": 56208,
         "squadId": 3,
-        "firstName": "Benjam\u00edn",
+        "firstName": "Benjamín",
         "lastName": "Elizalde",
         "position": "outside_back",
         "cost": 6000000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -1748,8 +1748,8 @@
         "selected": {
             "1": 2.2
         },
-        "imagePitch": "pitch\/56208.png",
-        "imageProfile": "profile\/56208.png"
+        "imagePitch": "pitch/56208.png",
+        "imageProfile": "profile/56208.png"
     },
     {
         "id": 75,
@@ -1759,7 +1759,7 @@
         "lastName": "Mendy",
         "position": "outside_back",
         "cost": 6000000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -1772,8 +1772,8 @@
         "selected": {
             "1": 1.5
         },
-        "imagePitch": "pitch\/30904.png",
-        "imageProfile": "profile\/30904.png"
+        "imagePitch": "pitch/30904.png",
+        "imageProfile": "profile/30904.png"
     },
     {
         "id": 76,
@@ -1783,7 +1783,7 @@
         "lastName": "Etzebeth",
         "position": "lock",
         "cost": 5500000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -1796,8 +1796,8 @@
         "selected": {
             "1": 38.4
         },
-        "imagePitch": "pitch\/18903.png",
-        "imageProfile": "profile\/18903.png"
+        "imagePitch": "pitch/18903.png",
+        "imageProfile": "profile/18903.png"
     },
     {
         "id": 77,
@@ -1807,7 +1807,7 @@
         "lastName": "Nche",
         "position": "prop",
         "cost": 5500000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -1820,8 +1820,8 @@
         "selected": {
             "1": 35.8
         },
-        "imagePitch": "pitch\/23371.png",
-        "imageProfile": "profile\/23371.png"
+        "imagePitch": "pitch/23371.png",
+        "imageProfile": "profile/23371.png"
     },
     {
         "id": 79,
@@ -1831,7 +1831,7 @@
         "lastName": "Jacobson",
         "position": "loose_forward",
         "cost": 5500000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -1844,8 +1844,8 @@
         "selected": {
             "1": 0.9
         },
-        "imagePitch": "pitch\/24944.png",
-        "imageProfile": "profile\/24944.png"
+        "imagePitch": "pitch/24944.png",
+        "imageProfile": "profile/24944.png"
     },
     {
         "id": 80,
@@ -1855,7 +1855,7 @@
         "lastName": "Reinach",
         "position": "scrum_half",
         "cost": 5500000,
-        "status": "uncertain",
+        "status": "selected",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -1868,8 +1868,8 @@
         "selected": {
             "1": 3.2
         },
-        "imagePitch": "pitch\/19122.png",
-        "imageProfile": "profile\/19122.png"
+        "imagePitch": "pitch/19122.png",
+        "imageProfile": "profile/19122.png"
     },
     {
         "id": 81,
@@ -1879,7 +1879,7 @@
         "lastName": "Finau",
         "position": "loose_forward",
         "cost": 5500000,
-        "status": "uncertain",
+        "status": "selected",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -1892,8 +1892,8 @@
         "selected": {
             "1": 1.5
         },
-        "imagePitch": "pitch\/34444.png",
-        "imageProfile": "profile\/34444.png"
+        "imagePitch": "pitch/34444.png",
+        "imageProfile": "profile/34444.png"
     },
     {
         "id": 82,
@@ -1903,7 +1903,7 @@
         "lastName": "Kirifi",
         "position": "loose_forward",
         "cost": 5500000,
-        "status": "uncertain",
+        "status": "selected",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -1916,8 +1916,8 @@
         "selected": {
             "1": 7.5
         },
-        "imagePitch": "pitch\/29053.png",
-        "imageProfile": "profile\/29053.png"
+        "imagePitch": "pitch/29053.png",
+        "imageProfile": "profile/29053.png"
     },
     {
         "id": 83,
@@ -1927,7 +1927,7 @@
         "lastName": "White",
         "position": "scrum_half",
         "cost": 5500000,
-        "status": "uncertain",
+        "status": "selected",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -1940,8 +1940,8 @@
         "selected": {
             "1": 5
         },
-        "imagePitch": "pitch\/17209.png",
-        "imageProfile": "profile\/17209.png"
+        "imagePitch": "pitch/17209.png",
+        "imageProfile": "profile/17209.png"
     },
     {
         "id": 84,
@@ -1964,8 +1964,8 @@
         "selected": {
             "1": 5.1
         },
-        "imagePitch": "pitch\/27640.png",
-        "imageProfile": "profile\/27640.png"
+        "imagePitch": "pitch/27640.png",
+        "imageProfile": "profile/27640.png"
     },
     {
         "id": 85,
@@ -1988,8 +1988,8 @@
         "selected": {
             "1": 14.1
         },
-        "imagePitch": "pitch\/32078.png",
-        "imageProfile": "profile\/32078.png"
+        "imagePitch": "pitch/32078.png",
+        "imageProfile": "profile/32078.png"
     },
     {
         "id": 86,
@@ -1999,7 +1999,7 @@
         "lastName": "Faessler",
         "position": "hooker",
         "cost": 5500000,
-        "status": "uncertain",
+        "status": "injured",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -2012,8 +2012,8 @@
         "selected": {
             "1": 1.2
         },
-        "imagePitch": "pitch\/25639.png",
-        "imageProfile": "profile\/25639.png"
+        "imagePitch": "pitch/25639.png",
+        "imageProfile": "profile/25639.png"
     },
     {
         "id": 87,
@@ -2023,7 +2023,7 @@
         "lastName": "Gordon",
         "position": "scrum_half",
         "cost": 5500000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -2036,8 +2036,8 @@
         "selected": {
             "1": 2.4
         },
-        "imagePitch": "pitch\/22275.png",
-        "imageProfile": "profile\/22275.png"
+        "imagePitch": "pitch/22275.png",
+        "imageProfile": "profile/22275.png"
     },
     {
         "id": 88,
@@ -2047,7 +2047,7 @@
         "lastName": "van den Berg",
         "position": "scrum_half",
         "cost": 5500000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -2060,8 +2060,8 @@
         "selected": {
             "1": 1.1
         },
-        "imagePitch": "pitch\/26815.png",
-        "imageProfile": "profile\/26815.png"
+        "imagePitch": "pitch/26815.png",
+        "imageProfile": "profile/26815.png"
     },
     {
         "id": 89,
@@ -2071,7 +2071,7 @@
         "lastName": "Champion de Crespigny",
         "position": "loose_forward",
         "cost": 5500000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -2084,8 +2084,8 @@
         "selected": {
             "1": 1.1
         },
-        "imagePitch": "pitch\/30375.png",
-        "imageProfile": "profile\/30375.png"
+        "imagePitch": "pitch/30375.png",
+        "imageProfile": "profile/30375.png"
     },
     {
         "id": 90,
@@ -2095,7 +2095,7 @@
         "lastName": "Isa",
         "position": "loose_forward",
         "cost": 5500000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -2108,8 +2108,8 @@
         "selected": {
             "1": 2.6
         },
-        "imagePitch": "pitch\/19760.png",
-        "imageProfile": "profile\/19760.png"
+        "imagePitch": "pitch/19760.png",
+        "imageProfile": "profile/19760.png"
     },
     {
         "id": 91,
@@ -2119,7 +2119,7 @@
         "lastName": "Wiese",
         "position": "loose_forward",
         "cost": 5500000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -2132,18 +2132,18 @@
         "selected": {
             "1": 2.6
         },
-        "imagePitch": "pitch\/25018.png",
-        "imageProfile": "profile\/25018.png"
+        "imagePitch": "pitch/25018.png",
+        "imageProfile": "profile/25018.png"
     },
     {
         "id": 92,
         "feedId": 18838,
         "squadId": 3,
-        "firstName": "Mat\u00edas",
+        "firstName": "Matías",
         "lastName": "Moroni",
         "position": "center",
         "cost": 5000000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -2156,8 +2156,8 @@
         "selected": {
             "1": 7.8
         },
-        "imagePitch": "pitch\/18838.png",
-        "imageProfile": "profile\/18838.png"
+        "imagePitch": "pitch/18838.png",
+        "imageProfile": "profile/18838.png"
     },
     {
         "id": 93,
@@ -2167,7 +2167,7 @@
         "lastName": "Piccardo",
         "position": "center",
         "cost": 5000000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -2180,8 +2180,8 @@
         "selected": {
             "1": 1.5
         },
-        "imagePitch": "pitch\/56214.png",
-        "imageProfile": "profile\/56214.png"
+        "imagePitch": "pitch/56214.png",
+        "imageProfile": "profile/56214.png"
     },
     {
         "id": 94,
@@ -2191,7 +2191,7 @@
         "lastName": "Sanchez Valarolo",
         "position": "center",
         "cost": 5000000,
-        "status": "uncertain",
+        "status": "selected",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -2204,8 +2204,8 @@
         "selected": {
             "1": 0.6
         },
-        "imagePitch": "pitch\/56216.png",
-        "imageProfile": "profile\/56216.png"
+        "imagePitch": "pitch/56216.png",
+        "imageProfile": "profile/56216.png"
     },
     {
         "id": 95,
@@ -2215,7 +2215,7 @@
         "lastName": "Williams",
         "position": "prop",
         "cost": 5000000,
-        "status": "uncertain",
+        "status": "selected",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -2228,8 +2228,8 @@
         "selected": {
             "1": 15.1
         },
-        "imagePitch": "pitch\/32982.png",
-        "imageProfile": "profile\/32982.png"
+        "imagePitch": "pitch/32982.png",
+        "imageProfile": "profile/32982.png"
     },
     {
         "id": 96,
@@ -2239,7 +2239,7 @@
         "lastName": "Barrett",
         "position": "lock",
         "cost": 5000000,
-        "status": "uncertain",
+        "status": "selected",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -2252,8 +2252,8 @@
         "selected": {
             "1": 11.6
         },
-        "imagePitch": "pitch\/20763.png",
-        "imageProfile": "profile\/20763.png"
+        "imagePitch": "pitch/20763.png",
+        "imageProfile": "profile/20763.png"
     },
     {
         "id": 97,
@@ -2263,7 +2263,7 @@
         "lastName": "Gleeson",
         "position": "loose_forward",
         "cost": 5000000,
-        "status": "uncertain",
+        "status": "selected",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -2276,8 +2276,8 @@
         "selected": {
             "1": 1.6
         },
-        "imagePitch": "pitch\/40509.png",
-        "imageProfile": "profile\/40509.png"
+        "imagePitch": "pitch/40509.png",
+        "imageProfile": "profile/40509.png"
     },
     {
         "id": 98,
@@ -2300,14 +2300,14 @@
         "selected": {
             "1": 10.3
         },
-        "imagePitch": "pitch\/32330.png",
-        "imageProfile": "profile\/32330.png"
+        "imagePitch": "pitch/32330.png",
+        "imageProfile": "profile/32330.png"
     },
     {
         "id": 100,
         "feedId": 37678,
         "squadId": 3,
-        "firstName": "Joaqu\u00edn",
+        "firstName": "Joaquín",
         "lastName": "Oviedo",
         "position": "loose_forward",
         "cost": 5000000,
@@ -2324,8 +2324,8 @@
         "selected": {
             "1": 3.9
         },
-        "imagePitch": "pitch\/37678.png",
-        "imageProfile": "profile\/37678.png"
+        "imagePitch": "pitch/37678.png",
+        "imageProfile": "profile/37678.png"
     },
     {
         "id": 101,
@@ -2335,7 +2335,7 @@
         "lastName": "Hotham",
         "position": "scrum_half",
         "cost": 5000000,
-        "status": "uncertain",
+        "status": "injured",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -2348,8 +2348,8 @@
         "selected": {
             "1": 0.9
         },
-        "imagePitch": "pitch\/39117.png",
-        "imageProfile": "profile\/39117.png"
+        "imagePitch": "pitch/39117.png",
+        "imageProfile": "profile/39117.png"
     },
     {
         "id": 102,
@@ -2359,7 +2359,7 @@
         "lastName": "van Staden",
         "position": "loose_forward",
         "cost": 5000000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -2372,8 +2372,8 @@
         "selected": {
             "1": 1.6
         },
-        "imagePitch": "pitch\/26068.png",
-        "imageProfile": "profile\/26068.png"
+        "imagePitch": "pitch/26068.png",
+        "imageProfile": "profile/26068.png"
     },
     {
         "id": 103,
@@ -2383,7 +2383,7 @@
         "lastName": "McAlister",
         "position": "hooker",
         "cost": 5000000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -2396,8 +2396,8 @@
         "selected": {
             "1": 0.8
         },
-        "imagePitch": "pitch\/31087.png",
-        "imageProfile": "profile\/31087.png"
+        "imagePitch": "pitch/31087.png",
+        "imageProfile": "profile/31087.png"
     },
     {
         "id": 104,
@@ -2407,7 +2407,7 @@
         "lastName": "Ruiz",
         "position": "hooker",
         "cost": 5000000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -2420,8 +2420,8 @@
         "selected": {
             "1": 5.7
         },
-        "imagePitch": "pitch\/34751.png",
-        "imageProfile": "profile\/34751.png"
+        "imagePitch": "pitch/34751.png",
+        "imageProfile": "profile/34751.png"
     },
     {
         "id": 105,
@@ -2431,7 +2431,7 @@
         "lastName": "Wessels",
         "position": "hooker",
         "cost": 5000000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -2444,8 +2444,8 @@
         "selected": {
             "1": 1
         },
-        "imagePitch": "pitch\/37662.png",
-        "imageProfile": "profile\/37662.png"
+        "imagePitch": "pitch/37662.png",
+        "imageProfile": "profile/37662.png"
     },
     {
         "id": 106,
@@ -2455,7 +2455,7 @@
         "lastName": "Benitez Cruz",
         "position": "scrum_half",
         "cost": 5000000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -2468,18 +2468,18 @@
         "selected": {
             "1": 0.9
         },
-        "imagePitch": "pitch\/58251.png",
-        "imageProfile": "profile\/58251.png"
+        "imagePitch": "pitch/58251.png",
+        "imageProfile": "profile/58251.png"
     },
     {
         "id": 107,
         "feedId": 57711,
         "squadId": 3,
-        "firstName": "Agust\u00edn",
+        "firstName": "Agustín",
         "lastName": "Moyano",
         "position": "scrum_half",
         "cost": 5000000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -2492,8 +2492,8 @@
         "selected": {
             "1": 0.5
         },
-        "imagePitch": "pitch\/57711.png",
-        "imageProfile": "profile\/57711.png"
+        "imagePitch": "pitch/57711.png",
+        "imageProfile": "profile/57711.png"
     },
     {
         "id": 108,
@@ -2503,7 +2503,7 @@
         "lastName": "Snyman",
         "position": "lock",
         "cost": 4500000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -2516,8 +2516,8 @@
         "selected": {
             "1": 11.6
         },
-        "imagePitch": "pitch\/22730.png",
-        "imageProfile": "profile\/22730.png"
+        "imagePitch": "pitch/22730.png",
+        "imageProfile": "profile/22730.png"
     },
     {
         "id": 109,
@@ -2527,7 +2527,7 @@
         "lastName": "Holland",
         "position": "lock",
         "cost": 4500000,
-        "status": "uncertain",
+        "status": "selected",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -2540,8 +2540,8 @@
         "selected": {
             "1": 23.4
         },
-        "imagePitch": "pitch\/39086.png",
-        "imageProfile": "profile\/39086.png"
+        "imagePitch": "pitch/39086.png",
+        "imageProfile": "profile/39086.png"
     },
     {
         "id": 110,
@@ -2551,7 +2551,7 @@
         "lastName": "Grondona",
         "position": "loose_forward",
         "cost": 4500000,
-        "status": "uncertain",
+        "status": "selected",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -2564,8 +2564,8 @@
         "selected": {
             "1": 2.3
         },
-        "imagePitch": "pitch\/30915.png",
-        "imageProfile": "profile\/30915.png"
+        "imagePitch": "pitch/30915.png",
+        "imageProfile": "profile/30915.png"
     },
     {
         "id": 111,
@@ -2575,7 +2575,7 @@
         "lastName": "de Groot",
         "position": "prop",
         "cost": 4500000,
-        "status": "uncertain",
+        "status": "selected",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -2588,8 +2588,8 @@
         "selected": {
             "1": 11.5
         },
-        "imagePitch": "pitch\/32694.png",
-        "imageProfile": "profile\/32694.png"
+        "imagePitch": "pitch/32694.png",
+        "imageProfile": "profile/32694.png"
     },
     {
         "id": 112,
@@ -2599,7 +2599,7 @@
         "lastName": "Lomax",
         "position": "prop",
         "cost": 4500000,
-        "status": "uncertain",
+        "status": "selected",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -2612,8 +2612,8 @@
         "selected": {
             "1": 5.8
         },
-        "imagePitch": "pitch\/23332.png",
-        "imageProfile": "profile\/23332.png"
+        "imagePitch": "pitch/23332.png",
+        "imageProfile": "profile/23332.png"
     },
     {
         "id": 113,
@@ -2636,8 +2636,8 @@
         "selected": {
             "1": 18.4
         },
-        "imagePitch": "pitch\/19813.png",
-        "imageProfile": "profile\/19813.png"
+        "imagePitch": "pitch/19813.png",
+        "imageProfile": "profile/19813.png"
     },
     {
         "id": 114,
@@ -2660,8 +2660,8 @@
         "selected": {
             "1": 12.8
         },
-        "imagePitch": "pitch\/32109.png",
-        "imageProfile": "profile\/32109.png"
+        "imagePitch": "pitch/32109.png",
+        "imageProfile": "profile/32109.png"
     },
     {
         "id": 115,
@@ -2671,7 +2671,7 @@
         "lastName": "Skelton",
         "position": "lock",
         "cost": 4500000,
-        "status": "uncertain",
+        "status": "injured",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -2684,8 +2684,8 @@
         "selected": {
             "1": 42.3
         },
-        "imagePitch": "pitch\/20593.png",
-        "imageProfile": "profile\/20593.png"
+        "imagePitch": "pitch/20593.png",
+        "imageProfile": "profile/20593.png"
     },
     {
         "id": 116,
@@ -2695,7 +2695,7 @@
         "lastName": "de Jager",
         "position": "lock",
         "cost": 4000000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -2708,8 +2708,8 @@
         "selected": {
             "1": 4
         },
-        "imagePitch": "pitch\/20524.png",
-        "imageProfile": "profile\/20524.png"
+        "imagePitch": "pitch/20524.png",
+        "imageProfile": "profile/20524.png"
     },
     {
         "id": 117,
@@ -2719,7 +2719,7 @@
         "lastName": "du Preez",
         "position": "lock",
         "cost": 4000000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -2732,8 +2732,8 @@
         "selected": {
             "1": 1.2
         },
-        "imagePitch": "pitch\/21703.png",
-        "imageProfile": "profile\/21703.png"
+        "imagePitch": "pitch/21703.png",
+        "imageProfile": "profile/21703.png"
     },
     {
         "id": 118,
@@ -2743,7 +2743,7 @@
         "lastName": "Gallo",
         "position": "prop",
         "cost": 4000000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -2756,8 +2756,8 @@
         "selected": {
             "1": 13.3
         },
-        "imagePitch": "pitch\/34532.png",
-        "imageProfile": "profile\/34532.png"
+        "imagePitch": "pitch/34532.png",
+        "imageProfile": "profile/34532.png"
     },
     {
         "id": 119,
@@ -2767,7 +2767,7 @@
         "lastName": "Louw",
         "position": "prop",
         "cost": 4000000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -2780,8 +2780,8 @@
         "selected": {
             "1": 11.9
         },
-        "imagePitch": "pitch\/21708.png",
-        "imageProfile": "profile\/21708.png"
+        "imagePitch": "pitch/21708.png",
+        "imageProfile": "profile/21708.png"
     },
     {
         "id": 120,
@@ -2791,7 +2791,7 @@
         "lastName": "Mostert",
         "position": "lock",
         "cost": 4000000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -2804,8 +2804,8 @@
         "selected": {
             "1": 2.1
         },
-        "imagePitch": "pitch\/20097.png",
-        "imageProfile": "profile\/20097.png"
+        "imagePitch": "pitch/20097.png",
+        "imageProfile": "profile/20097.png"
     },
     {
         "id": 121,
@@ -2815,7 +2815,7 @@
         "lastName": "Nortje",
         "position": "lock",
         "cost": 4000000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -2828,8 +2828,8 @@
         "selected": {
             "1": 1.8
         },
-        "imagePitch": "pitch\/30946.png",
-        "imageProfile": "profile\/30946.png"
+        "imagePitch": "pitch/30946.png",
+        "imageProfile": "profile/30946.png"
     },
     {
         "id": 122,
@@ -2839,7 +2839,7 @@
         "lastName": "van der Merwe",
         "position": "hooker",
         "cost": 4000000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -2852,18 +2852,18 @@
         "selected": {
             "1": 1.7
         },
-        "imagePitch": "pitch\/25359.png",
-        "imageProfile": "profile\/25359.png"
+        "imagePitch": "pitch/25359.png",
+        "imageProfile": "profile/25359.png"
     },
     {
         "id": 123,
         "feedId": 59710,
         "squadId": 3,
-        "firstName": "Benjam\u00edn",
+        "firstName": "Benjamín",
         "lastName": "Grondona",
         "position": "loose_forward",
         "cost": 4000000,
-        "status": "uncertain",
+        "status": "selected",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -2876,8 +2876,8 @@
         "selected": {
             "1": 1.6
         },
-        "imagePitch": "pitch\/59710.png",
-        "imageProfile": "profile\/59710.png"
+        "imagePitch": "pitch/59710.png",
+        "imageProfile": "profile/59710.png"
     },
     {
         "id": 124,
@@ -2887,7 +2887,7 @@
         "lastName": "Moro",
         "position": "loose_forward",
         "cost": 4000000,
-        "status": "uncertain",
+        "status": "selected",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -2900,8 +2900,8 @@
         "selected": {
             "1": 0.9
         },
-        "imagePitch": "pitch\/63898.png",
-        "imageProfile": "profile\/63898.png"
+        "imagePitch": "pitch/63898.png",
+        "imageProfile": "profile/63898.png"
     },
     {
         "id": 125,
@@ -2911,7 +2911,7 @@
         "lastName": "Petti",
         "position": "lock",
         "cost": 4000000,
-        "status": "uncertain",
+        "status": "selected",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -2924,8 +2924,8 @@
         "selected": {
             "1": 18.1
         },
-        "imagePitch": "pitch\/20779.png",
-        "imageProfile": "profile\/20779.png"
+        "imagePitch": "pitch/20779.png",
+        "imageProfile": "profile/20779.png"
     },
     {
         "id": 126,
@@ -2935,7 +2935,7 @@
         "lastName": "Sclavi",
         "position": "prop",
         "cost": 4000000,
-        "status": "uncertain",
+        "status": "selected",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -2948,8 +2948,8 @@
         "selected": {
             "1": 31.1
         },
-        "imagePitch": "pitch\/27075.png",
-        "imageProfile": "profile\/27075.png"
+        "imagePitch": "pitch/27075.png",
+        "imageProfile": "profile/27075.png"
     },
     {
         "id": 127,
@@ -2972,8 +2972,8 @@
         "selected": {
             "1": 4.9
         },
-        "imagePitch": "pitch\/34448.png",
-        "imageProfile": "profile\/34448.png"
+        "imagePitch": "pitch/34448.png",
+        "imageProfile": "profile/34448.png"
     },
     {
         "id": 128,
@@ -2996,8 +2996,8 @@
         "selected": {
             "1": 2.9
         },
-        "imagePitch": "pitch\/20765.png",
-        "imageProfile": "profile\/20765.png"
+        "imagePitch": "pitch/20765.png",
+        "imageProfile": "profile/20765.png"
     },
     {
         "id": 129,
@@ -3007,7 +3007,7 @@
         "lastName": "Frost",
         "position": "lock",
         "cost": 4000000,
-        "status": "uncertain",
+        "status": "injured",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -3020,18 +3020,18 @@
         "selected": {
             "1": 9.6
         },
-        "imagePitch": "pitch\/34524.png",
-        "imageProfile": "profile\/34524.png"
+        "imagePitch": "pitch/34524.png",
+        "imageProfile": "profile/34524.png"
     },
     {
         "id": 130,
         "feedId": 18825,
         "squadId": 3,
-        "firstName": "Mat\u00edas",
+        "firstName": "Matías",
         "lastName": "Alemanno",
         "position": "lock",
         "cost": 4000000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -3044,8 +3044,8 @@
         "selected": {
             "1": 2.6
         },
-        "imagePitch": "pitch\/18825.png",
-        "imageProfile": "profile\/18825.png"
+        "imagePitch": "pitch/18825.png",
+        "imageProfile": "profile/18825.png"
     },
     {
         "id": 131,
@@ -3055,7 +3055,7 @@
         "lastName": "Oviedo",
         "position": "hooker",
         "cost": 4000000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -3068,8 +3068,8 @@
         "selected": {
             "1": 1.3
         },
-        "imagePitch": "pitch\/28248.png",
-        "imageProfile": "profile\/28248.png"
+        "imagePitch": "pitch/28248.png",
+        "imageProfile": "profile/28248.png"
     },
     {
         "id": 132,
@@ -3079,7 +3079,7 @@
         "lastName": "Bernasconi",
         "position": "hooker",
         "cost": 4000000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -3092,8 +3092,8 @@
         "selected": {
             "1": 0.8
         },
-        "imagePitch": "pitch\/38307.png",
-        "imageProfile": "profile\/38307.png"
+        "imagePitch": "pitch/38307.png",
+        "imageProfile": "profile/38307.png"
     },
     {
         "id": 133,
@@ -3103,7 +3103,7 @@
         "lastName": "Slipper",
         "position": "prop",
         "cost": 4000000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -3116,8 +3116,8 @@
         "selected": {
             "1": 6
         },
-        "imagePitch": "pitch\/11161.png",
-        "imageProfile": "profile\/11161.png"
+        "imagePitch": "pitch/11161.png",
+        "imageProfile": "profile/11161.png"
     },
     {
         "id": 134,
@@ -3127,7 +3127,7 @@
         "lastName": "Koch",
         "position": "prop",
         "cost": 3500000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -3140,8 +3140,8 @@
         "selected": {
             "1": 3.9
         },
-        "imagePitch": "pitch\/22099.png",
-        "imageProfile": "profile\/22099.png"
+        "imagePitch": "pitch/22099.png",
+        "imageProfile": "profile/22099.png"
     },
     {
         "id": 135,
@@ -3151,7 +3151,7 @@
         "lastName": "Delgado",
         "position": "prop",
         "cost": 3500000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -3164,8 +3164,8 @@
         "selected": {
             "1": 3.3
         },
-        "imagePitch": "pitch\/68542.png",
-        "imageProfile": "profile\/68542.png"
+        "imagePitch": "pitch/68542.png",
+        "imageProfile": "profile/68542.png"
     },
     {
         "id": 136,
@@ -3175,7 +3175,7 @@
         "lastName": "Vivas",
         "position": "prop",
         "cost": 3500000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -3188,8 +3188,8 @@
         "selected": {
             "1": 1
         },
-        "imagePitch": "pitch\/28253.png",
-        "imageProfile": "profile\/28253.png"
+        "imagePitch": "pitch/28253.png",
+        "imageProfile": "profile/28253.png"
     },
     {
         "id": 137,
@@ -3199,7 +3199,7 @@
         "lastName": "Coria Marchetti",
         "position": "prop",
         "cost": 3500000,
-        "status": "uncertain",
+        "status": "selected",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -3212,8 +3212,8 @@
         "selected": {
             "1": 0.8
         },
-        "imagePitch": "pitch\/34530.png",
-        "imageProfile": "profile\/34530.png"
+        "imagePitch": "pitch/34530.png",
+        "imageProfile": "profile/34530.png"
     },
     {
         "id": 138,
@@ -3223,7 +3223,7 @@
         "lastName": "Chaparro",
         "position": "prop",
         "cost": 3500000,
-        "status": "uncertain",
+        "status": "selected",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -3236,8 +3236,8 @@
         "selected": {
             "1": 0.8
         },
-        "imagePitch": "pitch\/17306.png",
-        "imageProfile": "profile\/17306.png"
+        "imagePitch": "pitch/17306.png",
+        "imageProfile": "profile/17306.png"
     },
     {
         "id": 139,
@@ -3247,7 +3247,7 @@
         "lastName": "Martinez",
         "position": "prop",
         "cost": 3500000,
-        "status": "uncertain",
+        "status": "selected",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -3260,8 +3260,8 @@
         "selected": {
             "1": 0.8
         },
-        "imagePitch": "pitch\/28246.png",
-        "imageProfile": "profile\/28246.png"
+        "imagePitch": "pitch/28246.png",
+        "imageProfile": "profile/28246.png"
     },
     {
         "id": 140,
@@ -3271,7 +3271,7 @@
         "lastName": "Wenger",
         "position": "prop",
         "cost": 3500000,
-        "status": "uncertain",
+        "status": "selected",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -3284,8 +3284,8 @@
         "selected": {
             "1": 0.9
         },
-        "imagePitch": "pitch\/56223.png",
-        "imageProfile": "profile\/56223.png"
+        "imagePitch": "pitch/56223.png",
+        "imageProfile": "profile/56223.png"
     },
     {
         "id": 141,
@@ -3308,8 +3308,8 @@
         "selected": {
             "1": 0.9
         },
-        "imagePitch": "pitch\/30938.png",
-        "imageProfile": "profile\/30938.png"
+        "imagePitch": "pitch/30938.png",
+        "imageProfile": "profile/30938.png"
     },
     {
         "id": 142,
@@ -3332,8 +3332,8 @@
         "selected": {
             "1": 0.7
         },
-        "imagePitch": "pitch\/34502.png",
-        "imageProfile": "profile\/34502.png"
+        "imagePitch": "pitch/34502.png",
+        "imageProfile": "profile/34502.png"
     },
     {
         "id": 143,
@@ -3343,7 +3343,7 @@
         "lastName": "Rubiolo",
         "position": "lock",
         "cost": 3500000,
-        "status": "uncertain",
+        "status": "injured",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -3356,8 +3356,8 @@
         "selected": {
             "1": 3.2
         },
-        "imagePitch": "pitch\/38493.png",
-        "imageProfile": "profile\/38493.png"
+        "imagePitch": "pitch/38493.png",
+        "imageProfile": "profile/38493.png"
     },
     {
         "id": 144,
@@ -3367,7 +3367,7 @@
         "lastName": "Asevedo",
         "position": "lock",
         "cost": 3500000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -3380,8 +3380,8 @@
         "selected": {
             "1": 0.6
         },
-        "imagePitch": "pitch\/63273.png",
-        "imageProfile": "profile\/63273.png"
+        "imagePitch": "pitch/63273.png",
+        "imageProfile": "profile/63273.png"
     },
     {
         "id": 145,
@@ -3391,7 +3391,7 @@
         "lastName": "Paulos",
         "position": "lock",
         "cost": 3500000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -3404,8 +3404,8 @@
         "selected": {
             "1": 0.7
         },
-        "imagePitch": "pitch\/28249.png",
-        "imageProfile": "profile\/28249.png"
+        "imagePitch": "pitch/28249.png",
+        "imageProfile": "profile/28249.png"
     },
     {
         "id": 146,
@@ -3415,7 +3415,7 @@
         "lastName": "Molina",
         "position": "lock",
         "cost": 3500000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -3428,18 +3428,18 @@
         "selected": {
             "1": 1.2
         },
-        "imagePitch": "pitch\/25098.png",
-        "imageProfile": "profile\/25098.png"
+        "imagePitch": "pitch/25098.png",
+        "imageProfile": "profile/25098.png"
     },
     {
         "id": 147,
         "feedId": 56207,
         "squadId": 3,
-        "firstName": "Efra\u00edn",
-        "lastName": "El\u00edas",
+        "firstName": "Efraín",
+        "lastName": "Elías",
         "position": "lock",
         "cost": 3500000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -3452,8 +3452,8 @@
         "selected": {
             "1": 0.7
         },
-        "imagePitch": "pitch\/56207.png",
-        "imageProfile": "profile\/56207.png"
+        "imagePitch": "pitch/56207.png",
+        "imageProfile": "profile/56207.png"
     },
     {
         "id": 148,
@@ -3463,7 +3463,7 @@
         "lastName": "Hooper",
         "position": "lock",
         "cost": 3500000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -3476,8 +3476,8 @@
         "selected": {
             "1": 5.2
         },
-        "imagePitch": "pitch\/31806.png",
-        "imageProfile": "profile\/31806.png"
+        "imagePitch": "pitch/31806.png",
+        "imageProfile": "profile/31806.png"
     },
     {
         "id": 149,
@@ -3487,7 +3487,7 @@
         "lastName": "Norris",
         "position": "prop",
         "cost": 3500000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -3500,8 +3500,8 @@
         "selected": {
             "1": 0.9
         },
-        "imagePitch": "pitch\/31064.png",
-        "imageProfile": "profile\/31064.png"
+        "imagePitch": "pitch/31064.png",
+        "imageProfile": "profile/31064.png"
     },
     {
         "id": 150,
@@ -3511,7 +3511,7 @@
         "lastName": "Tosi",
         "position": "prop",
         "cost": 3500000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -3524,8 +3524,8 @@
         "selected": {
             "1": 1.2
         },
-        "imagePitch": "pitch\/33028.png",
-        "imageProfile": "profile\/33028.png"
+        "imagePitch": "pitch/33028.png",
+        "imageProfile": "profile/33028.png"
     },
     {
         "id": 151,
@@ -3535,7 +3535,7 @@
         "lastName": "Williams",
         "position": "lock",
         "cost": 3500000,
-        "status": "uncertain",
+        "status": "selected",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -3548,8 +3548,8 @@
         "selected": {
             "1": 1.2
         },
-        "imagePitch": "pitch\/32101.png",
-        "imageProfile": "profile\/32101.png"
+        "imagePitch": "pitch/32101.png",
+        "imageProfile": "profile/32101.png"
     },
     {
         "id": 152,
@@ -3559,7 +3559,7 @@
         "lastName": "Canham",
         "position": "lock",
         "cost": 3500000,
-        "status": "uncertain",
+        "status": "selected",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -3572,8 +3572,8 @@
         "selected": {
             "1": 0.4
         },
-        "imagePitch": "pitch\/32235.png",
-        "imageProfile": "profile\/32235.png"
+        "imagePitch": "pitch/32235.png",
+        "imageProfile": "profile/32235.png"
     },
     {
         "id": 153,
@@ -3583,7 +3583,7 @@
         "lastName": "Nonggorr",
         "position": "prop",
         "cost": 3500000,
-        "status": "uncertain",
+        "status": "selected",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -3596,8 +3596,8 @@
         "selected": {
             "1": 0.9
         },
-        "imagePitch": "pitch\/31908.png",
-        "imageProfile": "profile\/31908.png"
+        "imagePitch": "pitch/31908.png",
+        "imageProfile": "profile/31908.png"
     },
     {
         "id": 154,
@@ -3607,7 +3607,7 @@
         "lastName": "Tupou",
         "position": "prop",
         "cost": 3500000,
-        "status": "uncertain",
+        "status": "selected",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -3620,8 +3620,8 @@
         "selected": {
             "1": 15.5
         },
-        "imagePitch": "pitch\/21975.png",
-        "imageProfile": "profile\/21975.png"
+        "imagePitch": "pitch/21975.png",
+        "imageProfile": "profile/21975.png"
     },
     {
         "id": 155,
@@ -3644,8 +3644,8 @@
         "selected": {
             "1": 1.3
         },
-        "imagePitch": "pitch\/21779.png",
-        "imageProfile": "profile\/21779.png"
+        "imagePitch": "pitch/21779.png",
+        "imageProfile": "profile/21779.png"
     },
     {
         "id": 156,
@@ -3668,8 +3668,8 @@
         "selected": {
             "1": 1.9
         },
-        "imagePitch": "pitch\/33031.png",
-        "imageProfile": "profile\/33031.png"
+        "imagePitch": "pitch/33031.png",
+        "imageProfile": "profile/33031.png"
     },
     {
         "id": 157,
@@ -3679,7 +3679,7 @@
         "lastName": "Carter",
         "position": "outside_back",
         "cost": 6500000,
-        "status": "uncertain",
+        "status": "injured",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -3692,8 +3692,8 @@
         "selected": {
             "1": 1.4
         },
-        "imagePitch": "pitch\/34451.png",
-        "imageProfile": "profile\/34451.png"
+        "imagePitch": "pitch/34451.png",
+        "imageProfile": "profile/34451.png"
     },
     {
         "id": 158,
@@ -3703,7 +3703,7 @@
         "lastName": "Lakai",
         "position": "loose_forward",
         "cost": 5000000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -3716,8 +3716,8 @@
         "selected": {
             "1": 0.6
         },
-        "imagePitch": "pitch\/40267.png",
-        "imageProfile": "profile\/40267.png"
+        "imagePitch": "pitch/40267.png",
+        "imageProfile": "profile/40267.png"
     },
     {
         "id": 159,
@@ -3727,7 +3727,7 @@
         "lastName": "Parker",
         "position": "loose_forward",
         "cost": 5000000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -3740,8 +3740,8 @@
         "selected": {
             "1": 1
         },
-        "imagePitch": "pitch\/32971.png",
-        "imageProfile": "profile\/32971.png"
+        "imagePitch": "pitch/32971.png",
+        "imageProfile": "profile/32971.png"
     },
     {
         "id": 160,
@@ -3751,7 +3751,7 @@
         "lastName": "Christie",
         "position": "scrum_half",
         "cost": 5000000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -3764,8 +3764,8 @@
         "selected": {
             "1": 0.3
         },
-        "imagePitch": "pitch\/26219.png",
-        "imageProfile": "profile\/26219.png"
+        "imagePitch": "pitch/26219.png",
+        "imageProfile": "profile/26219.png"
     },
     {
         "id": 161,
@@ -3775,7 +3775,7 @@
         "lastName": "Preston",
         "position": "scrum_half",
         "cost": 5000000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -3788,8 +3788,8 @@
         "selected": {
             "1": 0.3
         },
-        "imagePitch": "pitch\/60141.png",
-        "imageProfile": "profile\/60141.png"
+        "imagePitch": "pitch/60141.png",
+        "imageProfile": "profile/60141.png"
     },
     {
         "id": 162,
@@ -3799,7 +3799,7 @@
         "lastName": "Lord",
         "position": "lock",
         "cost": 3500000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -3812,8 +3812,8 @@
         "selected": {
             "1": 0.3
         },
-        "imagePitch": "pitch\/32984.png",
-        "imageProfile": "profile\/32984.png"
+        "imagePitch": "pitch/32984.png",
+        "imageProfile": "profile/32984.png"
     },
     {
         "id": 163,
@@ -3823,7 +3823,7 @@
         "lastName": "Bower",
         "position": "prop",
         "cost": 3500000,
-        "status": "uncertain",
+        "status": "available",
         "isLocked": false,
         "stats": {
             "totalPoints": null,
@@ -3836,7 +3836,7 @@
         "selected": {
             "1": 0.7
         },
-        "imagePitch": "pitch\/22369.png",
-        "imageProfile": "profile\/22369.png"
+        "imagePitch": "pitch/22369.png",
+        "imageProfile": "profile/22369.png"
     }
 ]

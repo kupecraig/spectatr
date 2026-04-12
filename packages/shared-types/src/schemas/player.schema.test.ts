@@ -1,6 +1,24 @@
 import { describe, it, expect } from 'vitest';
-import { playerSchema, playerPositionSchema, squadSchema } from './player.schema';
+import { playerSchema, playerPositionSchema, playerStatusSchema, squadSchema } from './player.schema';
 import { sportSquadConfig } from '../config/sport-squad-config';
+
+describe('playerStatusSchema', () => {
+  it('should accept each of the 7 canonical values', () => {
+    const validStatuses = ['available', 'selected', 'not-selected', 'uncertain', 'injured', 'eliminated', 'benched'];
+    validStatuses.forEach((status) => {
+      const result = playerStatusSchema.safeParse(status);
+      expect(result.success).toBe(true);
+    });
+  });
+
+  it('should reject unknown strings', () => {
+    const invalidStatuses = ['fit', 'doubt', 'active', '', 'AVAILABLE', 'Injured'];
+    invalidStatuses.forEach((status) => {
+      const result = playerStatusSchema.safeParse(status);
+      expect(result.success).toBe(false);
+    });
+  });
+});
 
 describe('playerPositionSchema', () => {
   it('should accept all valid positions from config', () => {
@@ -85,6 +103,12 @@ describe('playerSchema', () => {
       }
     });
 
+    it('should succeed with status: "available"', () => {
+      const player = createValidPlayer();
+      player.status = 'available';
+      expect(playerSchema.safeParse(player).success).toBe(true);
+    });
+
     it('should accept nullable stat values', () => {
       const player = createValidPlayer();
       (player.stats as any) = {
@@ -166,6 +190,14 @@ describe('playerSchema', () => {
     it('should reject invalid position', () => {
       const player = createValidPlayer();
       (player as any).position = 'invalid_position';
+      
+      const result = playerSchema.safeParse(player);
+      expect(result.success).toBe(false);
+    });
+
+    it('should throw ZodError when status is "fit" (not in enum)', () => {
+      const player = createValidPlayer();
+      (player as any).status = 'fit';
       
       const result = playerSchema.safeParse(player);
       expect(result.success).toBe(false);

@@ -5,6 +5,7 @@ import { getMaxPlayerCost } from '../mocks/playerData';
 import { VALIDATION, STORAGE_KEYS } from '../config/constants';
 import { getPositionsByType, getAllPositions } from '../config/fieldLayouts';
 import { getActiveTenantId } from '../utils/tenant';
+import type { PlayerStatus } from '@spectatr/shared-types';
 
 // Calculate max price from actual player data
 const MAX_PLAYER_PRICE = Math.ceil(getMaxPlayerCost() / 1_000_000);
@@ -19,6 +20,7 @@ export interface PlayerFilters {
   minPrice: number;
   maxPrice: number;
   withinBudget: boolean;
+  statuses: PlayerStatus[];
 }
 
 export interface MyTeamState {
@@ -62,6 +64,7 @@ const defaultFilters: PlayerFilters = {
   minPrice: VALIDATION.MIN_PRICE,
   maxPrice: MAX_PLAYER_PRICE,
   withinBudget: false,
+  statuses: [],
 };
 
 /**
@@ -240,6 +243,17 @@ export const useMyTeamStore = create<MyTeamState>()(
       // Scope the persistence key to the active tenant so each tenant
       // (trc-2025, super-2026, …) maintains an independent squad.
       name: `${STORAGE_KEYS.MY_TEAM}:${getActiveTenantId()}`,
+      // Merge persisted state onto current initial state so that any new fields
+      // added to the store are always present, even for users with old localStorage.
+      // This avoids needing explicit version migrations when adding new filter fields.
+      merge: (persisted, current) => {
+        const p = persisted as Partial<MyTeamState>;
+        return {
+          ...current,
+          ...p,
+          filters: { ...current.filters, ...p.filters },
+        };
+      },
       partialize: (state) => ({
         slots: state.slots,
         totalCost: state.totalCost,

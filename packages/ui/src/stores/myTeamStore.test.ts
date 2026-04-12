@@ -83,6 +83,7 @@ describe('myTeamStore', () => {
         minPrice: 1,
         maxPrice: 20,
         withinBudget: false,
+        statuses: [],
       },
       activeTab: 'LIST',
       comparisonModalOpen: false,

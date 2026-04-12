@@ -2,7 +2,10 @@ import squadsData from '@data/trc-2025/squads.json';
 import playersData from '@data/trc-2025/players.json';
 import leaguesData from './leagues.json';
 import leagueRulesData from './leagueRules.json';
+import type { PlayerStatus } from '@spectatr/shared-types';
 // Note: SportSquadConfig and validation now in @spectatr/shared-types
+
+export type { PlayerStatus };
 
 export interface PlayerSquad {
     id: number;
@@ -126,14 +129,6 @@ export interface Position {
     readonly y: number;
 }
 
-export enum PlayerStatus {
-    SELECTED = 'selected',
-    INJURED = 'injured',
-    NOTSELECTED = 'not-selected',
-    ELIMINATED = 'eliminated',
-    BENCHED = 'benched',
-}
-
 export interface PlayerStats {
     totalPoints: number | null;
     avgPoints: number | null;
@@ -155,7 +150,7 @@ export interface Player {
     lastName: string;
     position: PlayerPosition; // Instance-specific: rugby positions for this instance
     cost: number;
-    status: string;
+    status: PlayerStatus;
     isLocked: boolean;
     stats: PlayerStats;
     selected: PlayerSelected;
