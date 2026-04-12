@@ -223,7 +223,7 @@ export const useMyTeamStore = create<MyTeamState>()(
               priceRange: { min, max },
             };
           }
-          return state;
+          return {};
         }),
 
       setActiveTab: (tab) =>

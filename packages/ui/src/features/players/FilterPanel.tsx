@@ -156,8 +156,10 @@ const STATUS_LABELS: Record<string, string> = {
             <Slider
               value={[filters.minPrice, filters.maxPrice]}
               onChange={(_, newValue) => {
-                const [min, max] = newValue as number[];
-                setFilters({ minPrice: min, maxPrice: max });
+                if (Array.isArray(newValue)) {
+                  const [min, max] = newValue;
+                  setFilters({ minPrice: min, maxPrice: max });
+                }
               }}
               valueLabelDisplay="auto"
               min={minPlayerPrice}
