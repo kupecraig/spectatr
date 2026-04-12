@@ -7,17 +7,16 @@ import { ClerkProvider } from '@clerk/clerk-react';
 import { themes } from '../src/theme';
 import { storyQueryClient } from '../src/test/storyQueryClient';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const clerkPubKey = (import.meta as any).env?.VITE_CLERK_PUBLISHABLE_KEY as string;
-
-// Decorators wrap all stories with MUI ThemeProvider + React Query + Clerk
+// Decorators wrap all stories with MUI ThemeProvider + React Query + Clerk.
+// In Storybook, @clerk/clerk-react is aliased to a passthrough mock (see main.ts)
+// so ClerkProvider here never validates the publishable key.
 export const decorators: Decorator[] = [
   (Story, context) => {
     const themeName = context.globals.theme || 'rugby';
     const theme = themes[themeName];
 
     return (
-      <ClerkProvider publishableKey={clerkPubKey}>
+      <ClerkProvider publishableKey="pk_test_mock">
         <QueryClientProvider client={storyQueryClient}>
           <ThemeProvider theme={theme}>
             <CssBaseline />
