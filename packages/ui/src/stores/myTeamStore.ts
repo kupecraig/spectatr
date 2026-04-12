@@ -205,29 +205,33 @@ export const useMyTeamStore = create<MyTeamState>()(
 
           for (const tp of team.teamPlayers) {
             const slotId = findAvailableSlot(newSlots, tp.position);
-            if (slotId) {
-              // Map server player shape to UI Player shape
-              const player: Player = {
-                id: tp.player.id,
-                feedId: tp.player.feedId,
-                squadId: tp.player.squadId,
-                firstName: tp.player.firstName,
-                lastName: tp.player.lastName,
-                position: tp.player.position as PlayerPosition,
-                cost: tp.player.cost,
-                status: tp.player.status as PlayerStatus,
-                isLocked: tp.player.isLocked,
-                stats: {
-                  ...tp.player.stats,
-                  scores: tp.player.stats.scores ?? null,
-                } as PlayerStats,
-                selected: tp.player.selected,
-                imagePitch: tp.player.imagePitch ?? '',
-                imageProfile: tp.player.imageProfile ?? '',
-              };
-              newSlots[slotId] = player;
-              newTotalCost += player.cost;
+            if (!slotId) {
+              console.warn(
+                `loadTeam: no available slot for position "${tp.position}" (playerId: ${tp.playerId}). Player skipped.`
+              );
+              continue;
             }
+            // Map server player shape to UI Player shape
+            const player: Player = {
+              id: tp.player.id,
+              feedId: tp.player.feedId,
+              squadId: tp.player.squadId,
+              firstName: tp.player.firstName,
+              lastName: tp.player.lastName,
+              position: tp.player.position as PlayerPosition,
+              cost: tp.player.cost,
+              status: tp.player.status as PlayerStatus,
+              isLocked: tp.player.isLocked,
+              stats: {
+                ...tp.player.stats,
+                scores: tp.player.stats.scores ?? null,
+              } as PlayerStats,
+              selected: tp.player.selected,
+              imagePitch: tp.player.imagePitch ?? '',
+              imageProfile: tp.player.imageProfile ?? '',
+            };
+            newSlots[slotId] = player;
+            newTotalCost += player.cost;
           }
 
           return {

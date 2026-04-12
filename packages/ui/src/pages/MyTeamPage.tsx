@@ -39,16 +39,16 @@ export const MyTeamPage: FC = () => {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const { activeTab, setActiveTab, getSelectedPlayers, getRemainingBudget, clearSquad, selectedLeagueId } = useMyTeamStore();
+  const { activeTab, setActiveTab, getSelectedPlayers, getRemainingBudget, clearSquad, selectedLeagueId, loadTeam } = useMyTeamStore();
 
   const { data: teamData } = useTeamByLeagueQuery(selectedLeagueId);
 
   useEffect(() => {
     if (teamData) {
-      // loadTeam is a Zustand action — its reference is stable for the lifetime of the store,
-      // so it is safe to read it directly from the store singleton rather than subscribing to it.
-      useMyTeamStore.getState().loadTeam(teamData);
+      loadTeam(teamData);
     }
+    // loadTeam is a Zustand action with a stable reference — safe in the deps array.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [teamData]);
 
   const selectedPlayers = getSelectedPlayers();
