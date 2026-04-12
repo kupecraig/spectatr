@@ -2,6 +2,7 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { useMyTeamStore } from './myTeamStore';
 import { getAllPositions } from '../config/fieldLayouts';
 import { sportSquadConfig } from '@spectatr/shared-types';
+import type { TeamWithPlayers } from '@spectatr/shared-types';
 import players from '@data/trc-2025/players.json';
 import type { Player } from '../mocks/playerData';
 
@@ -811,8 +812,7 @@ describe('myTeamStore', () => {
 
     it('maps TeamPlayer records to slots and sets teamId and teamName', () => {
       const { loadTeam } = useMyTeamStore.getState();
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const team = makeTeamWithPlayers() as any;
+      const team = makeTeamWithPlayers() as unknown as TeamWithPlayers;
 
       loadTeam(team);
 
@@ -828,8 +828,7 @@ describe('myTeamStore', () => {
 
     it('calculates totalCost from loaded players', () => {
       const { loadTeam } = useMyTeamStore.getState();
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const team = makeTeamWithPlayers() as any;
+      const team = makeTeamWithPlayers() as unknown as TeamWithPlayers;
 
       loadTeam(team);
 
@@ -842,8 +841,7 @@ describe('myTeamStore', () => {
       addPlayer(initialPlayer);
       expect(useMyTeamStore.getState().getSelectedPlayers()).toHaveLength(1);
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const team = makeTeamWithPlayers([]) as any;
+      const team = makeTeamWithPlayers([]) as unknown as TeamWithPlayers;
       loadTeam(team);
 
       expect(useMyTeamStore.getState().getSelectedPlayers()).toHaveLength(0);

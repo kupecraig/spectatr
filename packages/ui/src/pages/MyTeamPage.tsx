@@ -47,9 +47,7 @@ export const MyTeamPage: FC = () => {
     if (teamData) {
       loadTeam(teamData);
     }
-    // loadTeam is a Zustand action with a stable reference — safe in the deps array.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [teamData]);
+  }, [teamData, loadTeam]);
 
   const selectedPlayers = getSelectedPlayers();
 

@@ -62,6 +62,12 @@ export const teamsRouter = router({
 
       for (const [position, req] of Object.entries(sportSquadConfig.positions)) {
         const count = positionCounts[position] ?? 0;
+        if (count < req.min) {
+          throw new TRPCError({
+            code: 'BAD_REQUEST',
+            message: `Not enough players for position ${req.label}: min ${req.min}, got ${count}.`,
+          });
+        }
         if (count > req.max) {
           throw new TRPCError({
             code: 'BAD_REQUEST',

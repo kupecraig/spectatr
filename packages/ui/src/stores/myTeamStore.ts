@@ -212,6 +212,18 @@ export const useMyTeamStore = create<MyTeamState>()(
               continue;
             }
             // Map server player shape to UI Player shape
+            // tp.player.stats and tp.player.selected are Prisma Json (unknown at compile time)
+            const rawStats = tp.player.stats as Record<string, unknown>;
+            // tp.player.selected is a Prisma Json JSONB blob; the server always stores `{ percentage: number }`
+            const rawSelected = tp.player.selected as Record<string, number>;
+            const stats: PlayerStats = {
+              totalPoints: typeof rawStats.totalPoints === 'number' ? rawStats.totalPoints : null,
+              avgPoints: typeof rawStats.avgPoints === 'number' ? rawStats.avgPoints : null,
+              lastRoundPoints: typeof rawStats.lastRoundPoints === 'number' ? rawStats.lastRoundPoints : null,
+              positionRank: typeof rawStats.positionRank === 'number' ? rawStats.positionRank : null,
+              nextFixture: typeof rawStats.nextFixture === 'number' ? rawStats.nextFixture : null,
+              scores: rawStats.scores ?? null,
+            };
             const player: Player = {
               id: tp.player.id,
               feedId: tp.player.feedId,
@@ -222,11 +234,8 @@ export const useMyTeamStore = create<MyTeamState>()(
               cost: tp.player.cost,
               status: tp.player.status as PlayerStatus,
               isLocked: tp.player.isLocked,
-              stats: {
-                ...tp.player.stats,
-                scores: tp.player.stats.scores ?? null,
-              } as PlayerStats,
-              selected: tp.player.selected,
+              stats,
+              selected: rawSelected,
               imagePitch: tp.player.imagePitch ?? '',
               imageProfile: tp.player.imageProfile ?? '',
             };
