@@ -39,15 +39,17 @@ export const MyTeamPage: FC = () => {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const { activeTab, setActiveTab, getSelectedPlayers, getRemainingBudget, clearSquad, selectedLeagueId, loadTeam } = useMyTeamStore();
+  const { activeTab, setActiveTab, getSelectedPlayers, getRemainingBudget, clearSquad, selectedLeagueId } = useMyTeamStore();
 
   const { data: teamData } = useTeamByLeagueQuery(selectedLeagueId);
 
   useEffect(() => {
     if (teamData) {
-      loadTeam(teamData);
+      // loadTeam is a Zustand action — its reference is stable for the lifetime of the store,
+      // so it is safe to read it directly from the store singleton rather than subscribing to it.
+      useMyTeamStore.getState().loadTeam(teamData);
     }
-  }, [teamData, loadTeam]);
+  }, [teamData]);
 
   const selectedPlayers = getSelectedPlayers();
 

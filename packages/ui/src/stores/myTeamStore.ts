@@ -244,8 +244,8 @@ export const useMyTeamStore = create<MyTeamState>()(
           slots: initializeSlots(),
           totalCost: 0,
           selectedLeagueId: leagueId,
-          teamId: leagueId === null ? null : null,
-          teamName: leagueId === null ? '' : '',
+          teamId: null,
+          teamName: '',
         })),
 
       setTeamName: (name) =>
