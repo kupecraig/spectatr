@@ -16,14 +16,13 @@ const DEFAULT_BUDGET = 42_000_000;
 export const PlayerList: FC = () => {
   const { filters, getSelectedPlayers, getRemainingBudget, initializePriceRange } = useMyTeamStore();
 
-  const { data: playersResult, isLoading: playersLoading, isError: playersError, error: playersErrorObj } = usePlayersQuery({
+  const { data: playersResult, isLoading: playersLoading } = usePlayersQuery({
     limit: PLAYERS_FETCH_LIMIT,
     offset: 0,
   });
   const { data: squadsData, isLoading: squadsLoading } = useSquadsQuery();
 
   const players = useMemo(() => playersResult?.players ?? [], [playersResult?.players]);
-  console.log('[PlayerList] playersResult:', { total: playersResult?.total, count: players.length, isLoading: playersLoading, isError: playersError, error: playersErrorObj });
 
   const squadById = useMemo(() => {
     return new Map((squadsData ?? []).map((squad) => [squad.id, squad]));
@@ -68,13 +67,6 @@ export const PlayerList: FC = () => {
   const filteredPlayers: MockPlayer[] = useMemo(() => {
     let filtered = players;
 
-    console.log('[PlayerList] filter run:', {
-      totalPlayers: players.length,
-      filters,
-      minPlayerPrice,
-      maxPlayerPrice,
-    });
-
     // Name search
     if (filters.search) {
       const searchLower = filters.search.toLowerCase();
@@ -101,9 +93,7 @@ export const PlayerList: FC = () => {
     // Price range filter
     const minCost = filters.minPrice * 1_000_000;
     const maxCost = filters.maxPrice * 1_000_000;
-    console.log('[PlayerList] price filter:', { minCost, maxCost, sampleCosts: filtered.slice(0, 3).map(p => p.cost) });
     filtered = filtered.filter((p) => p.cost >= minCost && p.cost <= maxCost);
-    console.log('[PlayerList] after price filter:', filtered.length);
 
     // Within budget filter
     if (filters.withinBudget) {
