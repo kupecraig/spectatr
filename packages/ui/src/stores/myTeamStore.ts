@@ -1,14 +1,10 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { Player } from '../mocks/playerData';
-import { getMaxPlayerCost } from '../mocks/playerData';
 import { VALIDATION, STORAGE_KEYS } from '../config/constants';
 import { getPositionsByType, getAllPositions } from '../config/fieldLayouts';
 import { getActiveTenantId } from '../utils/tenant';
 import type { PlayerStatus } from '@spectatr/shared-types';
-
-// Calculate max price from actual player data
-const MAX_PLAYER_PRICE = Math.ceil(getMaxPlayerCost() / 1_000_000);
 
 // Slot-based player storage: maps field slot ID to player (or null if vacant)
 export type PlayerSlots = Record<string, Player | null>;
@@ -39,6 +35,7 @@ export interface MyTeamState {
 
   // === UI State ===
   filters: PlayerFilters;
+  priceRange: { min: number; max: number }; // Data-driven price range for reset/init
   activeTab: 'LIST' | 'SQUAD';
   comparisonModalOpen: boolean;
   comparisonPlayers: number[];
@@ -49,6 +46,7 @@ export interface MyTeamState {
   // === UI Actions ===
   setFilters: (filters: Partial<PlayerFilters>) => void;
   resetFilters: () => void;
+  initializePriceRange: (min: number, max: number) => void;
   setActiveTab: (tab: 'LIST' | 'SQUAD') => void;
   openComparisonModal: (playerIds: number[]) => void;
   closeComparisonModal: () => void;
@@ -62,7 +60,7 @@ const defaultFilters: PlayerFilters = {
   position: null,
   squad: null,
   minPrice: VALIDATION.MIN_PRICE,
-  maxPrice: MAX_PLAYER_PRICE,
+  maxPrice: VALIDATION.MAX_PRICE,
   withinBudget: false,
   statuses: [],
 };
@@ -189,6 +187,7 @@ export const useMyTeamStore = create<MyTeamState>()(
 
       // === Initial UI State ===
       filters: defaultFilters,
+      priceRange: { min: VALIDATION.MIN_PRICE, max: VALIDATION.MAX_PRICE },
       activeTab: 'LIST',
       comparisonModalOpen: false,
       comparisonPlayers: [],
@@ -203,8 +202,28 @@ export const useMyTeamStore = create<MyTeamState>()(
         })),
 
       resetFilters: () =>
-        set({
-          filters: defaultFilters,
+        set((state) => ({
+          filters: {
+            ...defaultFilters,
+            minPrice: state.priceRange.min,
+            maxPrice: state.priceRange.max,
+          },
+        })),
+
+      initializePriceRange: (min, max) =>
+        set((state) => {
+          // Only update if the price filter hasn't been modified from the current data range.
+          // Safe to call on every player data load.
+          if (
+            state.filters.minPrice === state.priceRange.min &&
+            state.filters.maxPrice === state.priceRange.max
+          ) {
+            return {
+              filters: { ...state.filters, minPrice: min, maxPrice: max },
+              priceRange: { min, max },
+            };
+          }
+          return state;
         }),
 
       setActiveTab: (tab) =>
@@ -252,6 +271,7 @@ export const useMyTeamStore = create<MyTeamState>()(
           ...current,
           ...p,
           filters: { ...current.filters, ...p.filters },
+          priceRange: p.priceRange ?? current.priceRange,
         };
       },
       partialize: (state) => ({
@@ -259,6 +279,7 @@ export const useMyTeamStore = create<MyTeamState>()(
         totalCost: state.totalCost,
         filters: state.filters,
         activeTab: state.activeTab,
+        priceRange: state.priceRange,
       }),
     }
   )

@@ -1,4 +1,4 @@
-import { useMemo, useCallback, type FC } from 'react';
+import { useMemo, useCallback, useEffect, type FC } from 'react';
 import { List, Box, Typography, Paper } from '@mui/material';
 import { leagueRules, type Player as MockPlayer } from '@/mocks/playerData';
 import { useMyTeamStore } from '@/stores';
@@ -14,7 +14,7 @@ const PLAYERS_FETCH_LIMIT = 500;
 const DEFAULT_BUDGET = 42_000_000;
 
 export const PlayerList: FC = () => {
-  const { filters, getSelectedPlayers, getRemainingBudget } = useMyTeamStore();
+  const { filters, getSelectedPlayers, getRemainingBudget, initializePriceRange } = useMyTeamStore();
 
   const { data: playersResult, isLoading: playersLoading } = usePlayersQuery({
     limit: PLAYERS_FETCH_LIMIT,
@@ -39,6 +39,22 @@ export const PlayerList: FC = () => {
     const maxCost = Math.max(...players.map((player) => player.cost));
     return Math.ceil(maxCost / 1_000_000);
   }, [players]);
+
+  const minPlayerPrice = useMemo(() => {
+    if (players.length === 0) {
+      return VALIDATION.MIN_PRICE;
+    }
+    const minCost = Math.min(...players.map((player) => player.cost));
+    return Math.floor(minCost / 1_000_000);
+  }, [players]);
+
+  // Sync price filter to actual player data range when data loads.
+  // Only updates if the filter hasn't been user-modified.
+  useEffect(() => {
+    if (players.length > 0) {
+      initializePriceRange(minPlayerPrice, maxPlayerPrice);
+    }
+  }, [players.length, minPlayerPrice, maxPlayerPrice, initializePriceRange]);
   
   const selectedPlayers = useMemo(() => getSelectedPlayers(), [getSelectedPlayers]);
   
@@ -126,7 +142,7 @@ export const PlayerList: FC = () => {
       <Box sx={{
         borderBottom: 1,
         borderBottomColor: 'divider'}}>
-        <FilterPanel squadNames={squadNames} maxPlayerPrice={maxPlayerPrice} />
+        <FilterPanel squadNames={squadNames} minPlayerPrice={minPlayerPrice} maxPlayerPrice={maxPlayerPrice} />
       </Box>
 
       {/* Player list */}
