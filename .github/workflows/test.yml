@@ -94,9 +94,13 @@ jobs:
         working-directory: packages/shared-types
 
       # test:coverage runs the unit project with coverage — subsumes test:unit
+      # Env vars are needed because myTeamStore calls getActiveTenantId() at module load
       - name: Test UI (unit + coverage)
         run: npm run test:coverage
         working-directory: packages/ui
+        env:
+          VITE_TENANT_ID: trc-2025
+          VITE_CLERK_PUBLISHABLE_KEY: pk_test_placeholder
 
       - name: Upload coverage to Codecov
         if: always()
