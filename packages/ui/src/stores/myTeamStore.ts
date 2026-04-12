@@ -1,10 +1,10 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { Player } from '../mocks/playerData';
+import type { Player, PlayerPosition, PlayerStats } from '../mocks/playerData';
 import { VALIDATION, STORAGE_KEYS } from '../config/constants';
 import { getPositionsByType, getAllPositions } from '../config/fieldLayouts';
 import { getActiveTenantId } from '../utils/tenant';
-import type { PlayerStatus } from '@spectatr/shared-types';
+import type { PlayerStatus, TeamWithPlayers } from '@spectatr/shared-types';
 
 // Slot-based player storage: maps field slot ID to player (or null if vacant)
 export type PlayerSlots = Record<string, Player | null>;
@@ -24,6 +24,11 @@ export interface MyTeamState {
   slots: PlayerSlots;
   totalCost: number;
 
+  // === League / Team Context ===
+  selectedLeagueId: number | null;
+  teamId: number | null;
+  teamName: string;
+
   // === Squad Actions ===
   addPlayer: (player: Player) => void;
   removePlayer: (playerId: number) => void;
@@ -32,6 +37,9 @@ export interface MyTeamState {
   getRemainingBudget: (maxBudget: number) => number;
   getSelectedPlayers: () => Player[]; // Helper to get array of players
   getPlayerSlot: (playerId: number) => string | null; // Get slot ID for a player
+  loadTeam: (team: TeamWithPlayers) => void;
+  setLeagueId: (leagueId: number | null) => void;
+  setTeamName: (name: string) => void;
 
   // === UI State ===
   filters: PlayerFilters;
@@ -95,6 +103,11 @@ export const useMyTeamStore = create<MyTeamState>()(
       // === Initial Squad Data ===
       slots: initializeSlots(),
       totalCost: 0,
+
+      // === League / Team Context ===
+      selectedLeagueId: null,
+      teamId: null,
+      teamName: '',
 
       // === Squad Actions ===
       addPlayer: (player) =>
@@ -184,6 +197,59 @@ export const useMyTeamStore = create<MyTeamState>()(
         const slotId = Object.keys(slots).find((slotId) => slots[slotId]?.id === playerId);
         return slotId || null;
       },
+
+      loadTeam: (team) =>
+        set(() => {
+          const newSlots = initializeSlots();
+          let newTotalCost = 0;
+
+          for (const tp of team.teamPlayers) {
+            const slotId = findAvailableSlot(newSlots, tp.position);
+            if (slotId) {
+              // Map server player shape to UI Player shape
+              const player: Player = {
+                id: tp.player.id,
+                feedId: tp.player.feedId,
+                squadId: tp.player.squadId,
+                firstName: tp.player.firstName,
+                lastName: tp.player.lastName,
+                position: tp.player.position as PlayerPosition,
+                cost: tp.player.cost,
+                status: tp.player.status as PlayerStatus,
+                isLocked: tp.player.isLocked,
+                stats: {
+                  ...tp.player.stats,
+                  scores: tp.player.stats.scores ?? null,
+                } as PlayerStats,
+                selected: tp.player.selected,
+                imagePitch: tp.player.imagePitch ?? '',
+                imageProfile: tp.player.imageProfile ?? '',
+              };
+              newSlots[slotId] = player;
+              newTotalCost += player.cost;
+            }
+          }
+
+          return {
+            slots: newSlots,
+            totalCost: newTotalCost,
+            teamId: team.id,
+            teamName: team.name,
+            selectedLeagueId: team.leagueId,
+          };
+        }),
+
+      setLeagueId: (leagueId) =>
+        set(() => ({
+          slots: initializeSlots(),
+          totalCost: 0,
+          selectedLeagueId: leagueId,
+          teamId: leagueId === null ? null : null,
+          teamName: leagueId === null ? '' : '',
+        })),
+
+      setTeamName: (name) =>
+        set({ teamName: name }),
 
       // === Initial UI State ===
       filters: defaultFilters,
@@ -280,6 +346,8 @@ export const useMyTeamStore = create<MyTeamState>()(
         filters: state.filters,
         activeTab: state.activeTab,
         priceRange: state.priceRange,
+        selectedLeagueId: state.selectedLeagueId,
+        teamName: state.teamName,
       }),
     }
   )

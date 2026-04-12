@@ -76,6 +76,9 @@ describe('myTeamStore', () => {
     useMyTeamStore.setState({
       slots: {},
       totalCost: 0,
+      selectedLeagueId: null,
+      teamId: null,
+      teamName: '',
       filters: {
         search: '',
         position: null,
@@ -763,6 +766,128 @@ describe('myTeamStore', () => {
       
       expect(selected).toHaveLength(1);
       expect(totalCost).toBe(5000000); // Only counted once
+    });
+  });
+
+  describe('loadTeam', () => {
+    const firstPosition = () => Object.keys(sportSquadConfig.positions)[0];
+
+    type TeamPlayerEntry = {
+      id: number;
+      playerId: number;
+      position: string;
+      player: Player & { imagePitch: string; imageProfile: string };
+    };
+
+    const makeTeamWithPlayers = (teamPlayerOverrides?: TeamPlayerEntry[]) => {
+      const basePlayer = players[0] as Player;
+      const defaultTeamPlayers: TeamPlayerEntry[] = [
+        {
+          id: 1,
+          playerId: basePlayer.id,
+          position: basePlayer.position,
+          player: {
+            ...basePlayer,
+            imagePitch: basePlayer.imagePitch ?? '',
+            imageProfile: basePlayer.imageProfile ?? '',
+          },
+        },
+      ];
+      return {
+        id: 42,
+        tenantId: 'trc-2025',
+        userId: 'user-1',
+        leagueId: 7,
+        name: 'My Test Team',
+        budget: 42_000_000,
+        totalCost: basePlayer.cost,
+        points: 0,
+        wins: 0,
+        losses: 0,
+        draws: 0,
+        teamPlayers: teamPlayerOverrides ?? defaultTeamPlayers,
+      };
+    };
+
+    it('maps TeamPlayer records to slots and sets teamId and teamName', () => {
+      const { loadTeam } = useMyTeamStore.getState();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const team = makeTeamWithPlayers() as any;
+
+      loadTeam(team);
+
+      const state = useMyTeamStore.getState();
+      expect(state.teamId).toBe(42);
+      expect(state.teamName).toBe('My Test Team');
+      expect(state.selectedLeagueId).toBe(7);
+
+      const selectedPlayers = state.getSelectedPlayers();
+      expect(selectedPlayers).toHaveLength(1);
+      expect(selectedPlayers[0].id).toBe((players[0] as Player).id);
+    });
+
+    it('calculates totalCost from loaded players', () => {
+      const { loadTeam } = useMyTeamStore.getState();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const team = makeTeamWithPlayers() as any;
+
+      loadTeam(team);
+
+      expect(useMyTeamStore.getState().totalCost).toBe((players[0] as Player).cost);
+    });
+
+    it('clears existing slots before loading', () => {
+      const { addPlayer, loadTeam } = useMyTeamStore.getState();
+      const initialPlayer = getTestPlayer({ id: 99999, position: firstPosition() as Player['position'] });
+      addPlayer(initialPlayer);
+      expect(useMyTeamStore.getState().getSelectedPlayers()).toHaveLength(1);
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const team = makeTeamWithPlayers([]) as any;
+      loadTeam(team);
+
+      expect(useMyTeamStore.getState().getSelectedPlayers()).toHaveLength(0);
+      expect(useMyTeamStore.getState().totalCost).toBe(0);
+    });
+  });
+
+  describe('setLeagueId', () => {
+    it('sets selectedLeagueId and clears all slots', () => {
+      const { addPlayer, setLeagueId } = useMyTeamStore.getState();
+      const player = getTestPlayer();
+      addPlayer(player);
+      expect(useMyTeamStore.getState().getSelectedPlayers()).toHaveLength(1);
+
+      setLeagueId(5);
+
+      const state = useMyTeamStore.getState();
+      expect(state.selectedLeagueId).toBe(5);
+      expect(state.getSelectedPlayers()).toHaveLength(0);
+      expect(state.totalCost).toBe(0);
+    });
+
+    it('resets teamId and teamName when set to null', () => {
+      useMyTeamStore.setState({ teamId: 10, teamName: 'Old Team', selectedLeagueId: 3 });
+
+      useMyTeamStore.getState().setLeagueId(null);
+
+      const state = useMyTeamStore.getState();
+      expect(state.selectedLeagueId).toBeNull();
+      expect(state.teamId).toBeNull();
+      expect(state.teamName).toBe('');
+    });
+
+    it('clears all slots when switching leagues', () => {
+      const { addPlayer, setLeagueId } = useMyTeamStore.getState();
+      const player = getTestPlayer();
+      addPlayer(player);
+
+      setLeagueId(99);
+
+      const state = useMyTeamStore.getState();
+      Object.values(state.slots).forEach((slot) => {
+        expect(slot).toBeNull();
+      });
     });
   });
 });

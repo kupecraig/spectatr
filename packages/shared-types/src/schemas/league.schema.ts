@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { playerSchema } from './player.schema';
 
 /**
  * Optional draft configuration — only relevant when draftMode is true.
@@ -219,3 +220,32 @@ export const teamSchema = z.object({
 });
 
 export type Team = z.infer<typeof teamSchema>;
+
+export const saveSquadPlayerSchema = z.object({
+  playerId: z.number().int().positive(),
+  position: z.string(),
+});
+
+export const saveSquadInputSchema = z.object({
+  leagueId: z.number().int().positive(),
+  players: z.array(saveSquadPlayerSchema).min(1).max(30),
+});
+
+export const updateTeamNameInputSchema = z.object({
+  leagueId: z.number().int().positive(),
+  name: z.string().min(1).max(50).trim(),
+});
+
+export const teamWithPlayersSchema = teamSchema.extend({
+  teamPlayers: z.array(z.object({
+    id: z.number(),
+    playerId: z.number(),
+    position: z.string(),
+    player: playerSchema,
+  })),
+});
+
+export type SaveSquadPlayer = z.infer<typeof saveSquadPlayerSchema>;
+export type SaveSquadInput = z.infer<typeof saveSquadInputSchema>;
+export type UpdateTeamNameInput = z.infer<typeof updateTeamNameInputSchema>;
+export type TeamWithPlayers = z.infer<typeof teamWithPlayersSchema>;
