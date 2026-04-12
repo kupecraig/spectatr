@@ -12,10 +12,9 @@
     "db:migrate": "dotenv -e env/.env -- prisma migrate dev",
     "db:migrate:deploy": "dotenv -e env/.env -- prisma migrate deploy",
     "db:migrate:superuser": "cross-env DATABASE_URL=postgresql://postgres:postgres@localhost:5432/spectatr prisma migrate deploy",
-    "db:seed": "dotenv -e env/.env -- tsx src/scripts/seed.ts",
-    "seed:trc": "dotenv -e env/.env -- tsx src/scripts/seed.ts --tenant trc-2025",
-    "seed:super": "dotenv -e env/.env -- tsx src/scripts/seed.ts --tenant super-2026",
-    "seed:all": "dotenv -e env/.env -- tsx src/scripts/seed.ts --all",
+    "seed:trc": "dotenv -e env/.env.superuser -- tsx src/scripts/seed.ts --tenant trc-2025",
+    "seed:super": "dotenv -e env/.env.superuser -- tsx src/scripts/seed.ts --tenant super-2026",
+    "seed:all": "dotenv -e env/.env.superuser -- tsx src/scripts/seed.ts --all",
     "db:studio": "dotenv -e env/.env -- prisma studio",
     "db:reset": "dotenv -e env/.env -- prisma migrate reset",
     "lint": "eslint ."

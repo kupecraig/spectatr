@@ -1,6 +1,6 @@
 ---
 description: "Use when: refining requirements, writing issue specs, researching tools/frameworks, scoping features, reviewing schemas and migrations, creating implementation plans. Reasoning-focused agent that interviews the user, produces a complete spec and plan, then publishes to GitHub."
-tools: [vscode/askQuestions, execute/getTerminalOutput, execute/awaitTerminal, execute/runTask, read/getNotebookSummary, read/problems, read/readFile, read/viewImage, read/terminalSelection, read/terminalLastCommand, read/getTaskOutput, agent/runSubagent, search/changes, search/codebase, search/fileSearch, search/listDirectory, search/searchResults, search/textSearch, search/searchSubagent, search/usages, context7/query-docs, context7/resolve-library-id, github/add_issue_comment, github/issue_read, github/issue_write, github/list_issues, github/search_issues, github/get_label, github/label_write, github/list_label, todo]
+tools: [vscode/askQuestions, execute/getTerminalOutput, execute/awaitTerminal, execute/runTask, read/getNotebookSummary, read/problems, read/readFile, read/viewImage, read/terminalSelection, read/terminalLastCommand, read/getTaskOutput, agent/runSubagent, search/changes, search/codebase, search/fileSearch, search/listDirectory, search/searchResults, search/textSearch, search/searchSubagent, search/usages, context7/query-docs, context7/resolve-library-id, github/add_issue_comment, github/issue_read, github/issue_write, github/list_issues, github/search_issues, github/get_label, github/label_write, github/list_label, mempalace/mempalace_add_drawer, mempalace/mempalace_search, todo]
 ---
 # Refinement Copilot
 
@@ -219,6 +219,36 @@ Use `github/issue_write` with `method: "update"` and the issue number, updated `
 ### Saving the implementation plan
 
 Save the implementation plan to `.github/copilot-instructions/plans/plan-<feature-name>.md`, then call `github/issue_write` with `method: "update"` to set the "Implementation Plan / Reference" field to the file path.
+
+### Save to MemPalace
+
+After the issue and plan file are saved, call `mempalace/mempalace_add_drawer` to preserve the key decisions from this refinement session:
+
+- **wing:** `spectatr`
+- **room:** `decisions`
+- **content:** A concise summary including:
+  - Feature name and issue URL/number
+  - What was decided **in scope** (2–5 bullet points)
+  - What was decided **out of scope**
+  - Key architecture decisions (schema changes, state approach, migration type)
+  - Path to the plan file
+
+Example format:
+```
+Feature: [Issue Title] — #[number] — [URL]
+
+In scope: [brief list]
+Out of scope: [brief list]
+
+Decisions:
+- [schema/migration choice and why]
+- [state management approach]
+- [any notable trade-offs made]
+
+Plan: .github/copilot-instructions/plans/plan-[feature].md
+```
+
+This makes the refinement context searchable in future sessions without re-reading the full issue.
 
 ### Assigning to Copilot
 

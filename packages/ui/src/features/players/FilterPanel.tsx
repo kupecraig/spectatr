@@ -181,13 +181,10 @@ const STATUS_LABELS: Record<string, string> = {
 
           {/* Status multi-select */}
           <FormControl fullWidth size="small">
-            <InputLabel id="status-filter-label">Status</InputLabel>
             <Select
-              labelId="status-filter-label"
               id="status-filter"
               multiple
               value={filters.statuses}
-              label="Status"
               onChange={(e) => setFilters({ statuses: e.target.value as PlayerStatus[] })}
               renderValue={(selected) =>
                 selected.length === 0 ? 'All statuses' : selected.map((s) => STATUS_LABELS[s] ?? s).join(', ')
