@@ -9,6 +9,10 @@ import {
   CardContent,
   CardHeader,
   Container,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   FormControl,
   FormControlLabel,
   IconButton,
@@ -30,6 +34,7 @@ import {
   useLeagueDetailQuery,
   useUpdateLeagueMutation,
   useActivateLeagueMutation,
+  useDeleteLeagueMutation,
 } from '@/hooks/api/useLeaguesQuery';
 import type { LeagueRules } from '@spectatr/shared-types';
 import { MIN_PARTICIPANTS } from '@spectatr/shared-types';
@@ -49,6 +54,7 @@ export function LeagueSettingsPage() {
   const { data: detail, isLoading } = useLeagueDetailQuery(id);
   const updateMutation = useUpdateLeagueMutation();
   const activateMutation = useActivateLeagueMutation();
+  const deleteMutation = useDeleteLeagueMutation();
 
   // ── Local form state ────────────────────────────────────────────────────────
   const [name, setName] = useState('');
@@ -56,6 +62,7 @@ export function LeagueSettingsPage() {
   const [isPublic, setIsPublic] = useState(false);
   const [rules, setRules] = useState<Partial<LeagueRules>>({});
   const [isDirty, setIsDirty] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
   // Initialise form from loaded league data
   useEffect(() => {
@@ -94,6 +101,13 @@ export function LeagueSettingsPage() {
   const handleActivate = async () => {
     if (!id) return;
     await activateMutation.mutateAsync(id);
+  };
+
+  const handleDelete = async () => {
+    if (!id) return;
+    await deleteMutation.mutateAsync(id);
+    setDeleteDialogOpen(false);
+    navigate('/leagues');
   };
 
   // Participant bounds — Standard mode only at MVP
@@ -433,9 +447,74 @@ export function LeagueSettingsPage() {
             </Card>
           )}
 
+          {/* ── Danger Zone ── shown only to creator ── */}
+          {isCreator && (
+            <Card variant="outlined" sx={{ borderColor: 'error.main' }}>
+              <CardHeader
+                title="Danger Zone"
+                subheader="Irreversible actions — proceed with caution"
+              />
+              <CardContent>
+                <Button
+                  variant="outlined"
+                  color="error"
+                  onClick={() => setDeleteDialogOpen(true)}
+                >
+                  Delete League
+                </Button>
+              </CardContent>
+            </Card>
+          )}
+
         </Stack>
       </Container>
+
+      {/* Delete confirmation dialog */}
+      <DeleteLeagueDialog
+        open={deleteDialogOpen}
+        leagueName={detail.name}
+        isPending={deleteMutation.isPending}
+        onConfirm={handleDelete}
+        onClose={() => setDeleteDialogOpen(false)}
+      />
     </Box>
+  );
+}
+
+function DeleteLeagueDialog({
+  open,
+  leagueName,
+  isPending,
+  onConfirm,
+  onClose,
+}: {
+  open: boolean;
+  leagueName: string;
+  isPending: boolean;
+  onConfirm: () => void;
+  onClose: () => void;
+}) {
+  return (
+    <Dialog open={open} onClose={onClose} maxWidth="xs" fullWidth>
+      <DialogTitle>Delete {leagueName}?</DialogTitle>
+      <DialogContent>
+        <Typography variant="body2">
+          This will permanently delete the league and all associated teams and data. This
+          cannot be undone.
+        </Typography>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={onClose} disabled={isPending}>Cancel</Button>
+        <Button
+          color="error"
+          variant="contained"
+          onClick={onConfirm}
+          disabled={isPending}
+        >
+          {isPending ? 'Deleting…' : 'Delete League'}
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 }
 
