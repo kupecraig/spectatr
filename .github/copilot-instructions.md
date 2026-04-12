@@ -246,7 +246,6 @@ All validation uses Zod schemas from `@spectatr/shared-types` package.
 - Local semantic memory system indexed from past AI sessions and repo docs
 - MCP server exposes `mempalace_search` — call it when retrieving past decisions, reasoning, or context
 - Search examples: `mempalace_search "why tRPC"`, `mempalace_search "RLS user_leagues"`, `mempalace_search "league format decision"`
-- Setup: [plan-mempalaceSetup.md](copilot-instructions/plans/plan-mempalaceSetup.md)
 
 **Mock Data:**
 - `data/trc-2025/` - The Rugby Championship 2025 (160 players, 4 squads, 16 rounds)

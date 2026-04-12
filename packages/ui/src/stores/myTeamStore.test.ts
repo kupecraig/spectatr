@@ -80,11 +80,12 @@ describe('myTeamStore', () => {
         search: '',
         position: null,
         squad: null,
-        minPrice: 1,
-        maxPrice: 20,
+        minPrice: 0,
+        maxPrice: 25,
         withinBudget: false,
         statuses: [],
       },
+      priceRange: { min: 0, max: 25 },
       activeTab: 'LIST',
       comparisonModalOpen: false,
       comparisonPlayers: [],
@@ -575,6 +576,74 @@ describe('myTeamStore', () => {
         const { filters } = useMyTeamStore.getState();
         expect(filters.search).toBe('');
         expect(filters.withinBudget).toBe(false);
+      });
+
+      it('should reset price to priceRange after initializePriceRange', () => {
+        const { initializePriceRange, setFilters, resetFilters } = useMyTeamStore.getState();
+
+        initializePriceRange(2, 8);
+        setFilters({ search: 'Test', minPrice: 4, maxPrice: 6 });
+        resetFilters();
+
+        const { filters } = useMyTeamStore.getState();
+        expect(filters.minPrice).toBe(2);
+        expect(filters.maxPrice).toBe(8);
+        expect(filters.search).toBe('');
+      });
+    });
+
+    describe('initializePriceRange', () => {
+      it('should set minPrice and maxPrice when filters are at defaults', () => {
+        const { initializePriceRange } = useMyTeamStore.getState();
+
+        initializePriceRange(2, 8);
+
+        const { filters, priceRange } = useMyTeamStore.getState();
+        expect(filters.minPrice).toBe(2);
+        expect(filters.maxPrice).toBe(8);
+        expect(priceRange.min).toBe(2);
+        expect(priceRange.max).toBe(8);
+      });
+
+      it('should NOT override filters that have been user-modified', () => {
+        const { initializePriceRange, setFilters } = useMyTeamStore.getState();
+
+        // First initialize to establish a data range
+        initializePriceRange(2, 8);
+
+        // User modifies the price filter
+        setFilters({ minPrice: 4, maxPrice: 6 });
+
+        // Calling initializePriceRange again should not override user-set values
+        initializePriceRange(2, 8);
+
+        const { filters } = useMyTeamStore.getState();
+        expect(filters.minPrice).toBe(4);
+        expect(filters.maxPrice).toBe(6);
+      });
+
+      it('should update priceRange so resetFilters uses the new range', () => {
+        const { initializePriceRange, resetFilters } = useMyTeamStore.getState();
+
+        initializePriceRange(2, 8);
+        resetFilters();
+
+        const { filters } = useMyTeamStore.getState();
+        expect(filters.minPrice).toBe(2);
+        expect(filters.maxPrice).toBe(8);
+      });
+
+      it('should be safe to call multiple times with same values', () => {
+        const { initializePriceRange } = useMyTeamStore.getState();
+
+        initializePriceRange(2, 8);
+        initializePriceRange(2, 8);
+
+        const { filters, priceRange } = useMyTeamStore.getState();
+        expect(filters.minPrice).toBe(2);
+        expect(filters.maxPrice).toBe(8);
+        expect(priceRange.min).toBe(2);
+        expect(priceRange.max).toBe(8);
       });
     });
 

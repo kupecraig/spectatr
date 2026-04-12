@@ -16,6 +16,7 @@ export default meta;
 
 const defaultProps = {
   squadNames: ['Argentina', 'Australia', 'New Zealand', 'South Africa'],
+  minPlayerPrice: 3,
   maxPlayerPrice: 15,
 };
 
@@ -234,5 +235,24 @@ export const ClearFiltersInteraction: StoryObj<typeof FilterPanel> = {
     // Verify search input is cleared
     const searchInput = canvas.getByPlaceholderText(/search/i);
     await expect(searchInput).toHaveValue('');
+  },
+};
+
+// Low price range — verifies slider min reflects actual data (e.g. super-2026 players from $2M)
+export const LowPriceRange: StoryObj<typeof FilterPanel> = {
+  render: () => {
+    const store = useMyTeamStore.getState();
+    store.resetFilters();
+    store.setFilters({ minPrice: 2, maxPrice: 7 });
+    if (!store.filtersExpanded) store.toggleFilters();
+
+    return <FilterPanel squadNames={defaultProps.squadNames} minPlayerPrice={2} maxPlayerPrice={7} />;
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // Price label should show the low range
+    const priceLabel = await canvas.findByText(/\$2M/);
+    await expect(priceLabel).toBeVisible();
   },
 };

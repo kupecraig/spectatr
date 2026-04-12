@@ -22,21 +22,21 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import SearchIcon from '@mui/icons-material/Search';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { useMyTeamStore } from '@/stores';
-import { VALIDATION } from '@/config/constants';
 import { sportSquadConfig, playerStatusSchema } from '@spectatr/shared-types';
 import type { PlayerStatus } from '@spectatr/shared-types';
 
 interface FilterPanelProps {
   squadNames: string[];
+  minPlayerPrice: number;
   maxPlayerPrice: number;
 }
 
-export const FilterPanel: FC<FilterPanelProps> = ({ squadNames, maxPlayerPrice }) => {
+export const FilterPanel: FC<FilterPanelProps> = ({ squadNames, minPlayerPrice, maxPlayerPrice }) => {
   const { filters, setFilters, resetFilters, filtersExpanded, toggleFilters } = useMyTeamStore();
 
   // Check if price filter has been changed from defaults
   const isPriceFilterActive = 
-    filters.minPrice !== VALIDATION.MIN_PRICE || 
+    filters.minPrice !== minPlayerPrice || 
     filters.maxPrice !== maxPlayerPrice;
 
   // Count active filters
@@ -156,11 +156,13 @@ const STATUS_LABELS: Record<string, string> = {
             <Slider
               value={[filters.minPrice, filters.maxPrice]}
               onChange={(_, newValue) => {
-                const [min, max] = newValue;
-                setFilters({ minPrice: min, maxPrice: max });
+                if (Array.isArray(newValue)) {
+                  const [min, max] = newValue;
+                  setFilters({ minPrice: min, maxPrice: max });
+                }
               }}
               valueLabelDisplay="auto"
-              min={VALIDATION.MIN_PRICE}
+              min={minPlayerPrice}
               max={maxPlayerPrice}
               marks
             />
@@ -179,13 +181,10 @@ const STATUS_LABELS: Record<string, string> = {
 
           {/* Status multi-select */}
           <FormControl fullWidth size="small">
-            <InputLabel id="status-filter-label">Status</InputLabel>
             <Select
-              labelId="status-filter-label"
               id="status-filter"
               multiple
               value={filters.statuses}
-              label="Status"
               onChange={(e) => setFilters({ statuses: e.target.value as PlayerStatus[] })}
               renderValue={(selected) =>
                 selected.length === 0 ? 'All statuses' : selected.map((s) => STATUS_LABELS[s] ?? s).join(', ')

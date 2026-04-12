@@ -17,7 +17,7 @@ export const playersRouter = router({
         maxCost: z.number().optional(),
         search: z.string().optional(),
         statuses: z.array(playerStatusSchema).optional(),
-        limit: z.number().min(1).max(100).default(50),
+        limit: z.number().min(1).max(500).default(50),
         offset: z.number().min(0).default(0),
       })
     )

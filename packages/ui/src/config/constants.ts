@@ -21,7 +21,7 @@ export const API_CONFIG = {
 
 // Validation constants - for UI, not for squad validation
 export const VALIDATION = {
-  MIN_PRICE: 3,
+  MIN_PRICE: 0,
   MAX_PRICE: 25,
   MAX_COMPARISON_PLAYERS: 3,
 } as const;

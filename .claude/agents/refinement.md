@@ -1,6 +1,6 @@
 ---
 description: "Use when: refining requirements, writing issue specs, researching tools/frameworks, scoping features, reviewing schemas and migrations, creating implementation plans. Reasoning-focused agent that interviews the user, produces a complete spec and plan, then publishes to GitHub."
-tools: [Bash, Read, Glob, Grep, WebFetch, AskUserQuestion, mcp__context7__resolve-library-id, mcp__context7__get-library-docs, mcp__github__search_issues, mcp__github__list_issues, mcp__github__get_issue, mcp__github__create_issue, mcp__github__update_issue, mcp__github__add_issue_comment, mcp__github__list_labels, mcp__github__create_label]
+tools: [Bash, Read, Glob, Grep, WebFetch, AskUserQuestion, mcp__context7__resolve-library-id, mcp__context7__get-library-docs, mcp__github__search_issues, mcp__github__list_issues, mcp__github__get_issue, mcp__github__create_issue, mcp__github__update_issue, mcp__github__add_issue_comment, mcp__github__list_labels, mcp__github__create_label, mcp__mempalace__mempalace_add_drawer, mcp__mempalace__mempalace_search]
 ---
 # Refinement Agent (Claude Code)
 
@@ -219,6 +219,36 @@ Use `mcp__github__update_issue` with the issue number and updated `title`, `body
 ### Saving the implementation plan
 
 Save the implementation plan to `.github/copilot-instructions/plans/plan-<feature-name>.md`, then update the issue's "Implementation Plan / Reference" field via `mcp__github__update_issue` with the file path.
+
+### Save to MemPalace
+
+After the issue and plan file are saved, call `mcp__mempalace__mempalace_add_drawer` to preserve the key decisions from this refinement session:
+
+- **wing:** `spectatr`
+- **room:** `decisions`
+- **content:** A concise summary including:
+  - Feature name and issue URL/number
+  - What was decided **in scope** (2–5 bullet points)
+  - What was decided **out of scope**
+  - Key architecture decisions (schema changes, state approach, migration type)
+  - Path to the plan file
+
+Example format:
+```
+Feature: [Issue Title] — #[number] — [URL]
+
+In scope: [brief list]
+Out of scope: [brief list]
+
+Decisions:
+- [schema/migration choice and why]
+- [state management approach]
+- [any notable trade-offs made]
+
+Plan: .github/copilot-instructions/plans/plan-[feature].md
+```
+
+This makes the refinement context searchable in future sessions without re-reading the full issue.
 
 ### Assigning to Copilot
 

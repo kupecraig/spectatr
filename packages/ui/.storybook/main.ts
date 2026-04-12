@@ -1,5 +1,6 @@
 import type { StorybookConfig } from '@storybook/react-vite';
 import { mergeConfig } from 'vite';
+import { fileURLToPath } from 'node:url';
 
 const config: StorybookConfig = {
   stories: ['../src/**/*.stories.@(js|jsx|ts|tsx)'],
@@ -15,6 +16,10 @@ const config: StorybookConfig = {
       resolve: {
         alias: {
           '@': '/src',
+          // Mock Clerk in Storybook — the real ClerkProvider throws when given
+          // a placeholder publishable key (e.g. in CI). The mock provides
+          // passthrough components and stub hooks so stories render without auth.
+          '@clerk/clerk-react': fileURLToPath(new URL('../src/test/clerkMock.tsx', import.meta.url)),
         },
       },
     });
