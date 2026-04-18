@@ -25,7 +25,12 @@ const TENANT_SCOPED_MODELS = new Set([
   'gameweekstate', 'scoringevent', 'checksum',
 ]);
 
-function createTenantScopedPrisma(tenantId: string) {
+/**
+ * Create tenant-scoped Prisma client.
+ *
+ * Exported for use by test helpers (createTestContext).
+ */
+export function createTenantScopedPrisma(tenantId: string) {
   const safeTenantId = tenantId.replaceAll("'", "''");
 
   return prisma.$extends({

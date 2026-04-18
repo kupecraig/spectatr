@@ -18,3 +18,9 @@ const t = initTRPC.context<Context>().create();
 export const router = t.router;
 export const publicProcedure = t.procedure;
 export const middleware = t.middleware;
+
+/**
+ * Export createCallerFactory for integration tests.
+ * Usage: createCallerFactory(appRouter)(ctx)
+ */
+export const createCallerFactory = t.createCallerFactory;
