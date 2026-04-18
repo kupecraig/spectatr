@@ -3,11 +3,15 @@
  *
  * Factory functions for creating and cleaning up test data.
  * Each function returns a cleanup() that deletes the created rows.
- * Uses the base Prisma client (not tenant-scoped) for admin operations.
+ * 
+ * Tenant-scoped tables use createTenantScopedPrisma to set app.current_tenant
+ * before writes, satisfying RLS policies when connecting as spectatr_app.
+ * Non-tenant tables (Tenant, User) use the base prisma client.
  */
 
 import { Tenant, User, Squad, Player, League, Tournament, Round, GameweekState } from '@prisma/client';
 import { prisma } from '../../db/prisma.js';
+import { createTenantScopedPrisma } from '../../trpc/context.js';
 import { nanoid } from 'nanoid';
 
 // Counter for unique feedId values (deterministic, no collision risk)
@@ -15,7 +19,8 @@ let feedIdCounter = 100000;
 
 /**
  * Create a test tenant with unique ID.
- * Tenants are NOT tenant-scoped (no RLS), so we use the base client.
+ * Tenants are NOT tenant-scoped (no RLS), so we use the base client for tenant creation.
+ * However, cleanup uses tenant-scoped Prisma for deleting tenant-scoped data.
  */
 export async function createTestTenant(
   id?: string
@@ -37,16 +42,20 @@ export async function createTestTenant(
   return {
     tenant,
     cleanup: async () => {
+      // Use tenant-scoped Prisma for tenant-scoped tables (RLS)
+      const scopedPrisma = createTenantScopedPrisma(tenantId);
+      
       // Delete in reverse dependency order
-      await prisma.gameweekState.deleteMany({ where: { tenantId } });
-      await prisma.scoringEvent.deleteMany({ where: { tenantId } });
-      await prisma.checksum.deleteMany({ where: { tenantId } });
-      await prisma.team.deleteMany({ where: { tenantId } });
-      await prisma.league.deleteMany({ where: { tenantId } });
-      await prisma.player.deleteMany({ where: { tenantId } });
-      await prisma.round.deleteMany({ where: { tenantId } });
-      await prisma.tournament.deleteMany({ where: { tenantId } });
-      await prisma.squad.deleteMany({ where: { tenantId } });
+      await scopedPrisma.gameweekState.deleteMany({ where: { tenantId } });
+      await scopedPrisma.scoringEvent.deleteMany({ where: { tenantId } });
+      await scopedPrisma.checksum.deleteMany({ where: { tenantId } });
+      await scopedPrisma.team.deleteMany({ where: { tenantId } });
+      await scopedPrisma.league.deleteMany({ where: { tenantId } });
+      await scopedPrisma.player.deleteMany({ where: { tenantId } });
+      await scopedPrisma.round.deleteMany({ where: { tenantId } });
+      await scopedPrisma.tournament.deleteMany({ where: { tenantId } });
+      await scopedPrisma.squad.deleteMany({ where: { tenantId } });
+      // Tenant itself is not RLS-protected
       await prisma.tenant.delete({ where: { id: tenantId } });
     },
   };
@@ -88,14 +97,16 @@ export async function createTestUser(
 
 /**
  * Create a test squad for a tenant.
+ * Uses tenant-scoped Prisma to satisfy RLS policies.
  */
 export async function createTestSquad(
   tenantId: string,
   overrides?: Partial<Omit<Squad, 'id' | 'createdAt' | 'updatedAt' | 'tenantId'>>
 ): Promise<{ squad: Squad; cleanup: () => Promise<void> }> {
   const abbrev = overrides?.abbreviation ?? `SQD${nanoid(4)}`;
+  const scopedPrisma = createTenantScopedPrisma(tenantId);
 
-  const squad = await prisma.squad.create({
+  const squad = await scopedPrisma.squad.create({
     data: {
       tenantId,
       name: overrides?.name ?? `Test Squad ${abbrev}`,
@@ -109,14 +120,15 @@ export async function createTestSquad(
     squad,
     cleanup: async () => {
       // Delete players in squad first (FK constraint)
-      await prisma.player.deleteMany({ where: { squadId: squad.id } });
-      await prisma.squad.delete({ where: { id: squad.id } });
+      await scopedPrisma.player.deleteMany({ where: { squadId: squad.id } });
+      await scopedPrisma.squad.delete({ where: { id: squad.id } });
     },
   };
 }
 
 /**
  * Create a test player for a tenant and squad.
+ * Uses tenant-scoped Prisma to satisfy RLS policies.
  */
 export async function createTestPlayer(
   tenantId: string,
@@ -125,8 +137,9 @@ export async function createTestPlayer(
 ): Promise<{ player: Player; cleanup: () => Promise<void> }> {
   // Use counter for unique feedId (deterministic, no collision risk)
   const feedId = overrides?.feedId ?? feedIdCounter++;
+  const scopedPrisma = createTenantScopedPrisma(tenantId);
 
-  const player = await prisma.player.create({
+  const player = await scopedPrisma.player.create({
     data: {
       tenantId,
       squadId,
@@ -147,9 +160,9 @@ export async function createTestPlayer(
   return {
     player,
     cleanup: async () => {
-      await prisma.scoringEvent.deleteMany({ where: { playerId: player.id } });
-      await prisma.teamPlayer.deleteMany({ where: { playerId: player.id } });
-      await prisma.player.delete({ where: { id: player.id } });
+      await scopedPrisma.scoringEvent.deleteMany({ where: { playerId: player.id } });
+      await scopedPrisma.teamPlayer.deleteMany({ where: { playerId: player.id } });
+      await scopedPrisma.player.delete({ where: { id: player.id } });
     },
   };
 }
@@ -157,12 +170,15 @@ export async function createTestPlayer(
 /**
  * Create a test tournament for a tenant.
  * Required for league creation (leagues derive season from tournament).
+ * Uses tenant-scoped Prisma to satisfy RLS policies.
  */
 export async function createTestTournament(
   tenantId: string,
   overrides?: Partial<Omit<Tournament, 'id' | 'createdAt' | 'updatedAt' | 'tenantId'>>
 ): Promise<{ tournament: Tournament; cleanup: () => Promise<void> }> {
-  const tournament = await prisma.tournament.create({
+  const scopedPrisma = createTenantScopedPrisma(tenantId);
+
+  const tournament = await scopedPrisma.tournament.create({
     data: {
       tenantId,
       name: overrides?.name ?? 'Test Tournament',
@@ -176,14 +192,15 @@ export async function createTestTournament(
     tournament,
     cleanup: async () => {
       // Delete rounds first (FK constraint)
-      await prisma.round.deleteMany({ where: { tournamentId: tournament.id } });
-      await prisma.tournament.delete({ where: { id: tournament.id } });
+      await scopedPrisma.round.deleteMany({ where: { tournamentId: tournament.id } });
+      await scopedPrisma.tournament.delete({ where: { id: tournament.id } });
     },
   };
 }
 
 /**
  * Create a test round for a tenant and tournament.
+ * Uses tenant-scoped Prisma to satisfy RLS policies.
  */
 export async function createTestRound(
   tenantId: string,
@@ -191,8 +208,9 @@ export async function createTestRound(
   overrides?: Partial<Omit<Round, 'id' | 'createdAt' | 'updatedAt' | 'tenantId' | 'tournamentId'>>
 ): Promise<{ round: Round; cleanup: () => Promise<void> }> {
   const roundNumber = overrides?.roundNumber ?? 1;
+  const scopedPrisma = createTenantScopedPrisma(tenantId);
 
-  const round = await prisma.round.create({
+  const round = await scopedPrisma.round.create({
     data: {
       tenantId,
       tournamentId,
@@ -207,20 +225,23 @@ export async function createTestRound(
   return {
     round,
     cleanup: async () => {
-      await prisma.scoringEvent.deleteMany({ where: { roundId: round.id } });
-      await prisma.round.delete({ where: { id: round.id } });
+      await scopedPrisma.scoringEvent.deleteMany({ where: { roundId: round.id } });
+      await scopedPrisma.round.delete({ where: { id: round.id } });
     },
   };
 }
 
 /**
  * Create a test gameweek state for a tenant.
+ * Uses tenant-scoped Prisma to satisfy RLS policies.
  */
 export async function createTestGameweekState(
   tenantId: string,
   overrides?: Partial<Omit<GameweekState, 'id' | 'createdAt' | 'updatedAt' | 'tenantId'>>
 ): Promise<{ gameweekState: GameweekState; cleanup: () => Promise<void> }> {
-  const gameweekState = await prisma.gameweekState.create({
+  const scopedPrisma = createTenantScopedPrisma(tenantId);
+
+  const gameweekState = await scopedPrisma.gameweekState.create({
     data: {
       tenantId,
       currentRound: overrides?.currentRound ?? 1,
@@ -233,7 +254,7 @@ export async function createTestGameweekState(
   return {
     gameweekState,
     cleanup: async () => {
-      await prisma.gameweekState.delete({ where: { id: gameweekState.id } });
+      await scopedPrisma.gameweekState.delete({ where: { id: gameweekState.id } });
     },
   };
 }
@@ -241,13 +262,16 @@ export async function createTestGameweekState(
 /**
  * Create a test league for a tenant.
  * Requires a user (creator) and optionally creates UserLeague membership.
+ * Uses tenant-scoped Prisma to satisfy RLS policies.
  */
 export async function createTestLeague(
   tenantId: string,
   creatorId: string,
   overrides?: Partial<Omit<League, 'id' | 'createdAt' | 'updatedAt' | 'tenantId' | 'creatorId'>>
 ): Promise<{ league: League; cleanup: () => Promise<void> }> {
-  const league = await prisma.league.create({
+  const scopedPrisma = createTenantScopedPrisma(tenantId);
+
+  const league = await scopedPrisma.league.create({
     data: {
       tenantId,
       creatorId,
@@ -268,22 +292,27 @@ export async function createTestLeague(
     league,
     cleanup: async () => {
       // Delete in FK order
-      await prisma.team.deleteMany({ where: { leagueId: league.id } });
-      await prisma.userLeague.deleteMany({ where: { leagueId: league.id } });
-      await prisma.league.delete({ where: { id: league.id } });
+      await scopedPrisma.team.deleteMany({ where: { leagueId: league.id } });
+      await scopedPrisma.userLeague.deleteMany({ where: { leagueId: league.id } });
+      await scopedPrisma.league.delete({ where: { id: league.id } });
     },
   };
 }
 
 /**
  * Create a UserLeague membership.
+ * Uses tenant-scoped Prisma to satisfy RLS policies.
+ * The tenantId is required because user_leagues RLS joins through leagues.tenantId.
  */
 export async function createTestUserLeague(
+  tenantId: string,
   userId: string,
   leagueId: number,
   role: 'creator' | 'member' = 'member'
 ): Promise<{ cleanup: () => Promise<void> }> {
-  await prisma.userLeague.create({
+  const scopedPrisma = createTenantScopedPrisma(tenantId);
+
+  await scopedPrisma.userLeague.create({
     data: {
       userId,
       leagueId,
@@ -293,7 +322,7 @@ export async function createTestUserLeague(
 
   return {
     cleanup: async () => {
-      await prisma.userLeague.delete({
+      await scopedPrisma.userLeague.delete({
         where: { userId_leagueId: { userId, leagueId } },
       });
     },

@@ -83,11 +83,12 @@ describe('leagues router', () => {
 
   afterAll(async () => {
     // Cleanup created league from test (if it exists)
-    if (createdLeague) {
-      const { prisma } = await import('../../db/prisma.js');
-      await prisma.team.deleteMany({ where: { leagueId: createdLeague.id } });
-      await prisma.userLeague.deleteMany({ where: { leagueId: createdLeague.id } });
-      await prisma.league.delete({ where: { id: createdLeague.id } });
+    if (createdLeague && tenantA) {
+      const { createTenantScopedPrisma } = await import('../../trpc/context.js');
+      const scopedPrisma = createTenantScopedPrisma(tenantA.tenant.id);
+      await scopedPrisma.team.deleteMany({ where: { leagueId: createdLeague.id } });
+      await scopedPrisma.userLeague.deleteMany({ where: { leagueId: createdLeague.id } });
+      await scopedPrisma.league.delete({ where: { id: createdLeague.id } });
     }
 
     // Cleanup in reverse order
@@ -173,6 +174,7 @@ describe('leagues router', () => {
     it('returns league detail for authenticated user', async () => {
       // Create membership for user1 to the public league
       const membership = await createTestUserLeague(
+        tenantA.tenant.id,
         user1.user.id,
         publicLeague.league.id,
         'creator'
