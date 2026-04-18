@@ -122,7 +122,7 @@ spectatr/
 │   ├── shared-types/          # Zod schemas, validation, sport configs
 │   │   ├── schemas/           # Player, squad, league schemas
 │   │   ├── validation/        # Pure validation functions
-│   │   └── config/            # Sport configs, field layouts
+│   │   └── config/            # Sport configs, field layouts, TenantConfig
 │   ├── ui/                    # React + MUI + Vite
 │   │   ├── env/               # Environment files (.env, .env.example)
 │   │   └── src/
@@ -136,7 +136,8 @@ spectatr/
 │   └── server/                # tRPC API + Prisma + PostgreSQL
 │       └── env/               # Environment files (.env, .env.example)
 ├── data/
-│   └── trc-2025/              # Seed data (players.json, squads.json, rounds.json)
+│   ├── trc-2025/              # Seed data (players.json, squads.json, rounds.json)
+│   └── super-2026/            # Seed data + player_round_stats.json (per-round stats)
 ```
 
 ## Tech Stack
@@ -182,6 +183,51 @@ spectatr/
 
 All validation uses Zod schemas from `@spectatr/shared-types` package.
 
+## TenantConfig Schema
+
+`TenantConfigSchema` in `packages/shared-types/src/config/tenant-config.ts` is **nested** (not flat):
+
+```typescript
+{
+  defaults?: {
+    priceCap?: number | null,
+    squadLimitPerTeamMax?: number,
+    defaultTransfersPerRound?: number,
+  },
+  scoring?: {
+    rules: Record<string, number>,  // e.g. { T: 15, TK: 1, LB: 7, MG_per10: 1 }
+  },
+}
+```
+
+**Do not access flat paths like `tenantConfig.priceCap`** — use `tenantConfig.defaults?.priceCap`.
+
+The `scoring.rules` map drives `ScoringEvent` creation at seed time and point calculation. The `super-2026` tenant has a full scoring rules set. `trc-2025` has no scoring data (points stay 0).
+
+## Scoring Architecture
+
+**How points work:**
+- `ScoringEvent` rows store raw stat events per player per round (created by seed from `player_round_stats.json`)
+- `TeamPlayerSnapshot` records the squad composition per team per round (created/updated by `teams.saveSquad`)
+- `calculateRoundPoints(prisma, tenantId, roundId)` in `packages/server/src/utils/scoring.ts` computes `Team.points` and `Player.totalPoints/avgPoints/lastRoundPoints` from these two tables
+- `gameweek.finaliseRound` (adminProcedure) locks a round and triggers calculation
+- `gameweek.recalculateLive` (adminProcedure) recalculates without locking (for polling during active rounds)
+
+**Updating scoring data (super-2026):**
+1. `npx tsx packages/server/src/scripts/fetchRoundStats.ts --tenant super-2026` — fetches new round stats from API, updates `data/super-2026/player_round_stats.json`
+2. `npm run db:seed -- --tenant super-2026` — re-seeds ScoringEvents and recalculates points
+3. Or call `gameweek.recalculateLive` via admin UI (Phase 2)
+
+## Admin Access
+
+`adminProcedure` in `packages/server/src/trpc/procedures.ts` — extends `authedProcedure`, reads `User.isAdmin` from DB, throws `FORBIDDEN` if false.
+
+For MVP, set `isAdmin = true` manually:
+```sql
+UPDATE users SET "isAdmin" = true WHERE email = 'your@email.com';
+```
+Or via Prisma Studio: `npm run db:studio`. A proper admin UI is Phase 2.
+
 ## Important Constraints
 
 1. **MUI Only** - No other UI libraries or custom CSS frameworks
@@ -216,11 +262,16 @@ All validation uses Zod schemas from `@spectatr/shared-types` package.
 - ✅ Zustand store (myTeamStore) with validation integration
 - ✅ Storybook component testing + Vitest unit testing
 
+**Planned (issues created, not yet implemented):**
+- 🔜 **#29** Admin foundation — `User.isAdmin` + `adminProcedure` guard
+- 🔜 **#30** Scoring infrastructure — `TeamPlayerSnapshot`, `ScoringEvent` seed, `calculateRoundPoints`, `gameweek.finaliseRound/recalculateLive`, `TenantConfig` restructure *(depends on #29)*
+- 🔜 **#27** Player list scoring display — `sortBy` parameter, stat badges, sort controls *(depends on #30)*
+- 🔜 **#28** Standings round selector — per-round points via round Select *(depends on #30)*
+
 **In Progress:**
 - Field visualization view
 - Squad building functionality
 - Frontend-backend integration
-- Draft system planning
 
 ## Quick Reference
 
@@ -249,7 +300,7 @@ All validation uses Zod schemas from `@spectatr/shared-types` package.
 
 **Mock Data:**
 - `data/trc-2025/` - The Rugby Championship 2025 (160 players, 4 squads, 16 rounds)
-- `data/super-2026/` - Super Rugby Pacific 2026 (441 players, 11 squads, 16 rounds)
+- `data/super-2026/` - Super Rugby Pacific 2026 (441 players, 11 squads, 16 rounds, player_round_stats.json)
 - `packages/ui/src/mocks/leagues.json` - Sample leagues
 - `packages/ui/src/mocks/leagueRules.json` - League rule configurations
 
