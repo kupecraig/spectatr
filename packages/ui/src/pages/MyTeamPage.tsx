@@ -63,7 +63,6 @@ export const MyTeamPage: FC = () => {
     clearSquad,
     selectedLeagueId,
     loadTeam,
-    isEditing,
     enterEditMode,
     commitSave,
     getIsDirty,
@@ -206,7 +205,7 @@ export const MyTeamPage: FC = () => {
           </Typography>
           <LeaguePicker onLeagueChange={handleLeagueChange} />
           <TransferButton
-            isEditing={isEditing || isDirty}
+            isEditing={isDirty}
             isSaving={saveSquadMutation.isPending}
             hasLeague={selectedLeagueId !== null}
             onMakeTransfers={handleMakeTransfers}
