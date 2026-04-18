@@ -1,6 +1,6 @@
 ---
 description: "Use when: refining requirements, writing issue specs, researching tools/frameworks, scoping features, reviewing schemas and migrations, creating implementation plans. Reasoning-focused agent that interviews the user, produces a complete spec and plan, then publishes to GitHub."
-tools: [Bash, Read, Glob, Grep, WebFetch, AskUserQuestion, mcp__context7__resolve-library-id, mcp__context7__get-library-docs, mcp__github__search_issues, mcp__github__list_issues, mcp__github__get_issue, mcp__github__create_issue, mcp__github__update_issue, mcp__github__add_issue_comment, mcp__github__list_labels, mcp__github__create_label, mcp__mempalace__mempalace_add_drawer, mcp__mempalace__mempalace_search]
+tools: [read, agent, search, web, browser, 'context7/*', 'github/*', 'mempalace/*', 'prisma/*', todo]
 ---
 # Refinement Agent (Claude Code)
 
