@@ -199,6 +199,7 @@ src/
 
 ## Testing Strategy
 
+### Frontend Testing (packages/ui)
 **State Export/Import:** Support for exporting/importing app state for testing and debugging.
 
 ```typescript
@@ -207,6 +208,28 @@ window.importState(stateObject);    // Loads state
 window.saveStateSlot('scenario');   // Save named slot
 window.loadStateSlot('scenario');   // Load named slot
 ```
+
+**Component Testing:** Storybook interaction tests + Vitest unit tests. See `packages/ui/TESTING.md`.
+
+### Backend Testing (packages/server)
+**Integration Tests:** Vitest-based tests that call tRPC procedures directly via `createCallerFactory` (no HTTP layer), running real Prisma queries against PostgreSQL.
+
+```bash
+npm run test:integration          # Run once
+npm run test:integration:watch    # Watch mode
+npm run test:coverage             # Coverage report
+```
+
+**Key patterns:**
+- Each test file creates a unique test tenant (`createTestTenant`), seeds data, and cleans up in `afterAll`
+- `createTestContext(tenantId)` for public/protected procedures
+- `createAuthedTestContext(tenantId, clerkUserId, userId)` for authed procedures (bypasses Clerk API)
+- Test helpers in `packages/server/src/test/helpers/` for database fixtures
+
+**Coverage:**
+- All 5 tRPC routers: players, squads, rounds, gameweek, leagues
+- Tenant isolation explicitly tested (data from tenant A invisible to tenant B)
+- Auth boundaries tested (authedProcedure rejects unauthenticated requests)
 
 ## Performance
 

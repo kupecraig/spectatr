@@ -98,6 +98,15 @@ export const authMiddleware = middleware(async ({ ctx, next }) => {
     });
   }
 
+  // Skip Clerk lookup if userId is already set (e.g., in tests)
+  if (ctx.userId) {
+    return next({
+      ctx: {
+        userId: ctx.userId,
+      },
+    });
+  }
+
   try {
     // Fetch user data from Clerk
     const clerkUser = await clerkClient.users.getUser(ctx.clerkUserId);

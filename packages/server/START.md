@@ -36,6 +36,54 @@ npm run dev
 ⏰ Background jobs started
 ```
 
+## 🧪 Running Integration Tests
+
+Integration tests run against a real PostgreSQL instance. They call tRPC procedures directly via `createCallerFactory` (no HTTP layer), using real Prisma queries.
+
+### Prerequisites
+1. Docker containers running (`docker compose up -d`)
+2. Migrations applied (`npm run db:migrate:deploy` in packages/server)
+3. `.env.test` file created from `.env.test.example`
+
+### Setup
+```powershell
+# Copy test env file
+cp env/.env.test.example env/.env.test
+
+# Edit env/.env.test if needed (default uses postgres superuser)
+```
+
+### Running Tests
+```powershell
+# Run tests once
+npm run test:integration
+
+# Watch mode (re-runs on file changes)
+npm run test:integration:watch
+
+# With coverage report
+npm run test:coverage
+```
+
+**Expected output:**
+```
+ ✓ src/trpc/routers/players.test.ts (6 tests)
+ ✓ src/trpc/routers/squads.test.ts (2 tests)
+ ✓ src/trpc/routers/rounds.test.ts (3 tests)
+ ✓ src/trpc/routers/gameweek.test.ts (2 tests)
+ ✓ src/trpc/routers/leagues.test.ts (6 tests)
+
+ Test Files  5 passed
+      Tests  19 passed
+```
+
+### Writing New Tests
+See existing test files in `src/trpc/routers/*.test.ts` for patterns:
+- Use `createTestTenant()` to create isolated test data
+- Use `createTestContext()` for public/protected procedures
+- Use `createAuthedTestContext()` for authenticated procedures
+- Always clean up test data in `afterAll`
+
 ## 🧪 Test Endpoints
 
 ### Health Check
@@ -75,4 +123,15 @@ docker ps
 # Check logs
 docker logs spectatr-db
 docker logs spectatr-redis
+```
+
+### Integration tests failing with connection errors?
+```powershell
+# Ensure PostgreSQL is healthy
+docker compose ps
+
+# Verify migrations are applied
+npm run db:migrate:deploy
+
+# Check your .env.test file has correct DATABASE_URL
 ```
