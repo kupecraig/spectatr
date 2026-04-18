@@ -177,6 +177,10 @@ All components have stories:
 - ✅ FieldView - 5 stories (empty/partial/full squads, loading)
 - ✅ FilterPanel - 10 stories (all filter combinations)
 - ✅ ThemeShowcase - Theme token validation
+- ✅ TransferButton - 7 stories (ViewMode, EditMode, Saving, NoLeague, interactions)
+- ✅ ConfirmTransfersDialog - 10 stories (Default, NoChanges, OnlyAdds, OnlyRemoves, interactions)
+- ✅ UnsavedChangesDialog - 5 stories (Default, Closed, Discard/Cancel interactions)
+- ✅ LeaguePicker - 6 stories (Default, PreSelected, SelectsLeague, Loading, WithCallback, interactions)
 
 ## Continuous Integration
 

@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { fn } from '@storybook/test';
 import { within, userEvent, expect } from '@storybook/test';
 import { LeaguePicker } from './LeaguePicker';
 import { useMyTeamStore } from '@/stores';
@@ -111,6 +112,45 @@ export const Loading: Story = {
   render: () => {
     storyQueryClient.removeQueries({ queryKey: ['trc-2025', 'leagues', 'my'] });
     return <LeaguePicker />;
+  },
+};
+
+/** With onLeagueChange callback — delegates to parent instead of direct store update */
+export const WithCallback: Story = {
+  args: {
+    onLeagueChange: fn(),
+  },
+  render: (args) => {
+    useMyTeamStore.getState().setLeagueId(1);
+    return <LeaguePicker onLeagueChange={args.onLeagueChange} />;
+  },
+};
+
+/** Interaction test: onLeagueChange callback receives the new league ID */
+export const CallbackInteraction: Story = {
+  args: {
+    onLeagueChange: fn(),
+  },
+  render: (args) => {
+    useMyTeamStore.getState().setLeagueId(1);
+    return <LeaguePicker onLeagueChange={args.onLeagueChange} />;
+  },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+
+    // Open the select dropdown
+    const combobox = canvas.getByRole('combobox');
+    await userEvent.click(combobox);
+
+    // Pick "Friday Night Rugby" from the dropdown
+    const option = within(document.body).getByText('Friday Night Rugby');
+    await userEvent.click(option);
+
+    // Verify the callback was called with the new league ID
+    await expect(args.onLeagueChange).toHaveBeenCalledWith(2);
+    
+    // Store should NOT be updated (callback handles it)
+    await expect(useMyTeamStore.getState().selectedLeagueId).toBe(1);
   },
 };
 

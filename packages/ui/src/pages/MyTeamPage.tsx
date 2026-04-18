@@ -17,6 +17,8 @@ import {
   Button,
   Paper,
   Stack,
+  Snackbar,
+  Alert,
 } from '@mui/material';
 import { SignInButton, UserButton } from '../components/auth';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -28,20 +30,52 @@ import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import SettingsDialog from '@/components/SettingsDialog';
 import { useMyTeamStore } from '@/stores';
 import { PlayerList } from '@/features/players';
-import { SquadView, FieldView, LeaguePicker } from '@/features/squad';
+import {
+  SquadView,
+  FieldView,
+  LeaguePicker,
+  TransferButton,
+  ConfirmTransfersDialog,
+  UnsavedChangesDialog,
+} from '@/features/squad';
 import { leagueRules } from '@/mocks/playerData';
-import { useTeamByLeagueQuery } from '@/hooks/api/useTeamsQuery';
+import { useTeamByLeagueQuery, useSaveSquadMutation } from '@/hooks/api/useTeamsQuery';
 
 const drawerWidth = 240;
 
 export const MyTeamPage: FC = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
+  const [unsavedDialogOpen, setUnsavedDialogOpen] = useState(false);
+  const [pendingLeagueId, setPendingLeagueId] = useState<number | null>(null);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success');
+
   const navigate = useNavigate();
   const location = useLocation();
-  const { activeTab, setActiveTab, getSelectedPlayers, getRemainingBudget, clearSquad, selectedLeagueId, loadTeam } = useMyTeamStore();
+  const {
+    activeTab,
+    setActiveTab,
+    getSelectedPlayers,
+    getRemainingBudget,
+    clearSquad,
+    selectedLeagueId,
+    loadTeam,
+    isEditing,
+    enterEditMode,
+    commitSave,
+    getIsDirty,
+    getTransferDiff,
+    setLeagueId,
+    slots,
+    totalCost,
+    savedTotalCost,
+  } = useMyTeamStore();
 
   const { data: teamData } = useTeamByLeagueQuery(selectedLeagueId);
+  const saveSquadMutation = useSaveSquadMutation();
 
   useEffect(() => {
     if (teamData) {
@@ -50,11 +84,16 @@ export const MyTeamPage: FC = () => {
   }, [teamData, loadTeam]);
 
   const selectedPlayers = getSelectedPlayers();
+  const isDirty = getIsDirty();
+  const transferDiff = getTransferDiff();
 
-  // Use first league rules for now (in real app, would be selected league)
+  // Budget calculation
   const currentLeagueRules = leagueRules[0];
   const maxBudget = currentLeagueRules?.priceCap || 42_000_000;
   const remainingBudget = getRemainingBudget(maxBudget);
+
+  // Budget delta: positive = saved money (removed cost > added cost)
+  const budgetDelta = savedTotalCost - totalCost;
 
   const toggleDrawer = () => {
     setDrawerOpen(!drawerOpen);
@@ -83,13 +122,70 @@ export const MyTeamPage: FC = () => {
   };
 
   const handleAutofill = () => {
-    // Placeholder - future feature
     alert('Autofill feature coming soon!');
   };
 
   const handleCompare = () => {
-    // Placeholder - future feature (deferred to later step)
     alert('Player comparison feature coming soon!');
+  };
+
+  // --- Transfer Edit Mode Handlers ---
+
+  const handleMakeTransfers = () => {
+    enterEditMode();
+  };
+
+  const handleSaveTransfers = () => {
+    setConfirmDialogOpen(true);
+  };
+
+  const handleConfirmSave = async () => {
+    if (!selectedLeagueId) return;
+
+    const players = Object.values(slots)
+      .filter((player): player is NonNullable<typeof player> => player !== null)
+      .map((player) => ({
+        playerId: player.id,
+        position: player.position,
+      }));
+
+    try {
+      await saveSquadMutation.mutateAsync({ leagueId: selectedLeagueId, players });
+      commitSave();
+      setConfirmDialogOpen(false);
+      setSnackbarMessage('Squad saved successfully!');
+      setSnackbarSeverity('success');
+      setSnackbarOpen(true);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Failed to save squad.';
+      setSnackbarMessage(message);
+      setSnackbarSeverity('error');
+      setSnackbarOpen(true);
+    }
+  };
+
+  const handleLeagueChange = (newLeagueId: number | null) => {
+    if (isDirty) {
+      // Store the pending league ID and show warning dialog
+      setPendingLeagueId(newLeagueId);
+      setUnsavedDialogOpen(true);
+    } else {
+      // No unsaved changes, proceed directly
+      setLeagueId(newLeagueId);
+    }
+  };
+
+  const handleDiscardChanges = () => {
+    // User confirmed discard - proceed with league switch
+    setLeagueId(pendingLeagueId);
+    setPendingLeagueId(null);
+    setUnsavedDialogOpen(false);
+  };
+
+  const handleCancelLeagueSwitch = () => {
+    // User cancelled - keep current state
+    setPendingLeagueId(null);
+    setUnsavedDialogOpen(false);
   };
 
   return (
@@ -108,7 +204,14 @@ export const MyTeamPage: FC = () => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Fantasy Sports - My Team
           </Typography>
-          <LeaguePicker />
+          <LeaguePicker onLeagueChange={handleLeagueChange} />
+          <TransferButton
+            isEditing={isEditing || isDirty}
+            isSaving={saveSquadMutation.isPending}
+            hasLeague={selectedLeagueId !== null}
+            onMakeTransfers={handleMakeTransfers}
+            onSaveTransfers={handleSaveTransfers}
+          />
           <SignInButton />
           <UserButton />
           <IconButton color="inherit" onClick={() => setSettingsOpen(true)}>
@@ -155,7 +258,7 @@ export const MyTeamPage: FC = () => {
         <Box 
           sx={{ 
             width: 450,
-            height: 'calc(100vh - 64px)', // 64px is AppBar height
+            height: 'calc(100vh - 64px)',
             position: 'fixed',
             left: 0,
             top: 64,
@@ -171,8 +274,8 @@ export const MyTeamPage: FC = () => {
             '&::-webkit-scrollbar': {
               display: 'none',
             },
-            scrollbarWidth: 'none', // Firefox
-            msOverflowStyle: 'none', // IE/Edge
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none',
           }}>
             {/* Tab navigation */}
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -251,7 +354,7 @@ export const MyTeamPage: FC = () => {
         <Box 
           sx={{ 
             flexGrow: 1,
-            marginLeft: '450px', // Same as sidebar width
+            marginLeft: '450px',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
@@ -267,6 +370,39 @@ export const MyTeamPage: FC = () => {
 
       {/* Settings Dialog */}
       <SettingsDialog open={settingsOpen} onClose={() => setSettingsOpen(false)} />
+
+      {/* Confirm Transfers Dialog */}
+      <ConfirmTransfersDialog
+        open={confirmDialogOpen}
+        onClose={() => setConfirmDialogOpen(false)}
+        onConfirm={handleConfirmSave}
+        transferDiff={transferDiff}
+        budgetDelta={budgetDelta}
+        isSaving={saveSquadMutation.isPending}
+      />
+
+      {/* Unsaved Changes Dialog */}
+      <UnsavedChangesDialog
+        open={unsavedDialogOpen}
+        onClose={handleCancelLeagueSwitch}
+        onDiscard={handleDiscardChanges}
+      />
+
+      {/* Snackbar for success/error feedback */}
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={4000}
+        onClose={() => setSnackbarOpen(false)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert
+          onClose={() => setSnackbarOpen(false)}
+          severity={snackbarSeverity}
+          sx={{ width: '100%' }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };
