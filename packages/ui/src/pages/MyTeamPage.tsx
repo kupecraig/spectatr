@@ -1,4 +1,4 @@
-import { useState, type FC } from 'react';
+import { useState, useEffect, type FC } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
   AppBar,
@@ -28,8 +28,9 @@ import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import SettingsDialog from '@/components/SettingsDialog';
 import { useMyTeamStore } from '@/stores';
 import { PlayerList } from '@/features/players';
-import { SquadView, FieldView } from '@/features/squad';
+import { SquadView, FieldView, LeaguePicker } from '@/features/squad';
 import { leagueRules } from '@/mocks/playerData';
+import { useTeamByLeagueQuery } from '@/hooks/api/useTeamsQuery';
 
 const drawerWidth = 240;
 
@@ -38,7 +39,15 @@ export const MyTeamPage: FC = () => {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const { activeTab, setActiveTab, getSelectedPlayers, getRemainingBudget, clearSquad } = useMyTeamStore();
+  const { activeTab, setActiveTab, getSelectedPlayers, getRemainingBudget, clearSquad, selectedLeagueId, loadTeam } = useMyTeamStore();
+
+  const { data: teamData } = useTeamByLeagueQuery(selectedLeagueId);
+
+  useEffect(() => {
+    if (teamData) {
+      loadTeam(teamData);
+    }
+  }, [teamData, loadTeam]);
 
   const selectedPlayers = getSelectedPlayers();
 
@@ -99,6 +108,7 @@ export const MyTeamPage: FC = () => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Fantasy Sports - My Team
           </Typography>
+          <LeaguePicker />
           <SignInButton />
           <UserButton />
           <IconButton color="inherit" onClick={() => setSettingsOpen(true)}>

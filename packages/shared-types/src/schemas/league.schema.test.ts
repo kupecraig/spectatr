@@ -11,6 +11,9 @@ import {
   joinLeagueByCodeSchema,
   leagueSchema,
   teamSchema,
+  saveSquadPlayerSchema,
+  saveSquadInputSchema,
+  updateTeamNameInputSchema,
 } from './league.schema';
 
 // ---------------------------------------------------------------------------
@@ -417,5 +420,87 @@ describe('teamSchema', () => {
 
   it('accepts rank when provided', () => {
     expect(teamSchema.safeParse({ ...valid(), rank: 1 }).success).toBe(true);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// saveSquadPlayerSchema
+// ---------------------------------------------------------------------------
+
+describe('saveSquadPlayerSchema', () => {
+  it('parses valid input', () => {
+    expect(saveSquadPlayerSchema.safeParse({ playerId: 1, position: 'outside_back' }).success).toBe(true);
+  });
+
+  it('rejects non-positive playerId', () => {
+    expect(saveSquadPlayerSchema.safeParse({ playerId: 0, position: 'outside_back' }).success).toBe(false);
+    expect(saveSquadPlayerSchema.safeParse({ playerId: -1, position: 'outside_back' }).success).toBe(false);
+  });
+
+  it('rejects non-integer playerId', () => {
+    expect(saveSquadPlayerSchema.safeParse({ playerId: 1.5, position: 'outside_back' }).success).toBe(false);
+  });
+
+  it('requires position string', () => {
+    expect(saveSquadPlayerSchema.safeParse({ playerId: 1 }).success).toBe(false);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// saveSquadInputSchema
+// ---------------------------------------------------------------------------
+
+describe('saveSquadInputSchema', () => {
+  const validPlayer = { playerId: 1, position: 'outside_back' };
+
+  it('parses valid input with one player', () => {
+    expect(saveSquadInputSchema.safeParse({ leagueId: 1, players: [validPlayer] }).success).toBe(true);
+  });
+
+  it('rejects empty players array', () => {
+    expect(saveSquadInputSchema.safeParse({ leagueId: 1, players: [] }).success).toBe(false);
+  });
+
+  it('rejects players array exceeding 30', () => {
+    const tooMany = Array.from({ length: 31 }, (_, i) => ({ playerId: i + 1, position: 'outside_back' }));
+    expect(saveSquadInputSchema.safeParse({ leagueId: 1, players: tooMany }).success).toBe(false);
+  });
+
+  it('accepts exactly 30 players', () => {
+    const thirty = Array.from({ length: 30 }, (_, i) => ({ playerId: i + 1, position: 'outside_back' }));
+    expect(saveSquadInputSchema.safeParse({ leagueId: 1, players: thirty }).success).toBe(true);
+  });
+
+  it('rejects non-positive leagueId', () => {
+    expect(saveSquadInputSchema.safeParse({ leagueId: 0, players: [validPlayer] }).success).toBe(false);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// updateTeamNameInputSchema
+// ---------------------------------------------------------------------------
+
+describe('updateTeamNameInputSchema', () => {
+  it('parses valid input', () => {
+    expect(updateTeamNameInputSchema.safeParse({ leagueId: 1, name: 'My Team' }).success).toBe(true);
+  });
+
+  it('rejects empty name', () => {
+    expect(updateTeamNameInputSchema.safeParse({ leagueId: 1, name: '' }).success).toBe(false);
+  });
+
+  it('rejects name longer than 50 characters', () => {
+    expect(updateTeamNameInputSchema.safeParse({ leagueId: 1, name: 'A'.repeat(51) }).success).toBe(false);
+  });
+
+  it('accepts name at the 50 char boundary', () => {
+    expect(updateTeamNameInputSchema.safeParse({ leagueId: 1, name: 'A'.repeat(50) }).success).toBe(true);
+  });
+
+  it('trims whitespace from name', () => {
+    const result = updateTeamNameInputSchema.safeParse({ leagueId: 1, name: '  My Team  ' });
+    expect(result.success).toBe(true);
+    if (!result.success) return;
+    expect(result.data.name).toBe('My Team');
   });
 });
