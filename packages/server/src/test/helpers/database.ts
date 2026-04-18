@@ -10,6 +10,9 @@ import { Tenant, User, Squad, Player, League, Tournament, Round, GameweekState }
 import { prisma } from '../../db/prisma.js';
 import { nanoid } from 'nanoid';
 
+// Counter for unique feedId values (deterministic, no collision risk)
+let feedIdCounter = 100000;
+
 /**
  * Create a test tenant with unique ID.
  * Tenants are NOT tenant-scoped (no RLS), so we use the base client.
@@ -120,7 +123,8 @@ export async function createTestPlayer(
   squadId: number,
   overrides?: Partial<Omit<Player, 'id' | 'createdAt' | 'updatedAt' | 'tenantId' | 'squadId'>>
 ): Promise<{ player: Player; cleanup: () => Promise<void> }> {
-  const feedId = overrides?.feedId ?? Math.floor(Math.random() * 1000000);
+  // Use counter for unique feedId (deterministic, no collision risk)
+  const feedId = overrides?.feedId ?? feedIdCounter++;
 
   const player = await prisma.player.create({
     data: {

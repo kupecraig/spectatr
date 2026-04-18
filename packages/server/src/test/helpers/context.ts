@@ -12,10 +12,18 @@ import { createTenantScopedPrisma } from '../../trpc/context.js';
 import type { Context } from '../../trpc/context.js';
 
 /**
+ * Extended Request type that includes Clerk auth property.
+ * In production, this is added by @clerk/express middleware.
+ */
+interface MockRequestWithAuth extends Partial<Request> {
+  auth?: { userId: string } | undefined;
+}
+
+/**
  * Create a minimal mock Express request object.
  * Sets headers for tenant resolution.
  */
-function createMockRequest(tenantId: string, clerkUserId?: string): Partial<Request> {
+function createMockRequest(tenantId: string, clerkUserId?: string): MockRequestWithAuth {
   return {
     headers: {
       'x-tenant-id': tenantId,
@@ -23,9 +31,8 @@ function createMockRequest(tenantId: string, clerkUserId?: string): Partial<Requ
     },
     socket: {
       remoteAddress: '127.0.0.1',
-    } as any,
+    } as Request['socket'],
     // Clerk auth info (populated by clerkMiddleware in production)
-    // @ts-expect-error - req.auth is added by @clerk/express middleware
     auth: clerkUserId ? { userId: clerkUserId } : undefined,
   };
 }
