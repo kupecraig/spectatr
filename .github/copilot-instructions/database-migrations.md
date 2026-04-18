@@ -54,6 +54,7 @@ If the table is tenant-scoped, add the Prisma model name (lowercase) to the `TEN
 const TENANT_SCOPED_MODELS = [
   'player', 'squad', 'round', 'tournament',
   'league', 'team', 'gameweekstate', 'scoringevent', 'checksum',
+  'teamplayersnapshot', // ← example of a new tenant-scoped model
   'myNewModel', // ← add here
 ];
 ```
@@ -68,7 +69,7 @@ For every new table, work through these questions:
 
 **YES → Tenant-scoped table**
 
-Examples: `players`, `squads`, `rounds`, `leagues`, `teams`, `gameweek_states`
+Examples: `players`, `squads`, `rounds`, `leagues`, `teams`, `gameweek_states`, `team_player_snapshots`
 
 Required steps:
 1. Add `tenantId String` column to the Prisma model
@@ -224,6 +225,7 @@ Migrations, seeds, and `db:migrate:superuser` all run as `postgres`. This is int
 | `gameweek_states` | ✅ | direct `tenantId` | ✅ |
 | `scoring_events` | ✅ | direct `tenantId` | ✅ |
 | `checksums` | ✅ | direct `tenantId` | ✅ |
+| `team_player_snapshots` | ✅ | direct `tenantId` | ✅ |
 | `user_leagues` | ✅ | subquery via `leagues` | ❌ |
 | `team_players` | ❌ | isolated via `teams` FK | ❌ |
 | `users` | ❌ | global | ❌ |
