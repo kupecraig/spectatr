@@ -4,6 +4,10 @@ name: "Copilot Setup Steps"
 # working on an issue. It bootstraps the monorepo so the agent can compile,
 # run tests, and verify changes during its session.
 #
+# Service containers (postgres, redis) run as local services on the runner —
+# they are reachable via localhost and are not subject to the agent's outbound
+# firewall restrictions.
+#
 # Docs: https://docs.github.com/en/copilot/using-github-copilot/coding-agent/customizing-the-development-environment-for-githubs-copilot-coding-agent
 
 on: workflow_call
@@ -13,6 +17,31 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: spectatr
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+      redis:
+        image: redis:7
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
       - uses: actions/checkout@v4
@@ -29,14 +58,12 @@ jobs:
       # Prisma client must be generated before any TypeScript can compile.
       # The generated client lives in node_modules/@prisma/client and is not
       # committed to source control — it must be regenerated from schema.prisma.
-      # DATABASE_URL is set to a placeholder; generate does not connect to the DB.
       - name: Generate Prisma client
         run: npx prisma generate --schema=packages/server/prisma/schema.prisma
         env:
-          DATABASE_URL: postgresql://placeholder:placeholder@localhost:5432/spectatr
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/spectatr
 
-      # Write env files so server/ui scripts can run without crashing on missing vars.
-      # These are fake-but-format-valid values — no real services are connected.
+      # Write env files pointing at the local service containers.
       # The server validates env vars on startup (Zod), so it needs pk_/sk_ prefixes.
       - name: Write server env file
         run: |
@@ -44,7 +71,22 @@ jobs:
           cat > packages/server/env/.env << 'EOF'
           NODE_ENV=test
           PORT=3001
-          DATABASE_URL=postgresql://placeholder:placeholder@localhost:5432/spectatr
+          DATABASE_URL=postgresql://postgres:postgres@localhost:5432/spectatr
+          FRONTEND_URL=http://localhost:5173
+          REDIS_HOST=localhost
+          REDIS_PORT=6379
+          CLERK_PUBLISHABLE_KEY=pk_test_placeholder
+          CLERK_SECRET_KEY=sk_test_placeholder
+          EOF
+
+      # .env.test uses spectatr_app role so RLS is enforced in integration tests.
+      # The role and schema are created by the migrations below.
+      - name: Write server test env file
+        run: |
+          cat > packages/server/env/.env.test << 'EOF'
+          NODE_ENV=test
+          PORT=3001
+          DATABASE_URL=postgresql://spectatr_app:spectatr_app@localhost:5432/spectatr
           FRONTEND_URL=http://localhost:5173
           REDIS_HOST=localhost
           REDIS_PORT=6379
@@ -73,3 +115,29 @@ jobs:
       - name: Type-check UI
         run: npx tsc --project tsconfig.app.json --noEmit
         working-directory: packages/ui
+
+      # Apply all migrations using the postgres superuser (required for RLS/GRANT steps).
+      # This creates the spectatr_app role, schema, and all RLS policies.
+      - name: Run database migrations
+        run: npx prisma migrate deploy --schema=packages/server/prisma/schema.prisma
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/spectatr
+
+      # Run shared-types unit tests
+      - name: Test shared-types
+        run: npm run test:unit
+        working-directory: packages/shared-types
+
+      # Run UI unit tests
+      - name: Test UI (unit)
+        run: npm run test:unit
+        working-directory: packages/ui
+        env:
+          VITE_TENANT_ID: trc-2025
+          VITE_CLERK_PUBLISHABLE_KEY: pk_test_placeholder
+
+      # Run backend integration tests against the real PostgreSQL service.
+      # Uses spectatr_app credentials (via .env.test) so RLS is enforced.
+      - name: Test server (integration)
+        run: npm run test:integration
+        working-directory: packages/server
