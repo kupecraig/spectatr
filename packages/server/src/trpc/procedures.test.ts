@@ -57,8 +57,10 @@ describe('adminProcedure', () => {
     const ctx = await createTestContext(tenant.tenant.id);
     const caller = createCaller(ctx);
 
-    await expect(caller.adminOnly()).rejects.toThrow(TRPCError);
-    await expect(caller.adminOnly()).rejects.toThrow(/Authentication required/);
+    // Capture promise once to avoid re-executing the procedure
+    const promise = caller.adminOnly();
+    await expect(promise).rejects.toThrow(TRPCError);
+    await expect(promise).rejects.toThrow(/Authentication required/);
   });
 
   it('returns FORBIDDEN for authenticated user with isAdmin = false', async () => {
@@ -70,8 +72,10 @@ describe('adminProcedure', () => {
     );
     const caller = createCaller(ctx);
 
-    await expect(caller.adminOnly()).rejects.toThrow(TRPCError);
-    await expect(caller.adminOnly()).rejects.toThrow(/Admin access required/);
+    // Capture promise once to avoid re-executing the procedure
+    const promise = caller.adminOnly();
+    await expect(promise).rejects.toThrow(TRPCError);
+    await expect(promise).rejects.toThrow(/Admin access required/);
   });
 
   it('succeeds for authenticated user with isAdmin = true', async () => {
