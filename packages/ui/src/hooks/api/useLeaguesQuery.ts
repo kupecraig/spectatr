@@ -100,13 +100,15 @@ export const useLeagueDetailQuery = (leagueId: number | null) => {
 
 /**
  * Fetch standings (teams ranked by points) for a league.
+ * When roundId is provided, returns per-round points calculated from TeamPlayerSnapshot + ScoringEvent.
+ * When roundId is absent, returns season totals from Team.points.
  */
-export const useLeagueStandingsQuery = (leagueId: number | null) => {
+export const useLeagueStandingsQuery = (leagueId: number | null, roundId?: number) => {
   const trpc = useTrpcClient();
 
   return useTenantQuery<LeagueStanding[]>({
-    queryKey: ['leagues', 'standings', leagueId],
-    queryFn: () => trpc<LeagueStanding[]>('leagues.standings', { id: leagueId! }),
+    queryKey: ['leagues', 'standings', leagueId, roundId ?? 'all'],
+    queryFn: () => trpc<LeagueStanding[]>('leagues.standings', { leagueId: leagueId!, roundId }),
     enabled: leagueId !== null,
     staleTime: 60 * 1000,
   });
