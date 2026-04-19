@@ -9,7 +9,7 @@
  * Non-tenant tables (Tenant, User) use the base prisma client.
  */
 
-import { Tenant, User, Squad, Player, League, Tournament, Round, GameweekState } from '@prisma/client';
+import { Tenant, User, Squad, Player, League, Tournament, Round, GameweekState, TeamPlayerSnapshot } from '@prisma/client';
 import { prisma } from '../../db/prisma.js';
 import { createTenantScopedPrisma } from '../../trpc/context.js';
 import { nanoid } from 'nanoid';
@@ -48,6 +48,7 @@ export async function createTestTenant(
       // Delete in reverse dependency order
       await scopedPrisma.gameweekState.deleteMany({ where: { tenantId } });
       await scopedPrisma.scoringEvent.deleteMany({ where: { tenantId } });
+      await scopedPrisma.teamPlayerSnapshot.deleteMany({ where: { tenantId } });
       await scopedPrisma.checksum.deleteMany({ where: { tenantId } });
       await scopedPrisma.team.deleteMany({ where: { tenantId } });
       await scopedPrisma.league.deleteMany({ where: { tenantId } });
@@ -325,6 +326,110 @@ export async function createTestUserLeague(
       await scopedPrisma.userLeague.delete({
         where: { userId_leagueId: { userId, leagueId } },
       });
+    },
+  };
+}
+
+/**
+ * Create a test TeamPlayerSnapshot.
+ * Uses tenant-scoped Prisma to satisfy RLS policies.
+ */
+export async function createTestTeamPlayerSnapshot(
+  tenantId: string,
+  teamId: number,
+  leagueId: number,
+  roundId: number,
+  playerId: number,
+  position: string
+): Promise<{ snapshot: TeamPlayerSnapshot; cleanup: () => Promise<void> }> {
+  const scopedPrisma = createTenantScopedPrisma(tenantId);
+
+  const snapshot = await scopedPrisma.teamPlayerSnapshot.create({
+    data: {
+      tenantId,
+      teamId,
+      leagueId,
+      roundId,
+      playerId,
+      position,
+    },
+  });
+
+  return {
+    snapshot,
+    cleanup: async () => {
+      await scopedPrisma.teamPlayerSnapshot.delete({
+        where: { id: snapshot.id },
+      });
+    },
+  };
+}
+
+/**
+ * Create a test ScoringEvent.
+ * Uses tenant-scoped Prisma to satisfy RLS policies.
+ */
+export async function createTestScoringEvent(
+  tenantId: string,
+  playerId: number,
+  roundId: number,
+  eventType: string,
+  points: number,
+  occurredAt?: Date
+): Promise<{ cleanup: () => Promise<void> }> {
+  const scopedPrisma = createTenantScopedPrisma(tenantId);
+
+  const event = await scopedPrisma.scoringEvent.create({
+    data: {
+      tenantId,
+      playerId,
+      roundId,
+      eventType,
+      points,
+      occurredAt: occurredAt ?? new Date(),
+      metadata: {},
+    },
+  });
+
+  return {
+    cleanup: async () => {
+      await scopedPrisma.scoringEvent.delete({
+        where: { id: event.id },
+      });
+    },
+  };
+}
+
+/**
+ * Create a test Team.
+ * Uses tenant-scoped Prisma to satisfy RLS policies.
+ */
+export async function createTestTeam(
+  tenantId: string,
+  userId: string,
+  leagueId: number,
+  name?: string
+): Promise<{ team: { id: number; name: string; userId: string; leagueId: number }; cleanup: () => Promise<void> }> {
+  const scopedPrisma = createTenantScopedPrisma(tenantId);
+
+  const team = await scopedPrisma.team.create({
+    data: {
+      tenantId,
+      userId,
+      leagueId,
+      name: name ?? `Test Team ${nanoid(6)}`,
+      budget: 42000000,
+      totalCost: 0,
+      points: 0,
+    },
+  });
+
+  return {
+    team,
+    cleanup: async () => {
+      await scopedPrisma.teamPlayer.deleteMany({ where: { teamId: team.id } });
+      await scopedPrisma.teamPlayerSnapshot.deleteMany({ where: { teamId: team.id } });
+      await scopedPrisma.team.delete({ where: { id: team.id } });
     },
   };
 }

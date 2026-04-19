@@ -5,7 +5,7 @@
 ```powershell
 docker compose up -d
 npm run db:migrate --workspace=@spectatr/server
-npm run db:seed --workspace=@spectatr/server
+npm run seed:all --workspace=@spectatr/server
 ```
 
 ## ✅ Starting the Server
@@ -174,3 +174,73 @@ SELECT id, email, "isAdmin" FROM users WHERE email = 'your@email.com';
 ### Verifying Admin Access
 
 Once `isAdmin` is set, the user can access admin-only tRPC procedures (like `gameweek.finaliseRound`). The admin check happens on every request by querying the database — it does not rely on JWT claims.
+
+## Scoring System
+
+### Fetch Round Stats Script
+
+The `fetchRoundStats.ts` script fetches per-round player statistics from the playfantasyrugby.com API and writes them to `data/{tenantId}/player_round_stats.json`.
+
+```bash
+# Fetch stats for super-2026 tenant
+npx tsx packages/server/src/scripts/fetchRoundStats.ts --tenant super-2026
+```
+
+**Note:** The script requires the database to be seeded first (to get player feedIds). It adds a 100ms delay between requests to avoid rate limiting.
+
+### Seed with Scoring Events
+
+When seeding `super-2026`, the seed script:
+1. Reads `data/super-2026/player_round_stats.json`
+2. Creates `ScoringEvent` rows for each player × round × stat
+3. Calls `calculateRoundPoints` for each complete round to update team and player point totals
+
+```bash
+# Seed super-2026 with scoring data
+npm run seed:super
+
+# Or seed all tenants
+npm run seed:all
+```
+
+### Admin Procedures for Round Management
+
+Two admin-only tRPC procedures are available for round management:
+
+- **`gameweek.finaliseRound({ roundId })`** — Marks a round as complete and calculates points
+- **`gameweek.recalculateLive({ roundId })`** — Recalculates points without changing round status (for live updates)
+
+Both require `User.isAdmin = true` and return `{ roundId, teamsUpdated, playersUpdated }`.
+
+### Scoring Rules
+
+The scoring rules for `super-2026` are defined in `SUPER_2026_SCORING_RULES` in `packages/server/src/utils/scoring.ts`:
+
+| Stat | Points | Description |
+|------|--------|-------------|
+| T | 15 | Try |
+| TA | 9 | Try Assist |
+| C | 2 | Conversion |
+| CM | -1 | Conversion Missed |
+| PG | 3 | Penalty Goal |
+| PGM | -1 | Penalty Goal Missed |
+| DG | 3 | Drop Goal |
+| DGM | -1 | Drop Goal Missed |
+| K_50_22 | 10 | 50/22 Kick |
+| YC | -5 | Yellow Card |
+| RC | -10 | Red Card |
+| TW | 4 | Turnover Won |
+| I | 5 | Interception |
+| LT | 1 | Lineout Won |
+| LS | 5 | Lineout Stolen |
+| LE | -2 | Lineout Lost |
+| TK | 1 | Tackle |
+| MT | -1 | Missed Tackle |
+| TB | 2 | Tackle Break |
+| O | 2 | Offload |
+| LB | 7 | Linebreak |
+| LC | 5 | Linebreak Assist |
+| MG_per10 | 1 | Metres Gained (per 10m) |
+| PC | -1 | Penalty Conceded |
+| E | -1 | Error |
+| SW | 3 | Scrum Won |
