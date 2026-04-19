@@ -1,0 +1,333 @@
+/**
+ * Scoring Utility
+ *
+ * Calculates fantasy points from ScoringEvent rows.
+ * Used by gameweek.finaliseRound and gameweek.recalculateLive.
+ */
+
+// Interface for round data
+interface RoundData {
+  id: number;
+  roundNumber: number;
+}
+
+// Interface for snapshot data
+interface SnapshotData {
+  id: number;
+  tenantId: string;
+  teamId: number;
+  leagueId: number;
+  roundId: number;
+  playerId: number;
+  position: string;
+}
+
+// Interface for scoring event data
+interface ScoringEventData {
+  id: number;
+  tenantId: string;
+  playerId: number;
+  roundId: number;
+  eventType: string;
+  points: number;
+  round?: { roundNumber: number };
+}
+
+// Interface for team data
+interface TeamData {
+  id: number;
+}
+
+/**
+ * Mapping from player_round_stats.json field names to scoring rule keys.
+ * The JSON uses camelCase, but scoring rules use short codes.
+ */
+export const STAT_FIELD_TO_RULE_KEY: Record<string, string> = {
+  tries: 'T',
+  tryAssists: 'TA',
+  assists: 'TA', // alias
+  conversions: 'C',
+  conversionsMissed: 'CM',
+  penaltyGoals: 'PG',
+  penalties: 'PG', // alias
+  penaltyGoalsMissed: 'PGM',
+  dropGoals: 'DG',
+  dropGoalsMissed: 'DGM',
+  kick5022: 'K_50_22',
+  yellowCards: 'YC',
+  redCards: 'RC',
+  turnoversWon: 'TW',
+  turnovers: 'TW', // alias
+  interceptions: 'I',
+  lineoutsWon: 'LT',
+  lineoutsStolen: 'LS',
+  lineoutsLost: 'LE',
+  tackles: 'TK',
+  tacklesMissed: 'MT',
+  tackleBreaks: 'TB',
+  offloads: 'O',
+  linebreaks: 'LB',
+  linebreakAssists: 'LC',
+  metresGained: 'MG_per10', // Special: floor(value / 10)
+  penaltiesConceded: 'PC',
+  errors: 'E',
+  scrumsWon: 'SW',
+  defendersBeaten: 'TB', // treated same as tackle breaks
+};
+
+/**
+ * Scoring rules for super-2026 tenant.
+ * Maps scoring rule keys to point values.
+ */
+export const SUPER_2026_SCORING_RULES: Record<string, number> = {
+  T: 15,      // Try
+  TA: 9,      // Try Assist
+  C: 2,       // Conversion
+  CM: -1,     // Conversion Missed
+  PG: 3,      // Penalty Goal
+  PGM: -1,    // Penalty Goal Missed
+  DG: 3,      // Drop Goal
+  DGM: -1,    // Drop Goal Missed
+  K_50_22: 10, // 50/22 Kick
+  YC: -5,     // Yellow Card
+  RC: -10,    // Red Card
+  TW: 4,      // Turnover Won
+  I: 5,       // Interception
+  LT: 1,      // Lineout Won (Throw)
+  LS: 5,      // Lineout Stolen
+  LE: -2,     // Lineout Lost (Error)
+  TK: 1,      // Tackle
+  MT: -1,     // Missed Tackle
+  TB: 2,      // Tackle Break
+  O: 2,       // Offload
+  LB: 7,      // Linebreak
+  LC: 5,      // Linebreak Created (Assist)
+  MG_per10: 1, // Metres Gained per 10m
+  PC: -1,     // Penalty Conceded
+  E: -1,      // Error
+  SW: 3,      // Scrum Won
+};
+
+/**
+ * Calculate points for a single stat value using the scoring rules.
+ */
+export function calculateStatPoints(
+  statField: string,
+  value: number,
+  scoringRules: Record<string, number>
+): number {
+  const ruleKey = STAT_FIELD_TO_RULE_KEY[statField];
+  if (!ruleKey) return 0;
+
+  const pointsPerUnit = scoringRules[ruleKey];
+  if (pointsPerUnit === undefined) return 0;
+
+  // Special handling for metres gained (floor(value / 10))
+  if (ruleKey === 'MG_per10') {
+    return Math.floor(value / 10) * pointsPerUnit;
+  }
+
+  return value * pointsPerUnit;
+}
+
+/**
+ * Calculate round points for all teams in a tenant.
+ *
+ * Algorithm:
+ * 1. Load TeamPlayerSnapshot rows for (tenantId, roundId) grouped by teamId
+ * 2. For each team: sum ScoringEvent.points WHERE playerId IN (snapshot playerIds) AND roundId
+ * 3. Update Team.points = recalculate season total by summing across ALL complete rounds
+ * 4. Update Player.totalPoints, lastRoundPoints, avgPoints for affected players
+ * 5. All writes in a single $transaction
+ *
+ * @returns Count of teams and players updated
+ */
+export async function calculateRoundPoints(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  prisma: any,
+  tenantId: string,
+  roundId: number
+): Promise<{ teamsUpdated: number; playersUpdated: number }> {
+  // Get all complete rounds for this tenant (for cumulative team points)
+  const completeRounds: RoundData[] = await prisma.round.findMany({
+    where: {
+      tenantId,
+      status: 'complete',
+    },
+    select: { id: true, roundNumber: true },
+  });
+
+  const completeRoundIds = new Set<number>(completeRounds.map((r: RoundData) => r.id));
+
+  // Also include the round we're calculating (in case it's not marked complete yet)
+  completeRoundIds.add(roundId);
+
+  // Get all snapshots for this round
+  const snapshots: SnapshotData[] = await prisma.teamPlayerSnapshot.findMany({
+    where: {
+      tenantId,
+      roundId,
+    },
+  });
+
+  // Group snapshots by teamId
+  const snapshotsByTeam = new Map<number, SnapshotData[]>();
+  for (const snapshot of snapshots) {
+    const existing = snapshotsByTeam.get(snapshot.teamId) ?? [];
+    existing.push(snapshot);
+    snapshotsByTeam.set(snapshot.teamId, existing);
+  }
+
+  // Get all scoring events for this round
+  const scoringEvents: ScoringEventData[] = await prisma.scoringEvent.findMany({
+    where: {
+      tenantId,
+      roundId,
+    },
+  });
+
+  // Group scoring events by playerId
+  const eventsByPlayer = new Map<number, ScoringEventData[]>();
+  for (const event of scoringEvents) {
+    const existing = eventsByPlayer.get(event.playerId) ?? [];
+    existing.push(event);
+    eventsByPlayer.set(event.playerId, existing);
+  }
+
+  // Calculate points per player for this round
+  const playerRoundPoints = new Map<number, number>();
+  for (const [playerId, events] of eventsByPlayer) {
+    const totalPoints = events.reduce((sum: number, e: ScoringEventData) => sum + e.points, 0);
+    playerRoundPoints.set(playerId, totalPoints);
+  }
+
+  // Calculate team round points based on snapshots
+  const teamRoundPoints = new Map<number, number>();
+  for (const [teamId, teamSnapshots] of snapshotsByTeam) {
+    let teamPoints = 0;
+    for (const snapshot of teamSnapshots) {
+      teamPoints += playerRoundPoints.get(snapshot.playerId) ?? 0;
+    }
+    teamRoundPoints.set(teamId, teamPoints);
+  }
+
+  // Now we need to calculate cumulative team points across all complete rounds
+  // Get all teams in this tenant
+  const teams: TeamData[] = await prisma.team.findMany({
+    where: { tenantId },
+    select: { id: true },
+  });
+
+  // For each team, get all their snapshots across complete rounds and sum scoring events
+  const teamCumulativePoints = new Map<number, number>();
+
+  for (const team of teams) {
+    const allSnapshots = await prisma.teamPlayerSnapshot.findMany({
+      where: {
+        tenantId,
+        teamId: team.id,
+        roundId: { in: Array.from(completeRoundIds) },
+      },
+    });
+
+    // Group by round to get player sets per round
+    const snapshotsByRound = new Map<number, Set<number>>();
+    for (const s of allSnapshots as SnapshotData[]) {
+      const existing = snapshotsByRound.get(s.roundId) ?? new Set();
+      existing.add(s.playerId);
+      snapshotsByRound.set(s.roundId, existing);
+    }
+
+    let cumulativePoints = 0;
+    for (const [rId, playerIds] of snapshotsByRound) {
+      // Get scoring events for these players in this round
+      const roundEvents: ScoringEventData[] = await prisma.scoringEvent.findMany({
+        where: {
+          tenantId,
+          roundId: rId,
+          playerId: { in: Array.from(playerIds) },
+        },
+      });
+      cumulativePoints += roundEvents.reduce((sum: number, e: ScoringEventData) => sum + e.points, 0);
+    }
+
+    teamCumulativePoints.set(team.id, cumulativePoints);
+  }
+
+  // Get all players with scoring events to update their stats
+  const playersWithEvents = await prisma.player.findMany({
+    where: {
+      tenantId,
+      scoringEvents: {
+        some: {
+          roundId: { in: Array.from(completeRoundIds) },
+        },
+      },
+    },
+    select: { id: true },
+  });
+
+  // Calculate player stats
+  const playerStats = new Map<
+    number,
+    { totalPoints: number; avgPoints: number; lastRoundPoints: number }
+  >();
+
+  for (const player of playersWithEvents as Array<{ id: number }>) {
+    // Get all scoring events for this player across complete rounds
+    const allEvents: ScoringEventData[] = await prisma.scoringEvent.findMany({
+      where: {
+        tenantId,
+        playerId: player.id,
+        roundId: { in: Array.from(completeRoundIds) },
+      },
+      include: { round: { select: { roundNumber: true } } },
+    });
+
+    const totalPoints = allEvents.reduce((sum: number, e: ScoringEventData) => sum + e.points, 0);
+
+    // Calculate rounds played (unique round numbers with events)
+    const roundsPlayed = new Set(allEvents.map((e: ScoringEventData) => e.round?.roundNumber)).size;
+
+    const avgPoints = roundsPlayed > 0 ? totalPoints / roundsPlayed : 0;
+
+    // Last round points = points from the specified round
+    const lastRoundEvents = allEvents.filter((e: ScoringEventData) => e.roundId === roundId);
+    const lastRoundPoints = lastRoundEvents.reduce((sum: number, e: ScoringEventData) => sum + e.points, 0);
+
+    playerStats.set(player.id, {
+      totalPoints,
+      avgPoints: Math.round(avgPoints * 100) / 100, // Round to 2 decimal places
+      lastRoundPoints,
+    });
+  }
+
+  // Execute all updates in a transaction
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  await prisma.$transaction(async (tx: any) => {
+    // Update team points
+    for (const [teamId, points] of teamCumulativePoints) {
+      await tx.team.update({
+        where: { id: teamId },
+        data: { points },
+      });
+    }
+
+    // Update player stats
+    for (const [playerId, stats] of playerStats) {
+      await tx.player.update({
+        where: { id: playerId },
+        data: {
+          totalPoints: stats.totalPoints,
+          avgPoints: stats.avgPoints,
+          lastRoundPoints: stats.lastRoundPoints,
+        },
+      });
+    }
+  });
+
+  return {
+    teamsUpdated: teamCumulativePoints.size,
+    playersUpdated: playerStats.size,
+  };
+}

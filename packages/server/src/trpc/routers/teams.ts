@@ -41,7 +41,7 @@ export const teamsRouter = router({
   saveSquad: authedProcedure
     .input(saveSquadInputSchema)
     .mutation(async ({ ctx, input }) => {
-      const { prisma, userId } = ctx;
+      const { prisma, userId, tenantId } = ctx;
       const { leagueId, players } = input;
 
       // Find the team
@@ -96,21 +96,56 @@ export const teamsRouter = router({
         });
       }
 
-      // Atomically replace TeamPlayer rows
-      await prisma.$transaction([
-        prisma.teamPlayer.deleteMany({ where: { teamId: team.id } }),
-        prisma.teamPlayer.createMany({
+      // Check gameweek state for snapshot creation
+      const gameweekState = await prisma.gameweekState.findUnique({
+        where: { tenantId },
+      });
+
+      // Get the current round if status allows snapshots
+      let currentRoundId: number | null = null;
+      if (gameweekState && (gameweekState.status === 'pre_round' || gameweekState.status === 'active')) {
+        const currentRound = await prisma.round.findFirst({
+          where: { tenantId, roundNumber: gameweekState.currentRound },
+          select: { id: true },
+        });
+        currentRoundId = currentRound?.id ?? null;
+      }
+
+      // Atomically replace TeamPlayer rows and upsert snapshot if applicable
+      await prisma.$transaction(async (tx) => {
+        // Delete and recreate TeamPlayer rows
+        await tx.teamPlayer.deleteMany({ where: { teamId: team.id } });
+        await tx.teamPlayer.createMany({
           data: players.map((p) => ({
             teamId: team.id,
             playerId: p.playerId,
             position: p.position,
           })),
-        }),
-        prisma.team.update({
+        });
+        await tx.team.update({
           where: { id: team.id },
           data: { totalCost },
-        }),
-      ]);
+        });
+
+        // Upsert TeamPlayerSnapshot for current round if allowed
+        if (currentRoundId !== null) {
+          // Delete existing snapshots for this team+round (idempotent)
+          await tx.teamPlayerSnapshot.deleteMany({
+            where: { teamId: team.id, roundId: currentRoundId },
+          });
+          // Create new snapshots
+          await tx.teamPlayerSnapshot.createMany({
+            data: players.map((p) => ({
+              tenantId,
+              teamId: team.id,
+              leagueId: team.leagueId,
+              roundId: currentRoundId!,
+              playerId: p.playerId,
+              position: p.position,
+            })),
+          });
+        }
+      });
 
       return { teamId: team.id, playerCount: players.length, totalCost };
     }),

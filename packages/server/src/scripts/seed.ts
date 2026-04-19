@@ -3,6 +3,11 @@ import { readFileSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import dotenv from 'dotenv';
+import {
+  STAT_FIELD_TO_RULE_KEY,
+  SUPER_2026_SCORING_RULES,
+  calculateRoundPoints,
+} from '../utils/scoring.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -28,6 +33,10 @@ interface TenantSeedConfig {
   dataDir: string;
   /** Player stats file to merge into player.stats JSONB (optional) */
   playerStatsFile?: string;
+  /** Player round stats file for ScoringEvent creation (optional) */
+  playerRoundStatsFile?: string;
+  /** Scoring rules for this tenant (optional - only super-2026 has scoring) */
+  scoringRules?: Record<string, number>;
 }
 
 const TENANT_CONFIGS: Record<string, TenantSeedConfig> = {
@@ -40,6 +49,7 @@ const TENANT_CONFIGS: Record<string, TenantSeedConfig> = {
     tournamentName: 'The Rugby Championship 2025',
     season: '2025',
     dataDir: join(DATA_ROOT, 'trc-2025'),
+    // No scoring data for trc-2025
   },
   'super-2026': {
     id: 'super-2026',
@@ -51,6 +61,8 @@ const TENANT_CONFIGS: Record<string, TenantSeedConfig> = {
     season: '2026',
     dataDir: join(DATA_ROOT, 'super-2026'),
     playerStatsFile: 'player_stats.json',
+    playerRoundStatsFile: 'player_round_stats.json',
+    scoringRules: SUPER_2026_SCORING_RULES,
   },
 };
 
@@ -126,11 +138,19 @@ async function seedTenant(config: TenantSeedConfig): Promise<void> {
     }
   }
 
+  // Build tenant config with scoring rules if present
+  const tenantConfig = config.scoringRules
+    ? { scoring: { rules: config.scoringRules } }
+    : {};
+
   // 1. Create / upsert tenant -------------------------------------------------
   console.log(`📦 Creating tenant: ${config.name}`);
   const tenant = await prisma.tenant.upsert({
     where: { id: TENANT_ID },
-    update: { name: config.name },
+    update: {
+      name: config.name,
+      config: tenantConfig,
+    },
     create: {
       id: TENANT_ID,
       name: config.name,
@@ -140,7 +160,7 @@ async function seedTenant(config: TenantSeedConfig): Promise<void> {
       logoUrl: null,
       primaryColor: config.primaryColor,
       theme: Prisma.DbNull,
-      config: {},
+      config: tenantConfig,
     },
   });
   console.log(`✅ Tenant: ${tenant.name}\n`);
@@ -331,13 +351,144 @@ async function seedTenant(config: TenantSeedConfig): Promise<void> {
   });
   console.log(`✅ Gameweek state initialized: Round ${gameweekState.currentRound}\n`);
 
+  // 7. Seed scoring events from player_round_stats.json -----------------------
+  let scoringEventsCreated = 0;
+  if (config.playerRoundStatsFile && config.scoringRules) {
+    const statsPath = join(config.dataDir, config.playerRoundStatsFile);
+    if (existsSync(statsPath)) {
+      console.log('🏉 Seeding scoring events...');
+
+      // Delete existing scoring events for idempotency
+      const deleted = await prisma.scoringEvent.deleteMany({
+        where: { tenantId: TENANT_ID },
+      });
+      if (deleted.count > 0) {
+        console.log(`   Deleted ${deleted.count} existing scoring events`);
+      }
+
+      // Load player round stats
+      interface RoundStat {
+        roundId: number;
+        stats: Record<string, number>;
+      }
+      interface PlayerRoundStats {
+        feedId: number;
+        rounds: RoundStat[];
+      }
+      const playerRoundStats: PlayerRoundStats[] = JSON.parse(
+        readFileSync(statsPath, 'utf-8')
+      );
+
+      // Build feedId -> dbPlayerId mapping
+      const playerFeedIdToDbId: Record<number, number> = {};
+      const players = await prisma.player.findMany({
+        where: { tenantId: TENANT_ID },
+        select: { id: true, feedId: true },
+      });
+      for (const p of players) {
+        playerFeedIdToDbId[p.feedId] = p.id;
+      }
+
+      // Build roundNumber -> dbRoundId mapping
+      const roundNumberToDbId: Record<number, number> = {};
+      const rounds = await prisma.round.findMany({
+        where: { tenantId: TENANT_ID },
+        select: { id: true, roundNumber: true, endDate: true },
+      });
+      const roundEndDates: Record<number, Date> = {};
+      for (const r of rounds) {
+        roundNumberToDbId[r.roundNumber] = r.id;
+        roundEndDates[r.id] = r.endDate;
+      }
+
+      // Create scoring events
+      const eventsToCreate: Array<{
+        tenantId: string;
+        playerId: number;
+        roundId: number;
+        eventType: string;
+        points: number;
+        occurredAt: Date;
+        metadata: Prisma.InputJsonValue;
+      }> = [];
+
+      for (const playerStats of playerRoundStats) {
+        const dbPlayerId = playerFeedIdToDbId[playerStats.feedId];
+        if (!dbPlayerId) continue;
+
+        for (const roundData of playerStats.rounds) {
+          const dbRoundId = roundNumberToDbId[roundData.roundId];
+          if (!dbRoundId) continue;
+
+          const occurredAt = roundEndDates[dbRoundId] ?? new Date();
+
+          for (const [statField, value] of Object.entries(roundData.stats)) {
+            if (typeof value !== 'number' || value === 0) continue;
+
+            const ruleKey = STAT_FIELD_TO_RULE_KEY[statField];
+            if (!ruleKey) continue;
+
+            const pointsPerUnit = config.scoringRules[ruleKey];
+            if (pointsPerUnit === undefined) continue;
+
+            // Calculate points (special handling for metres gained)
+            let points: number;
+            if (ruleKey === 'MG_per10') {
+              points = Math.floor(value / 10) * pointsPerUnit;
+            } else {
+              points = value * pointsPerUnit;
+            }
+
+            if (points !== 0) {
+              eventsToCreate.push({
+                tenantId: TENANT_ID,
+                playerId: dbPlayerId,
+                roundId: dbRoundId,
+                eventType: ruleKey,
+                points,
+                occurredAt,
+                metadata: { rawValue: value },
+              });
+            }
+          }
+        }
+      }
+
+      // Batch insert scoring events
+      if (eventsToCreate.length > 0) {
+        await prisma.scoringEvent.createMany({
+          data: eventsToCreate,
+        });
+        scoringEventsCreated = eventsToCreate.length;
+      }
+      console.log(`✅ ${scoringEventsCreated} scoring events created\n`);
+
+      // 8. Calculate points for complete rounds --------------------------------
+      console.log('📈 Calculating round points...');
+      const completeRounds = await prisma.round.findMany({
+        where: { tenantId: TENANT_ID, status: 'complete' },
+        select: { id: true, roundNumber: true },
+        orderBy: { roundNumber: 'asc' },
+      });
+
+      for (const round of completeRounds) {
+        const result = await calculateRoundPoints(prisma, TENANT_ID, round.id);
+        console.log(
+          `   Round ${round.roundNumber}: ${result.teamsUpdated} teams, ${result.playersUpdated} players updated`
+        );
+      }
+      console.log(`✅ Points calculated for ${completeRounds.length} complete rounds\n`);
+    }
+  }
+
   console.log('📊 Summary:');
-  console.log(`   • Tenant:      ${tenant.name}`);
-  console.log(`   • Squads:      ${squadsData.length}`);
-  console.log(`   • Players:     ${Array.isArray(playersData) ? playersData.length : 0}`);
-  console.log(`   • Tournament:  ${tournament.name}`);
-  console.log(`   • Rounds:      ${roundsData.length}`);
-  console.log(`   • Round:       ${gameweekState.currentRound}`);
+  console.log(`   • Tenant:         ${tenant.name}`);
+  console.log(`   • Squads:         ${squadsData.length}`);
+  console.log(`   • Players:        ${Array.isArray(playersData) ? playersData.length : 0}`);
+  console.log(`   • Tournament:     ${tournament.name}`);
+  console.log(`   • Rounds:         ${roundsData.length}`);
+  console.log(`   • Scoring Events: ${scoringEventsCreated}`);
+  console.log(`   • Current Round:  ${gameweekState.currentRound}`);
 }
 
 /** Simple deterministic string → integer hash (for future tenant IDs). */
