@@ -28,6 +28,7 @@ import {
   useLeagueStandingsQuery,
   useLeaveLeagueMutation,
 } from '@/hooks/api/useLeaguesQuery';
+import { useRoundsQuery } from '@/hooks/api/useRoundsQuery';
 import {
   LeagueInvitePanel,
   StandingsTable,
@@ -39,8 +40,12 @@ export function LeaguePage() {
   const navigate = useNavigate();
   const id = leagueId ? Number(leagueId) : null;
 
+  // Round selection state
+  const [selectedRoundId, setSelectedRoundId] = useState<number | undefined>(undefined);
+
   const { data: detail, isLoading: detailLoading } = useLeagueDetailQuery(id);
-  const { data: standings = [], isLoading: standingsLoading } = useLeagueStandingsQuery(id);
+  const { data: standings = [], isLoading: standingsLoading, isFetching: standingsFetching } = useLeagueStandingsQuery(id, selectedRoundId);
+  const { data: roundsData } = useRoundsQuery();
   const leaveMutation = useLeaveLeagueMutation();
 
   const [leaveDialogOpen, setLeaveDialogOpen] = useState(false);
@@ -53,6 +58,10 @@ export function LeaguePage() {
     await leaveMutation.mutateAsync(id);
     setLeaveDialogOpen(false);
     navigate('/leagues');
+  };
+
+  const handleRoundChange = (roundId: number | undefined) => {
+    setSelectedRoundId(roundId);
   };
 
   const leaveError = leaveMutation.error instanceof Error ? leaveMutation.error.message : null;
@@ -149,7 +158,13 @@ export function LeaguePage() {
               {standingsLoading ? (
                 <StandingsTableSkeleton />
               ) : (
-                <StandingsTable standings={standings} />
+                <StandingsTable
+                  standings={standings}
+                  rounds={roundsData?.rounds ?? []}
+                  selectedRoundId={selectedRoundId}
+                  onRoundChange={handleRoundChange}
+                  isLoading={standingsFetching}
+                />
               )}
             </CardContent>
           </Card>

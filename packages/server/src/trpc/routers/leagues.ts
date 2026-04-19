@@ -3,10 +3,12 @@ import { TRPCError } from '@trpc/server';
 import { nanoid } from 'nanoid';
 import { router } from '../index.js';
 import { protectedProcedure, authedProcedure } from '../procedures.js';
+import { prisma as basePrisma } from '../../db/prisma.js';
 import {
   createLeagueSchema,
   updateLeagueSchema,
   joinLeagueByCodeSchema,
+  leagueStandingsInputSchema,
   type LeagueRules,
 } from '@spectatr/shared-types';
 
@@ -109,15 +111,104 @@ export const leaguesRouter = router({
 
   /**
    * Get standings for a league — teams ordered by points descending.
+   * When roundId is absent: returns Team.points (season totals).
+   * When roundId is provided: computes per-round points from TeamPlayerSnapshot + ScoringEvent.
    * Includes user avatar and username per team.
    */
   standings: authedProcedure
-    .input(z.object({ id: z.number() }))
+    .input(leagueStandingsInputSchema)
     .query(async ({ ctx, input }) => {
       const { prisma, tenantId } = ctx;
+      const { leagueId, roundId } = input;
 
+      // Per-round standings: compute points from TeamPlayerSnapshot + ScoringEvent
+      if (roundId !== undefined) {
+        // Use basePrisma with explicit transaction to set RLS context for raw query
+        // The extended ctx.prisma doesn't handle $queryRaw inside its $allOperations wrapper
+        const safeTenantId = tenantId.replace(/'/g, "''");
+        
+        const result = await basePrisma.$transaction(async (tx) => {
+          // Set RLS context for raw query
+          await tx.$executeRawUnsafe(`SET LOCAL "app.current_tenant" = '${safeTenantId}'`);
+
+          return tx.$queryRaw<
+            Array<{
+              teamId: number;
+              teamName: string;
+              userId: string;
+              budget: number;
+              totalCost: number;
+              wins: number;
+              losses: number;
+              draws: number;
+              points: bigint;
+              username: string | null;
+              firstName: string | null;
+              lastName: string | null;
+              email: string;
+              avatar: string | null;
+            }>
+          >`
+            SELECT
+              t.id AS "teamId",
+              t.name AS "teamName",
+              t."userId",
+              t.budget,
+              t."totalCost",
+              t.wins,
+              t.losses,
+              t.draws,
+              COALESCE(SUM(se.points), 0)::bigint AS points,
+              u.username,
+              u."firstName",
+              u."lastName",
+              u.email,
+              u.avatar
+            FROM teams t
+            LEFT JOIN team_player_snapshots tps
+              ON tps."teamId" = t.id
+              AND tps."roundId" = ${roundId}
+              AND tps."tenantId" = ${tenantId}
+            LEFT JOIN scoring_events se
+              ON se."playerId" = tps."playerId"
+              AND se."roundId" = ${roundId}
+              AND se."tenantId" = ${tenantId}
+            JOIN users u ON u.id = t."userId"
+            WHERE t."leagueId" = ${leagueId}
+              AND t."tenantId" = ${tenantId}
+            GROUP BY t.id, t.name, t."userId", t.budget, t."totalCost", t.wins, t.losses, t.draws,
+                     u.username, u."firstName", u."lastName", u.email, u.avatar
+            ORDER BY points DESC, t.name ASC
+          `;
+        });
+
+        return result.map((row, index) => ({
+          id: row.teamId,
+          tenantId,
+          leagueId,
+          name: row.teamName,
+          userId: row.userId,
+          budget: row.budget,
+          totalCost: row.totalCost,
+          points: Number(row.points),
+          wins: row.wins,
+          losses: row.losses,
+          draws: row.draws,
+          rank: index + 1,
+          user: {
+            id: row.userId,
+            username: row.username,
+            firstName: row.firstName,
+            lastName: row.lastName,
+            email: row.email,
+            avatar: row.avatar,
+          },
+        }));
+      }
+
+      // Season totals: use existing Team.points
       const teams = await prisma.team.findMany({
-        where: { leagueId: input.id, tenantId },
+        where: { leagueId, tenantId },
         orderBy: { points: 'desc' },
         include: {
           user: { select: { id: true, username: true, firstName: true, lastName: true, email: true, avatar: true } },

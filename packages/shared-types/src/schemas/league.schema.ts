@@ -236,6 +236,18 @@ export const updateTeamNameInputSchema = z.object({
   name: z.string().min(1).max(50).trim(),
 });
 
+/**
+ * Input schema for fetching league standings.
+ * When roundId is provided: returns per-round points from TeamPlayerSnapshot + ScoringEvent
+ * When roundId is absent: returns season totals from Team.points
+ */
+export const leagueStandingsInputSchema = z.object({
+  leagueId: z.number().int().positive(),
+  roundId: z.number().int().positive().optional(),
+});
+
+export type LeagueStandingsInput = z.infer<typeof leagueStandingsInputSchema>;
+
 export const teamWithPlayersSchema = teamSchema.extend({
   teamPlayers: z.array(z.object({
     id: z.number(),
