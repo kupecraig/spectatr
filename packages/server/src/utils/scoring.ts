@@ -5,6 +5,8 @@
  * Used by gameweek.finaliseRound and gameweek.recalculateLive.
  */
 
+import { prisma as basePrisma } from '../db/prisma.js';
+
 // Interface for round data
 interface RoundData {
   id: number;
@@ -286,34 +288,42 @@ export async function calculateRoundPoints(
     toFiniteNumber(stats.lastRoundPoints, 'player lastRoundPoints'),
   ]);
 
-  // Execute all updates in a transaction using set-based SQL to avoid per-row update overhead
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  await prisma.$transaction(async (tx: any) => {
-    if (teamRows.length > 0) {
-      const teamValuesClause = buildValuesClause(teamRows);
+  // Helper to execute batch updates using set-based SQL
+  // Must run in a transaction and set tenant context for RLS policies
+  const executeUpdates = async () => {
+    await basePrisma.$transaction(async (tx) => {
+      // Set tenant context for RLS
+      await tx.$executeRawUnsafe(
+        `SET LOCAL "app.current_tenant" = '${tenantId.replaceAll("'", "''")}'`
+      );
 
-      await tx.$executeRawUnsafe(`
-        UPDATE "teams" AS t
-        SET "points" = v.points
-        FROM (VALUES ${teamValuesClause}) AS v(id, points)
-        WHERE t."id" = v.id
-      `);
-    }
+      if (teamRows.length > 0) {
+        const teamValuesClause = buildValuesClause(teamRows);
+        await tx.$executeRawUnsafe(`
+          UPDATE "teams" AS t
+          SET "points" = v.points
+          FROM (VALUES ${teamValuesClause}) AS v(id, points)
+          WHERE t."id" = v.id
+        `);
+      }
 
-    if (playerRows.length > 0) {
-      const playerValuesClause = buildValuesClause(playerRows);
+      if (playerRows.length > 0) {
+        const playerValuesClause = buildValuesClause(playerRows);
+        await tx.$executeRawUnsafe(`
+          UPDATE "players" AS p
+          SET
+            "totalPoints" = v."totalPoints",
+            "avgPoints" = v."avgPoints",
+            "lastRoundPoints" = v."lastRoundPoints"
+          FROM (VALUES ${playerValuesClause}) AS v(id, "totalPoints", "avgPoints", "lastRoundPoints")
+          WHERE p."id" = v.id
+        `);
+      }
+    });
+  };
 
-      await tx.$executeRawUnsafe(`
-        UPDATE "players" AS p
-        SET
-          "totalPoints" = v."totalPoints",
-          "avgPoints" = v."avgPoints",
-          "lastRoundPoints" = v."lastRoundPoints"
-        FROM (VALUES ${playerValuesClause}) AS v(id, "totalPoints", "avgPoints", "lastRoundPoints")
-        WHERE p."id" = v.id
-      `);
-    }
-  });
+  // Execute updates using base prisma client
+  await executeUpdates();
 
   return {
     teamsUpdated: teamCumulativePoints.size,

@@ -28,6 +28,7 @@ import {
   createTestScoringEvent,
 } from '../../test/helpers/database.js';
 import { prisma } from '../../db/prisma.js';
+import { createTenantScopedPrisma } from '../context.js';
 
 describe('gameweek router', () => {
   // Test fixtures
@@ -183,8 +184,9 @@ describe('gameweek router', () => {
       expect(result.teamsUpdated).toBeGreaterThanOrEqual(0);
       expect(result.playersUpdated).toBeGreaterThanOrEqual(0);
 
-      // Verify round status changed
-      const updatedRound = await prisma.round.findUnique({
+      // Verify round status changed (use tenant-scoped client for RLS)
+      const scopedPrisma = createTenantScopedPrisma(tenant.tenant.id);
+      const updatedRound = await scopedPrisma.round.findUnique({
         where: { id: round.round.id },
       });
       expect(updatedRound?.status).toBe('complete');
@@ -238,8 +240,9 @@ describe('gameweek router', () => {
 
       expect(result.roundId).toBe(round.round.id);
 
-      // Verify round status did NOT change
-      const updatedRound = await prisma.round.findUnique({
+      // Verify round status did NOT change (use tenant-scoped client for RLS)
+      const scopedPrisma = createTenantScopedPrisma(tenant.tenant.id);
+      const updatedRound = await scopedPrisma.round.findUnique({
         where: { id: round.round.id },
       });
       expect(updatedRound?.status).toBe('active');
