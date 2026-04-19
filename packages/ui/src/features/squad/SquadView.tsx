@@ -1,48 +1,17 @@
 import type { FC } from 'react';
-import { useState } from 'react';
-import { Box, Typography, Paper, List, Button, ListItem, IconButton, CircularProgress, Snackbar, Alert } from '@mui/material';
+import { Box, Typography, Paper, List, ListItem, IconButton } from '@mui/material';
 import HistoryIcon from '@mui/icons-material/History';
 import AddIcon from '@mui/icons-material/Add';
+import { Button } from '@mui/material';
 import { useMyTeamStore } from '@/stores';
 import { PlayerListItem } from '@/features/players';
 import { PlayerPosition, POSITION_GROUP_MAPPING } from '@/mocks/playerData';
 import { sportSquadConfig } from '@spectatr/shared-types';
-import { useSaveSquadMutation } from '@/hooks/api/useTeamsQuery';
 
 export const SquadView: FC = () => {
-  const { getSelectedPlayers, totalCost, setActiveTab, setFilters, selectedLeagueId, slots } = useMyTeamStore();
+  const { getSelectedPlayers, totalCost, setActiveTab, setFilters } = useMyTeamStore();
 
   const selectedPlayers = getSelectedPlayers();
-  const saveSquadMutation = useSaveSquadMutation();
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState('');
-  const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success');
-
-  const isSquadFull = selectedPlayers.length === sportSquadConfig.maxPlayers;
-  const canSave = selectedLeagueId !== null && isSquadFull;
-
-  const handleSave = async () => {
-    if (!canSave || !selectedLeagueId) return;
-
-    const players = Object.values(slots)
-      .filter((player): player is NonNullable<typeof player> => player !== null)
-      .map((player) => ({
-        playerId: player.id,
-        position: player.position,
-      }));
-
-    try {
-      await saveSquadMutation.mutateAsync({ leagueId: selectedLeagueId, players });
-      setSnackbarMessage('Squad saved successfully!');
-      setSnackbarSeverity('success');
-      setSnackbarOpen(true);
-    } catch (err) {
-      const message = err instanceof Error ? err.message : 'Failed to save squad.';
-      setSnackbarMessage(message);
-      setSnackbarSeverity('error');
-      setSnackbarOpen(true);
-    }
-  };
 
   // Group players by position
   const positionGroups = {
@@ -177,40 +146,6 @@ export const SquadView: FC = () => {
           </Box>
         )}
       </Box>
-
-      {/* Save Team button */}
-      {selectedLeagueId !== null && (
-        <Box sx={{ p: 2, borderTop: 1, borderColor: 'divider' }}>
-          <Button
-            variant="contained"
-            fullWidth
-            onClick={handleSave}
-            disabled={!canSave || saveSquadMutation.isPending}
-            startIcon={
-              saveSquadMutation.isPending ? (
-                <CircularProgress size={16} color="inherit" />
-              ) : undefined
-            }
-          >
-            {saveSquadMutation.isPending ? 'Saving...' : 'Save Team'}
-          </Button>
-        </Box>
-      )}
-
-      <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={4000}
-        onClose={() => setSnackbarOpen(false)}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-      >
-        <Alert
-          onClose={() => setSnackbarOpen(false)}
-          severity={snackbarSeverity}
-          sx={{ width: '100%' }}
-        >
-          {snackbarMessage}
-        </Alert>
-      </Snackbar>
     </Paper>
   );
 };

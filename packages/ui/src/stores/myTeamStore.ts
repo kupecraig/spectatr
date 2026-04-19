@@ -19,10 +19,25 @@ export interface PlayerFilters {
   statuses: PlayerStatus[];
 }
 
+/**
+ * Represents the diff between saved and current squad state.
+ */
+export interface TransferDiff {
+  /** Players added since last save */
+  added: Player[];
+  /** Players removed since last save */
+  removed: Player[];
+}
+
 export interface MyTeamState {
   // === Squad Data (Slot-based) ===
   slots: PlayerSlots;
   totalCost: number;
+
+  // === Edit Mode State ===
+  isEditing: boolean;
+  savedSlots: PlayerSlots; // Snapshot of slots at last save/load
+  savedTotalCost: number; // Snapshot of totalCost at last save/load
 
   // === League / Team Context ===
   selectedLeagueId: number | null;
@@ -40,6 +55,15 @@ export interface MyTeamState {
   loadTeam: (team: TeamWithPlayers) => void;
   setLeagueId: (leagueId: number | null) => void;
   setTeamName: (name: string) => void;
+
+  // === Edit Mode Actions ===
+  enterEditMode: () => void;
+  exitEditMode: () => void; // Restores savedSlots, sets isEditing false
+  commitSave: () => void; // Updates savedSlots to current slots, sets isEditing false
+
+  // === Edit Mode Derived Getters ===
+  getIsDirty: () => boolean; // Compares slots vs savedSlots
+  getTransferDiff: () => TransferDiff; // Returns added/removed players
 
   // === UI State ===
   filters: PlayerFilters;
@@ -104,6 +128,11 @@ export const useMyTeamStore = create<MyTeamState>()(
       slots: initializeSlots(),
       totalCost: 0,
 
+      // === Edit Mode State ===
+      isEditing: false,
+      savedSlots: initializeSlots(),
+      savedTotalCost: 0,
+
       // === League / Team Context ===
       selectedLeagueId: null,
       teamId: null,
@@ -116,6 +145,12 @@ export const useMyTeamStore = create<MyTeamState>()(
           if (Object.values(state.slots).some((p) => p?.id === player.id)) {
             return state;
           }
+
+          // Implicitly enter edit mode if not already editing
+          // Capture snapshot BEFORE the change if this is the first change
+          const shouldEnterEditMode = !state.isEditing;
+          const savedSlots = shouldEnterEditMode ? { ...state.slots } : state.savedSlots;
+          const savedTotalCost = shouldEnterEditMode ? state.totalCost : state.savedTotalCost;
 
           // If a slot is selected, try to use it (if it matches position and is empty)
           if (state.selectedSlotId) {
@@ -132,6 +167,9 @@ export const useMyTeamStore = create<MyTeamState>()(
                 },
                 totalCost: state.totalCost + player.cost,
                 selectedSlotId: null, // Clear selection after adding
+                isEditing: true,
+                savedSlots,
+                savedTotalCost,
               };
             }
           }
@@ -150,6 +188,9 @@ export const useMyTeamStore = create<MyTeamState>()(
             },
             totalCost: state.totalCost + player.cost,
             selectedSlotId: null, // Clear selection after adding
+            isEditing: true,
+            savedSlots,
+            savedTotalCost,
           };
         }),
 
@@ -165,19 +206,38 @@ export const useMyTeamStore = create<MyTeamState>()(
           const player = state.slots[slotId];
           if (!player) return state;
 
+          // Implicitly enter edit mode if not already editing
+          // Capture snapshot BEFORE the change if this is the first change
+          const shouldEnterEditMode = !state.isEditing;
+          const savedSlots = shouldEnterEditMode ? { ...state.slots } : state.savedSlots;
+          const savedTotalCost = shouldEnterEditMode ? state.totalCost : state.savedTotalCost;
+
           return {
             slots: {
               ...state.slots,
               [slotId]: null, // Vacate the slot
             },
             totalCost: state.totalCost - player.cost,
+            isEditing: true,
+            savedSlots,
+            savedTotalCost,
           };
         }),
 
       clearSquad: () =>
-        set({
-          slots: initializeSlots(),
-          totalCost: 0,
+        set((state) => {
+          // Implicitly enter edit mode if not already editing
+          const shouldEnterEditMode = !state.isEditing;
+          const savedSlots = shouldEnterEditMode ? { ...state.slots } : state.savedSlots;
+          const savedTotalCost = shouldEnterEditMode ? state.totalCost : state.savedTotalCost;
+
+          return {
+            slots: initializeSlots(),
+            totalCost: 0,
+            isEditing: true,
+            savedSlots,
+            savedTotalCost,
+          };
         }),
 
       isPlayerSelected: (playerId) => {
@@ -249,20 +309,126 @@ export const useMyTeamStore = create<MyTeamState>()(
             teamId: team.id,
             teamName: team.name,
             selectedLeagueId: team.leagueId,
+            // Reset edit mode and snapshot to loaded state
+            isEditing: false,
+            savedSlots: { ...newSlots },
+            savedTotalCost: newTotalCost,
           };
         }),
 
       setLeagueId: (leagueId) =>
-        set(() => ({
-          slots: initializeSlots(),
-          totalCost: 0,
-          selectedLeagueId: leagueId,
-          teamId: null,
-          teamName: '',
-        })),
+        set(() => {
+          const emptySlots = initializeSlots();
+          return {
+            slots: emptySlots,
+            totalCost: 0,
+            selectedLeagueId: leagueId,
+            teamId: null,
+            teamName: '',
+            // Reset edit mode and snapshot
+            isEditing: false,
+            savedSlots: { ...emptySlots },
+            savedTotalCost: 0,
+          };
+        }),
 
       setTeamName: (name) =>
         set({ teamName: name }),
+
+      // === Edit Mode Actions ===
+      enterEditMode: () =>
+        set((state) => {
+          if (state.isEditing) return state; // Already editing
+          return {
+            isEditing: true,
+            savedSlots: { ...state.slots },
+            savedTotalCost: state.totalCost,
+          };
+        }),
+
+      exitEditMode: () =>
+        set((state) => ({
+          // Restore saved state
+          slots: { ...state.savedSlots },
+          totalCost: state.savedTotalCost,
+          isEditing: false,
+        })),
+
+      commitSave: () =>
+        set((state) => ({
+          // Update snapshot to current state
+          savedSlots: { ...state.slots },
+          savedTotalCost: state.totalCost,
+          isEditing: false,
+        })),
+
+      // === Edit Mode Derived Getters ===
+      getIsDirty: () => {
+        const state = get();
+        const { slots, savedSlots } = state;
+        
+        // Compare each slot by player ID
+        for (const slotId of Object.keys(slots)) {
+          const currentPlayer = slots[slotId];
+          const savedPlayer = savedSlots[slotId];
+          
+          // Both null - no change
+          if (currentPlayer === null && savedPlayer === null) continue;
+          
+          // One is null, other isn't - change detected
+          if (currentPlayer === null || savedPlayer === null) return true;
+          
+          // Different player IDs - change detected
+          if (currentPlayer.id !== savedPlayer.id) return true;
+        }
+        
+        return false;
+      },
+
+      getTransferDiff: () => {
+        const state = get();
+        const { slots, savedSlots } = state;
+        
+        // Collect all player IDs from current and saved states
+        const currentPlayerIds = new Set<number>();
+        const savedPlayerIds = new Set<number>();
+        const currentPlayersMap = new Map<number, Player>();
+        const savedPlayersMap = new Map<number, Player>();
+        
+        for (const player of Object.values(slots)) {
+          if (player !== null) {
+            currentPlayerIds.add(player.id);
+            currentPlayersMap.set(player.id, player);
+          }
+        }
+        
+        for (const player of Object.values(savedSlots)) {
+          if (player !== null) {
+            savedPlayerIds.add(player.id);
+            savedPlayersMap.set(player.id, player);
+          }
+        }
+        
+        // Added: in current but not in saved
+        const added: Player[] = [];
+        for (const id of currentPlayerIds) {
+          if (!savedPlayerIds.has(id)) {
+            const player = currentPlayersMap.get(id);
+            if (player) added.push(player);
+          }
+        }
+        
+        // Removed: in saved but not in current
+        const removed: Player[] = [];
+        for (const id of savedPlayerIds) {
+          if (!currentPlayerIds.has(id)) {
+            const player = savedPlayersMap.get(id);
+            if (player) removed.push(player);
+          }
+        }
+        
+        return { added, removed };
+      },
 
       // === Initial UI State ===
       filters: defaultFilters,
@@ -346,9 +512,18 @@ export const useMyTeamStore = create<MyTeamState>()(
       // This avoids needing explicit version migrations when adding new filter fields.
       merge: (persisted, current) => {
         const p = persisted as Partial<MyTeamState>;
+        // Initialize savedSlots/savedTotalCost from persisted slots/totalCost
+        // so that getIsDirty() returns false on cold load (no false-positive dirty state)
+        const slots = p.slots ?? current.slots;
+        const totalCost = p.totalCost ?? current.totalCost;
         return {
           ...current,
           ...p,
+          slots,
+          totalCost,
+          savedSlots: slots,
+          savedTotalCost: totalCost,
+          isEditing: false, // Always start in view mode on cold load
           filters: { ...current.filters, ...p.filters },
           priceRange: p.priceRange ?? current.priceRange,
         };

@@ -21,6 +21,10 @@ import { healthRouter } from './routes/health.js';
 
 const app = express();
 
+// Trust the first proxy hop so req.ip is correctly populated.
+// Required for express-rate-limit to resolve the client IP address.
+app.set('trust proxy', 1);
+
 // CORS configuration
 app.use(
   cors({

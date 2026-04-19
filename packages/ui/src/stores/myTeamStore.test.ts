@@ -71,15 +71,73 @@ const getPositionAt = (index: number): string => {
   return positions[index] || positions[0];
 };
 
+/**
+ * Type for team player entries in test data.
+ */
+type TeamPlayerEntry = {
+  id: number;
+  playerId: number;
+  position: string;
+  player: Player & { imagePitch: string; imageProfile: string };
+};
+
+/**
+ * Creates a mock TeamWithPlayers object for testing.
+ * Uses the first player from mock data as the base player.
+ * 
+ * @param teamPlayerOverrides - Optional array of team players to use instead of default
+ * @returns A mock team with players for testing loadTeam
+ */
+const makeTeamWithPlayers = (teamPlayerOverrides?: TeamPlayerEntry[]) => {
+  const basePlayer = players[0] as Player;
+  const defaultTeamPlayers: TeamPlayerEntry[] = [
+    {
+      id: 1,
+      playerId: basePlayer.id,
+      position: basePlayer.position,
+      player: {
+        ...basePlayer,
+        imagePitch: basePlayer.imagePitch ?? '',
+        imageProfile: basePlayer.imageProfile ?? '',
+      },
+    },
+  ];
+  return {
+    id: 42,
+    tenantId: 'trc-2025',
+    userId: 'user-1',
+    leagueId: 7,
+    name: 'My Test Team',
+    budget: 42_000_000,
+    totalCost: basePlayer.cost,
+    points: 0,
+    wins: 0,
+    losses: 0,
+    draws: 0,
+    teamPlayers: teamPlayerOverrides ?? defaultTeamPlayers,
+  };
+};
+
 describe('myTeamStore', () => {
   beforeEach(() => {
+    // Initialize empty slots from field layout
+    const emptySlots: Record<string, Player | null> = {};
+    getAllPositions().forEach((position) => {
+      emptySlots[position.id] = null;
+    });
+
     // Reset store before each test
     useMyTeamStore.setState({
-      slots: {},
+      slots: emptySlots,
       totalCost: 0,
       selectedLeagueId: null,
       teamId: null,
       teamName: '',
+      // Edit mode state
+      isEditing: false,
+      savedSlots: { ...emptySlots },
+      savedTotalCost: 0,
+      // UI state
       filters: {
         search: '',
         position: null,
@@ -97,13 +155,6 @@ describe('myTeamStore', () => {
       selectedSlotId: null,
       isLoading: false,
     });
-    
-    // Initialize empty slots from field layout
-    const emptySlots: Record<string, Player | null> = {};
-    getAllPositions().forEach((position) => {
-      emptySlots[position.id] = null;
-    });
-    useMyTeamStore.setState({ slots: emptySlots });
   });
 
   describe('Pure Helper Functions', () => {
@@ -773,43 +824,6 @@ describe('myTeamStore', () => {
   describe('loadTeam', () => {
     const firstPosition = () => Object.keys(sportSquadConfig.positions)[0];
 
-    type TeamPlayerEntry = {
-      id: number;
-      playerId: number;
-      position: string;
-      player: Player & { imagePitch: string; imageProfile: string };
-    };
-
-    const makeTeamWithPlayers = (teamPlayerOverrides?: TeamPlayerEntry[]) => {
-      const basePlayer = players[0] as Player;
-      const defaultTeamPlayers: TeamPlayerEntry[] = [
-        {
-          id: 1,
-          playerId: basePlayer.id,
-          position: basePlayer.position,
-          player: {
-            ...basePlayer,
-            imagePitch: basePlayer.imagePitch ?? '',
-            imageProfile: basePlayer.imageProfile ?? '',
-          },
-        },
-      ];
-      return {
-        id: 42,
-        tenantId: 'trc-2025',
-        userId: 'user-1',
-        leagueId: 7,
-        name: 'My Test Team',
-        budget: 42_000_000,
-        totalCost: basePlayer.cost,
-        points: 0,
-        wins: 0,
-        losses: 0,
-        draws: 0,
-        teamPlayers: teamPlayerOverrides ?? defaultTeamPlayers,
-      };
-    };
-
     it('maps TeamPlayer records to slots and sets teamId and teamName', () => {
       const { loadTeam } = useMyTeamStore.getState();
       const team = makeTeamWithPlayers() as unknown as TeamWithPlayers;
@@ -885,6 +899,364 @@ describe('myTeamStore', () => {
       const state = useMyTeamStore.getState();
       Object.values(state.slots).forEach((slot) => {
         expect(slot).toBeNull();
+      });
+    });
+
+    it('resets edit mode state when switching leagues', () => {
+      const { addPlayer, setLeagueId } = useMyTeamStore.getState();
+      const player = getTestPlayer();
+      addPlayer(player);
+
+      expect(useMyTeamStore.getState().isEditing).toBe(true);
+
+      setLeagueId(99);
+
+      const state = useMyTeamStore.getState();
+      expect(state.isEditing).toBe(false);
+      expect(state.getIsDirty()).toBe(false);
+    });
+  });
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // Edit Mode Tests
+  // ─────────────────────────────────────────────────────────────────────────────
+
+  describe('Edit Mode', () => {
+    describe('getIsDirty', () => {
+      it('returns false when slots match saved snapshot (initial state)', () => {
+        const { getIsDirty } = useMyTeamStore.getState();
+        
+        expect(getIsDirty()).toBe(false);
+      });
+
+      it('returns false when slots match saved snapshot after loadTeam', () => {
+        const { loadTeam, getIsDirty } = useMyTeamStore.getState();
+        const team = makeTeamWithPlayers();
+        
+        loadTeam(team as unknown as TeamWithPlayers);
+        
+        expect(getIsDirty()).toBe(false);
+      });
+
+      it('returns true after adding a player', () => {
+        const { addPlayer, getIsDirty } = useMyTeamStore.getState();
+        const player = getTestPlayer();
+        
+        addPlayer(player);
+        
+        expect(getIsDirty()).toBe(true);
+      });
+
+      it('returns true after removing a player', () => {
+        const { loadTeam, removePlayer, getIsDirty } = useMyTeamStore.getState();
+        const team = makeTeamWithPlayers();
+        loadTeam(team as unknown as TeamWithPlayers);
+        
+        const playerToRemove = useMyTeamStore.getState().getSelectedPlayers()[0];
+        removePlayer(playerToRemove.id);
+        
+        expect(getIsDirty()).toBe(true);
+      });
+
+      it('returns false after adding then removing the same player', () => {
+        const { addPlayer, removePlayer, getIsDirty } = useMyTeamStore.getState();
+        const player = getTestPlayer();
+        
+        addPlayer(player);
+        removePlayer(player.id);
+        
+        // Should be clean because we're back to original state
+        expect(getIsDirty()).toBe(false);
+      });
+    });
+
+    describe('enterEditMode', () => {
+      it('sets isEditing to true', () => {
+        const { enterEditMode } = useMyTeamStore.getState();
+        
+        expect(useMyTeamStore.getState().isEditing).toBe(false);
+        
+        enterEditMode();
+        
+        expect(useMyTeamStore.getState().isEditing).toBe(true);
+      });
+
+      it('snapshots current slots as savedSlots', () => {
+        const { addPlayer, commitSave, enterEditMode } = useMyTeamStore.getState();
+        const player = getTestPlayer();
+        
+        // Set up initial state with a player
+        addPlayer(player);
+        commitSave();
+        
+        // Now enter edit mode explicitly
+        enterEditMode();
+        
+        const state = useMyTeamStore.getState();
+        expect(state.isEditing).toBe(true);
+        expect(state.savedSlots).toEqual(state.slots);
+      });
+
+      it('does nothing if already editing', () => {
+        const { addPlayer, enterEditMode } = useMyTeamStore.getState();
+        const player = getTestPlayer();
+        
+        addPlayer(player); // Implicitly enters edit mode
+        const stateAfterAdd = useMyTeamStore.getState();
+        const savedSlotsAfterAdd = { ...stateAfterAdd.savedSlots };
+        
+        enterEditMode(); // Should be a no-op
+        
+        const stateAfterExplicitEnter = useMyTeamStore.getState();
+        expect(stateAfterExplicitEnter.savedSlots).toEqual(savedSlotsAfterAdd);
+      });
+    });
+
+    describe('exitEditMode', () => {
+      it('sets isEditing to false', () => {
+        const { addPlayer, exitEditMode } = useMyTeamStore.getState();
+        const player = getTestPlayer();
+        
+        addPlayer(player);
+        expect(useMyTeamStore.getState().isEditing).toBe(true);
+        
+        exitEditMode();
+        
+        expect(useMyTeamStore.getState().isEditing).toBe(false);
+      });
+
+      it('restores savedSlots snapshot', () => {
+        const { loadTeam, addPlayer, exitEditMode, getSelectedPlayers } = useMyTeamStore.getState();
+        const team = makeTeamWithPlayers();
+        loadTeam(team as unknown as TeamWithPlayers);
+        
+        const initialCount = getSelectedPlayers().length;
+        const newPlayer = getTestPlayer({ 
+          id: 88888, 
+          position: getPositionAt(1) as Player['position'] 
+        });
+        
+        addPlayer(newPlayer);
+        expect(getSelectedPlayers().length).toBe(initialCount + 1);
+        
+        exitEditMode();
+        
+        // Should be restored to original state
+        expect(getSelectedPlayers().length).toBe(initialCount);
+      });
+
+      it('restores totalCost from savedTotalCost', () => {
+        const { loadTeam, addPlayer, exitEditMode } = useMyTeamStore.getState();
+        const team = makeTeamWithPlayers();
+        loadTeam(team as unknown as TeamWithPlayers);
+        
+        const initialCost = useMyTeamStore.getState().totalCost;
+        const expensivePlayer = getTestPlayer({ 
+          id: 77777, 
+          cost: 10_000_000,
+          position: getPositionAt(1) as Player['position'] 
+        });
+        
+        addPlayer(expensivePlayer);
+        expect(useMyTeamStore.getState().totalCost).toBe(initialCost + 10_000_000);
+        
+        exitEditMode();
+        
+        expect(useMyTeamStore.getState().totalCost).toBe(initialCost);
+      });
+    });
+
+    describe('commitSave', () => {
+      it('updates savedSlots to match current slots', () => {
+        const { addPlayer, commitSave, getIsDirty } = useMyTeamStore.getState();
+        const player = getTestPlayer();
+        
+        addPlayer(player);
+        expect(getIsDirty()).toBe(true);
+        
+        commitSave();
+        
+        expect(getIsDirty()).toBe(false);
+        const state = useMyTeamStore.getState();
+        expect(state.savedSlots).toEqual(state.slots);
+      });
+
+      it('sets isEditing to false', () => {
+        const { addPlayer, commitSave } = useMyTeamStore.getState();
+        const player = getTestPlayer();
+        
+        addPlayer(player);
+        expect(useMyTeamStore.getState().isEditing).toBe(true);
+        
+        commitSave();
+        
+        expect(useMyTeamStore.getState().isEditing).toBe(false);
+      });
+
+      it('updates savedTotalCost to match current totalCost', () => {
+        const { addPlayer, commitSave } = useMyTeamStore.getState();
+        const player = getTestPlayer({ cost: 5_000_000 });
+        
+        addPlayer(player);
+        commitSave();
+        
+        const state = useMyTeamStore.getState();
+        expect(state.savedTotalCost).toBe(5_000_000);
+      });
+    });
+
+    describe('getTransferDiff', () => {
+      it('returns empty arrays when no changes', () => {
+        const { getTransferDiff } = useMyTeamStore.getState();
+        
+        const diff = getTransferDiff();
+        
+        expect(diff.added).toHaveLength(0);
+        expect(diff.removed).toHaveLength(0);
+      });
+
+      it('correctly identifies added players', () => {
+        const { addPlayer, getTransferDiff } = useMyTeamStore.getState();
+        const player = getTestPlayer();
+        
+        addPlayer(player);
+        
+        const diff = getTransferDiff();
+        expect(diff.added).toHaveLength(1);
+        expect(diff.added[0].id).toBe(player.id);
+        expect(diff.removed).toHaveLength(0);
+      });
+
+      it('correctly identifies removed players', () => {
+        const { loadTeam, removePlayer, getTransferDiff, getSelectedPlayers } = useMyTeamStore.getState();
+        const team = makeTeamWithPlayers();
+        loadTeam(team as unknown as TeamWithPlayers);
+        
+        const playerToRemove = getSelectedPlayers()[0];
+        removePlayer(playerToRemove.id);
+        
+        const diff = getTransferDiff();
+        expect(diff.added).toHaveLength(0);
+        expect(diff.removed).toHaveLength(1);
+        expect(diff.removed[0].id).toBe(playerToRemove.id);
+      });
+
+      it('correctly identifies both added and removed players', () => {
+        const { loadTeam, addPlayer, removePlayer, getTransferDiff, getSelectedPlayers } = useMyTeamStore.getState();
+        const team = makeTeamWithPlayers();
+        loadTeam(team as unknown as TeamWithPlayers);
+        
+        const playerToRemove = getSelectedPlayers()[0];
+        const newPlayer = getTestPlayer({ 
+          id: 66666, 
+          position: getPositionAt(1) as Player['position'] 
+        });
+        
+        removePlayer(playerToRemove.id);
+        addPlayer(newPlayer);
+        
+        const diff = getTransferDiff();
+        expect(diff.added).toHaveLength(1);
+        expect(diff.added[0].id).toBe(newPlayer.id);
+        expect(diff.removed).toHaveLength(1);
+        expect(diff.removed[0].id).toBe(playerToRemove.id);
+      });
+    });
+
+    describe('implicit edit mode entry', () => {
+      it('addPlayer implicitly enters edit mode', () => {
+        const { addPlayer } = useMyTeamStore.getState();
+        const player = getTestPlayer();
+        
+        expect(useMyTeamStore.getState().isEditing).toBe(false);
+        
+        addPlayer(player);
+        
+        expect(useMyTeamStore.getState().isEditing).toBe(true);
+      });
+
+      it('removePlayer implicitly enters edit mode', () => {
+        const { loadTeam, removePlayer, getSelectedPlayers } = useMyTeamStore.getState();
+        const team = makeTeamWithPlayers();
+        loadTeam(team as unknown as TeamWithPlayers);
+        
+        // loadTeam sets isEditing: false
+        expect(useMyTeamStore.getState().isEditing).toBe(false);
+        
+        const playerToRemove = getSelectedPlayers()[0];
+        removePlayer(playerToRemove.id);
+        
+        expect(useMyTeamStore.getState().isEditing).toBe(true);
+      });
+
+      it('clearSquad implicitly enters edit mode', () => {
+        const { loadTeam, clearSquad } = useMyTeamStore.getState();
+        const team = makeTeamWithPlayers();
+        loadTeam(team as unknown as TeamWithPlayers);
+        
+        expect(useMyTeamStore.getState().isEditing).toBe(false);
+        
+        clearSquad();
+        
+        expect(useMyTeamStore.getState().isEditing).toBe(true);
+      });
+
+      it('snapshots state BEFORE the first change', () => {
+        const { loadTeam, addPlayer, getTransferDiff, getSelectedPlayers } = useMyTeamStore.getState();
+        const team = makeTeamWithPlayers();
+        loadTeam(team as unknown as TeamWithPlayers);
+        
+        const initialPlayerCount = getSelectedPlayers().length;
+        const newPlayer = getTestPlayer({ 
+          id: 55555, 
+          position: getPositionAt(1) as Player['position'] 
+        });
+        
+        addPlayer(newPlayer);
+        
+        // The diff should show only the new player as added
+        const diff = getTransferDiff();
+        expect(diff.added).toHaveLength(1);
+        expect(diff.removed).toHaveLength(0);
+        
+        // savedSlots should have the original players
+        const state = useMyTeamStore.getState();
+        const savedPlayerCount = Object.values(state.savedSlots).filter(p => p !== null).length;
+        expect(savedPlayerCount).toBe(initialPlayerCount);
+      });
+    });
+
+    describe('loadTeam updates savedSlots', () => {
+      it('loadTeam sets savedSlots to match loaded state', () => {
+        const { loadTeam } = useMyTeamStore.getState();
+        const team = makeTeamWithPlayers();
+        
+        loadTeam(team as unknown as TeamWithPlayers);
+        
+        const state = useMyTeamStore.getState();
+        expect(state.savedSlots).toEqual(state.slots);
+        expect(state.savedTotalCost).toBe(state.totalCost);
+      });
+
+      it('loadTeam resets isEditing to false', () => {
+        const { addPlayer, loadTeam } = useMyTeamStore.getState();
+        const player = getTestPlayer();
+        addPlayer(player);
+        expect(useMyTeamStore.getState().isEditing).toBe(true);
+        
+        const team = makeTeamWithPlayers();
+        loadTeam(team as unknown as TeamWithPlayers);
+        
+        expect(useMyTeamStore.getState().isEditing).toBe(false);
+      });
+
+      it('getIsDirty returns false immediately after loadTeam', () => {
+        const { loadTeam, getIsDirty } = useMyTeamStore.getState();
+        const team = makeTeamWithPlayers();
+        
+        loadTeam(team as unknown as TeamWithPlayers);
+        
+        expect(getIsDirty()).toBe(false);
       });
     });
   });

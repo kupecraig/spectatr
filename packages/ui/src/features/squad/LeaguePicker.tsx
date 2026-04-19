@@ -10,17 +10,38 @@ import {
 import { useMyTeamStore } from '@/stores';
 import { useMyLeaguesQuery } from '@/hooks/api/useLeaguesQuery';
 
+export interface LeaguePickerProps {
+  /**
+   * Optional callback called before changing the league.
+   * If provided, the component will call this with the new league ID
+   * instead of directly calling setLeagueId.
+   * The parent can then decide whether to proceed with the change.
+   */
+  onLeagueChange?: (newLeagueId: number | null) => void;
+}
+
 /**
  * League picker dropdown for selecting which league's team to manage.
  * Shows a skeleton while leagues are loading.
+ * 
+ * When `onLeagueChange` is provided, delegates league switching to the parent
+ * (useful for dirty-state checking). Otherwise calls `setLeagueId` directly.
  */
-export const LeaguePicker: FC = () => {
+export const LeaguePicker: FC<LeaguePickerProps> = ({ onLeagueChange }) => {
   const { selectedLeagueId, setLeagueId } = useMyTeamStore();
   const { data: leagues, isLoading } = useMyLeaguesQuery();
 
   const handleChange = (event: SelectChangeEvent<string>) => {
     const value = event.target.value;
-    setLeagueId(value === '' ? null : Number(value));
+    const newLeagueId = value === '' ? null : Number(value);
+    
+    if (onLeagueChange) {
+      // Delegate to parent for dirty-state checking
+      onLeagueChange(newLeagueId);
+    } else {
+      // Direct update (default behavior)
+      setLeagueId(newLeagueId);
+    }
   };
 
   if (isLoading) {
