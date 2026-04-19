@@ -24,35 +24,119 @@ const meta = {
       control: 'boolean',
       description: 'Whether player can be added to squad',
     },
+    sortBy: {
+      control: 'select',
+      options: ['totalPoints', 'avgPoints', 'lastRoundPoints', 'cost', 'tries', 'tackles', 'conversions', 'metresGained'],
+      description: 'Current sort option - determines which stat badge to display',
+    },
   },
 } satisfies Meta<typeof PlayerListItem>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// Default state - available player
+// Helper to create player with scoring data
+const createPlayerWithPoints = (
+  basePlayer: Player,
+  overrides: { totalPoints?: number; avgPoints?: number; lastRoundPoints?: number; stats?: Record<string, unknown> }
+): Player & { totalPoints: number; avgPoints: number; lastRoundPoints: number } => ({
+  ...basePlayer,
+  totalPoints: overrides.totalPoints ?? 0,
+  avgPoints: overrides.avgPoints ?? 0,
+  lastRoundPoints: overrides.lastRoundPoints ?? 0,
+  stats: { ...basePlayer.stats, ...overrides.stats },
+} as Player & { totalPoints: number; avgPoints: number; lastRoundPoints: number });
+
+// Default state - available player with total points badge
 export const Default: Story = {
   args: {
-    player: players[0],
+    player: createPlayerWithPoints(players[0], { totalPoints: 125, avgPoints: 12.5, lastRoundPoints: 18 }),
     isDisabled: false,
+    sortBy: 'totalPoints',
+  },
+};
+
+// With Total Points badge (sortBy: totalPoints)
+export const WithTotalPoints: Story = {
+  args: {
+    player: createPlayerWithPoints(players[0], { totalPoints: 150, avgPoints: 15.0, lastRoundPoints: 22 }),
+    isDisabled: false,
+    sortBy: 'totalPoints',
+  },
+};
+
+// With Avg Points badge (sortBy: avgPoints)
+export const WithAvgPoints: Story = {
+  args: {
+    player: createPlayerWithPoints(players[0], { totalPoints: 150, avgPoints: 15.0, lastRoundPoints: 22 }),
+    isDisabled: false,
+    sortBy: 'avgPoints',
+  },
+};
+
+// Sorted by Tries - shows tries badge
+export const SortedByTries: Story = {
+  args: {
+    player: createPlayerWithPoints(players[0], { 
+      totalPoints: 120,
+      avgPoints: 12.0,
+      lastRoundPoints: 15,
+      stats: { tries: 8 },
+    }),
+    isDisabled: false,
+    sortBy: 'tries',
+  },
+};
+
+// Sorted by Tackles - shows tackles badge
+export const SortedByTackles: Story = {
+  args: {
+    player: createPlayerWithPoints(players[0], { 
+      totalPoints: 100,
+      avgPoints: 10.0,
+      lastRoundPoints: 12,
+      stats: { tackles: 45 },
+    }),
+    isDisabled: false,
+    sortBy: 'tackles',
+  },
+};
+
+// Zero Points - shows 0 gracefully
+export const ZeroPoints: Story = {
+  args: {
+    player: createPlayerWithPoints(players[0], { totalPoints: 0, avgPoints: 0, lastRoundPoints: 0 }),
+    isDisabled: false,
+    sortBy: 'totalPoints',
+  },
+};
+
+// Sorted by Cost - no badge shown
+export const SortedByCost: Story = {
+  args: {
+    player: createPlayerWithPoints(players[0], { totalPoints: 100, avgPoints: 10.0, lastRoundPoints: 12 }),
+    isDisabled: false,
+    sortBy: 'cost',
   },
 };
 
 // Disabled state (e.g., over budget)
 export const Disabled: Story = {
   args: {
-    player: players[0],
+    player: createPlayerWithPoints(players[0], { totalPoints: 125, avgPoints: 12.5, lastRoundPoints: 18 }),
     isDisabled: true,
     validationError: 'Over budget',
+    sortBy: 'totalPoints',
   },
 };
 
 // With validation error
 export const ValidationError: Story = {
   args: {
-    player: players[0],
+    player: createPlayerWithPoints(players[0], { totalPoints: 125, avgPoints: 12.5, lastRoundPoints: 18 }),
     isDisabled: true,
     validationError: 'Squad full - max 3 players from same team',
+    sortBy: 'totalPoints',
   },
 };
 
@@ -64,13 +148,18 @@ export const AllPositions = {
     
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0px' }}>
-        {uniquePositions.map((position) => {
+        {uniquePositions.map((position, index) => {
           const player = players.find(p => p.position === position);
           return player ? (
             <PlayerListItem
               key={player.id}
-              player={player}
+              player={createPlayerWithPoints(player, { 
+                totalPoints: 100 + index * 10,
+                avgPoints: 10 + index,
+                lastRoundPoints: 15 + index * 2,
+              })}
               isDisabled={false}
+              sortBy="totalPoints"
             />
           ) : null;
         })}
@@ -82,7 +171,7 @@ export const AllPositions = {
 // Player statuses
 export const PlayerStatuses = {
   render: () => {
-    const player = players[0];
+    const player = createPlayerWithPoints(players[0], { totalPoints: 100, avgPoints: 10.0, lastRoundPoints: 15 });
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
         <div>
@@ -90,6 +179,7 @@ export const PlayerStatuses = {
           <PlayerListItem
             player={{ ...player, status: 'available' }}
             isDisabled={false}
+            sortBy="totalPoints"
           />
         </div>
         <div>
@@ -97,6 +187,7 @@ export const PlayerStatuses = {
           <PlayerListItem
             player={{ ...player, status: 'selected' }}
             isDisabled={false}
+            sortBy="totalPoints"
           />
         </div>
         <div>
@@ -104,6 +195,7 @@ export const PlayerStatuses = {
           <PlayerListItem
             player={{ ...player, status: 'not-selected' }}
             isDisabled={false}
+            sortBy="totalPoints"
           />
         </div>
         <div>
@@ -111,6 +203,7 @@ export const PlayerStatuses = {
           <PlayerListItem
             player={{ ...player, status: 'uncertain' }}
             isDisabled={false}
+            sortBy="totalPoints"
           />
         </div>
         <div>
@@ -118,6 +211,7 @@ export const PlayerStatuses = {
           <PlayerListItem
             player={{ ...player, status: 'injured' }}
             isDisabled={false}
+            sortBy="totalPoints"
           />
         </div>
         <div>
@@ -125,6 +219,7 @@ export const PlayerStatuses = {
           <PlayerListItem
             player={{ ...player, status: 'eliminated' }}
             isDisabled={false}
+            sortBy="totalPoints"
           />
         </div>
         <div>
@@ -132,6 +227,7 @@ export const PlayerStatuses = {
           <PlayerListItem
             player={{ ...player, status: 'benched' }}
             isDisabled={false}
+            sortBy="totalPoints"
           />
         </div>
       </div>
@@ -142,11 +238,12 @@ export const PlayerStatuses = {
 // Locked player
 export const LockedPlayer = {
   render: () => {
-    const player = players[0];
+    const player = createPlayerWithPoints(players[0], { totalPoints: 100, avgPoints: 10.0, lastRoundPoints: 15 });
     return (
       <PlayerListItem
         player={{ ...player, isLocked: true, status: 'available' }}
         isDisabled={false}
+        sortBy="totalPoints"
       />
     );
   },
@@ -155,11 +252,12 @@ export const LockedPlayer = {
 // Locked and injured player (both icons visible simultaneously)
 export const LockedAndInjured = {
   render: () => {
-    const player = players[0];
+    const player = createPlayerWithPoints(players[0], { totalPoints: 100, avgPoints: 10.0, lastRoundPoints: 15 });
     return (
       <PlayerListItem
         player={{ ...player, isLocked: true, status: 'injured' }}
         isDisabled={false}
+        sortBy="totalPoints"
       />
     );
   },
@@ -168,7 +266,7 @@ export const LockedAndInjured = {
 // High vs low selection percentage
 export const SelectionPercentages = {
   render: () => {
-    const basePlayer = players[0];
+    const basePlayer = createPlayerWithPoints(players[0], { totalPoints: 100, avgPoints: 10.0, lastRoundPoints: 15 });
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0px' }}>
         <PlayerListItem
@@ -179,6 +277,7 @@ export const SelectionPercentages = {
             lastName: 'Player',
           }}
           isDisabled={false}
+          sortBy="totalPoints"
         />
         <PlayerListItem
           player={{ 
@@ -189,6 +288,7 @@ export const SelectionPercentages = {
             lastName: 'Pick',
           }}
           isDisabled={false}
+          sortBy="totalPoints"
         />
       </div>
     );
@@ -198,37 +298,39 @@ export const SelectionPercentages = {
 // Different price ranges
 export const PriceRanges = {
   render: () => {
-    const basePlayer = players[0];
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0px' }}>
         <PlayerListItem
-          player={{ 
-            ...basePlayer, 
+          player={createPlayerWithPoints({ 
+            ...players[0], 
             cost: 12000000,
             firstName: 'Premium',
             lastName: 'Star',
-          }}
+          }, { totalPoints: 150, avgPoints: 15.0, lastRoundPoints: 20 })}
           isDisabled={false}
+          sortBy="totalPoints"
         />
         <PlayerListItem
-          player={{ 
-            ...basePlayer, 
+          player={createPlayerWithPoints({ 
+            ...players[0], 
             id: 998,
             cost: 7500000,
             firstName: 'Mid-Price',
             lastName: 'Option',
-          }}
+          }, { totalPoints: 100, avgPoints: 10.0, lastRoundPoints: 12 })}
           isDisabled={false}
+          sortBy="totalPoints"
         />
         <PlayerListItem
-          player={{ 
-            ...basePlayer, 
+          player={createPlayerWithPoints({ 
+            ...players[0], 
             id: 997,
             cost: 4000000,
             firstName: 'Budget',
             lastName: 'Enabler',
-          }}
+          }, { totalPoints: 60, avgPoints: 6.0, lastRoundPoints: 8 })}
           isDisabled={false}
+          sortBy="totalPoints"
         />
       </div>
     );

@@ -155,6 +155,9 @@ export async function createTestPlayer(
       imageProfile: overrides?.imageProfile ?? null,
       stats: overrides?.stats ?? {},
       selected: overrides?.selected ?? {},
+      totalPoints: overrides?.totalPoints ?? 0,
+      avgPoints: overrides?.avgPoints ?? 0,
+      lastRoundPoints: overrides?.lastRoundPoints ?? 0,
     },
   });
 

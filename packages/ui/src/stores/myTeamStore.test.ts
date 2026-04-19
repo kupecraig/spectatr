@@ -146,6 +146,7 @@ describe('myTeamStore', () => {
         maxPrice: 25,
         withinBudget: false,
         statuses: [],
+        sortBy: 'totalPoints',
       },
       priceRange: { min: 0, max: 25 },
       activeTab: 'LIST',

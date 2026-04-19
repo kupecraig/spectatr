@@ -1,6 +1,7 @@
 import { useTrpcClient } from './useTrpcClient';
 import { useTenantQuery } from './useTenantQuery';
 import type { Player } from '@/mocks/playerData';
+import type { PlayerSortBy } from '@spectatr/shared-types';
 
 export interface PlayersQueryInput {
   position?: string;
@@ -8,6 +9,7 @@ export interface PlayersQueryInput {
   minCost?: number;
   maxCost?: number;
   search?: string;
+  sortBy?: PlayerSortBy;
   limit?: number;
   offset?: number;
 }

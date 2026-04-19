@@ -13,17 +13,21 @@ import LockIcon from '@mui/icons-material/Lock';
 import { Player, getPositionDisplayName } from '@/mocks/playerData';
 import { useMyTeamStore } from '@/stores';
 import { PlayerStatusIcon } from './PlayerStatusIcon';
+import { SORT_BADGE_CONFIG } from './playerSortConfig';
+import type { PlayerSortBy } from '@spectatr/shared-types';
 
 interface PlayerListItemProps {
   player: Player;
   validationError?: string | null;
   isDisabled?: boolean;
+  sortBy?: PlayerSortBy;
 }
 
 export const PlayerListItem: FC<PlayerListItemProps> = ({
   player,
   validationError,
   isDisabled,
+  sortBy = 'totalPoints',
 }) => {
   const { isPlayerSelected, addPlayer, removePlayer } = useMyTeamStore();
   const selected = isPlayerSelected(player.id);
@@ -42,6 +46,18 @@ export const PlayerListItem: FC<PlayerListItemProps> = ({
   // Calculate opacity for content and button
   const contentOpacity = (selected || isDisabled) ? 0.5 : 1;
   const buttonOpacity = isDisabled ? 0.5 : 1; // Only invalid players get reduced button opacity
+
+  // Get badge config for current sort option
+  const badgeConfig = SORT_BADGE_CONFIG[sortBy];
+
+  // Create player data object for badge value computation
+  // Handle both server response (flat) and mock data (nested stats)
+  const playerForBadge = {
+    totalPoints: (player as unknown as { totalPoints?: number }).totalPoints ?? player.stats?.totalPoints ?? 0,
+    avgPoints: (player as unknown as { avgPoints?: number }).avgPoints ?? player.stats?.avgPoints ?? 0,
+    lastRoundPoints: (player as unknown as { lastRoundPoints?: number }).lastRoundPoints ?? player.stats?.lastRoundPoints ?? 0,
+    stats: player.stats as unknown as Record<string, unknown> | undefined,
+  };
 
   return (
     <ListItem
@@ -98,6 +114,20 @@ export const PlayerListItem: FC<PlayerListItemProps> = ({
                 height: 20,
               }}
             />
+            {/* Stat badge based on active sort */}
+            {badgeConfig && (
+              <Chip
+                label={`${badgeConfig.label}: ${badgeConfig.getValue(playerForBadge)}`}
+                size="small"
+                sx={{
+                  bgcolor: (theme) => theme.palette.stats.highlight,
+                  color: 'white',
+                  fontWeight: 'bold',
+                  fontSize: '0.7rem',
+                  height: 20,
+                }}
+              />
+            )}
             <PlayerStatusIcon status={player.status} />
             {player.isLocked && (
               <LockIcon fontSize="small" sx={{ color: 'text.secondary' }} />

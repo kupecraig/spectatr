@@ -6,6 +6,8 @@
  * - list returns empty for different tenant (tenant isolation proof)
  * - filter by position
  * - filter by search text
+ * - sort by totalPoints (DESC)
+ * - sort by cost (ASC)
  * - getById returns player
  * - getById throws NOT_FOUND for player in a different tenant
  */
@@ -39,12 +41,15 @@ describe('players router', () => {
     // Create a squad in tenant A
     squadA = await createTestSquad(tenantA.tenant.id);
 
-    // Create players in tenant A
+    // Create players in tenant A with varying costs and points
     player1 = await createTestPlayer(tenantA.tenant.id, squadA.squad.id, {
       firstName: 'John',
       lastName: 'Smith',
       position: 'fly_half',
       cost: 5000000,
+      totalPoints: 100,
+      avgPoints: 10.0,
+      lastRoundPoints: 15,
     });
 
     player2 = await createTestPlayer(tenantA.tenant.id, squadA.squad.id, {
@@ -52,6 +57,9 @@ describe('players router', () => {
       lastName: 'Doe',
       position: 'scrum_half',
       cost: 4500000,
+      totalPoints: 50,
+      avgPoints: 5.0,
+      lastRoundPoints: 8,
     });
 
     player3 = await createTestPlayer(tenantA.tenant.id, squadA.squad.id, {
@@ -59,6 +67,9 @@ describe('players router', () => {
       lastName: 'Wilson',
       position: 'fly_half',
       cost: 6000000,
+      totalPoints: 150,
+      avgPoints: 15.0,
+      lastRoundPoints: 20,
     });
   });
 
@@ -119,6 +130,48 @@ describe('players router', () => {
       expect(result.total).toBe(1);
       expect(result.players).toHaveLength(1);
       expect(result.players[0].lastName).toBe('Smith');
+    });
+
+    it('sorts by totalPoints in descending order', async () => {
+      const ctx = await createTestContext(tenantA.tenant.id);
+      const caller = createCaller(ctx);
+
+      const result = await caller.players.list({ sortBy: 'totalPoints' });
+
+      expect(result.total).toBe(3);
+      expect(result.players).toHaveLength(3);
+      // Player3 (150pts) > Player1 (100pts) > Player2 (50pts)
+      expect(result.players[0].id).toBe(player3.player.id);
+      expect(result.players[1].id).toBe(player1.player.id);
+      expect(result.players[2].id).toBe(player2.player.id);
+    });
+
+    it('sorts by cost in ascending order', async () => {
+      const ctx = await createTestContext(tenantA.tenant.id);
+      const caller = createCaller(ctx);
+
+      const result = await caller.players.list({ sortBy: 'cost' });
+
+      expect(result.total).toBe(3);
+      expect(result.players).toHaveLength(3);
+      // Player2 (4.5M) < Player1 (5M) < Player3 (6M)
+      expect(result.players[0].id).toBe(player2.player.id);
+      expect(result.players[1].id).toBe(player1.player.id);
+      expect(result.players[2].id).toBe(player3.player.id);
+    });
+
+    it('returns totalPoints, avgPoints, lastRoundPoints in player objects', async () => {
+      const ctx = await createTestContext(tenantA.tenant.id);
+      const caller = createCaller(ctx);
+
+      const result = await caller.players.list({});
+
+      // Find player1 in results
+      const player1Result = result.players.find((p) => p.id === player1.player.id);
+      expect(player1Result).toBeDefined();
+      expect(player1Result?.totalPoints).toBe(100);
+      expect(player1Result?.avgPoints).toBe(10.0);
+      expect(player1Result?.lastRoundPoints).toBe(15);
     });
   });
 

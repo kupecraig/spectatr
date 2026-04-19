@@ -1,11 +1,13 @@
 import { useMemo, useCallback, useEffect, type FC } from 'react';
-import { List, Box, Typography, Paper } from '@mui/material';
+import { List, Box, Typography, Paper, FormControl, InputLabel, Select, MenuItem, Skeleton } from '@mui/material';
+import type { SelectChangeEvent } from '@mui/material';
 import { leagueRules, type Player as MockPlayer } from '@/mocks/playerData';
 import { useMyTeamStore } from '@/stores';
 import { FilterPanel } from './FilterPanel';
 import { PlayerListItem } from './PlayerListItem';
 import { PlayerListItemSkeleton } from './PlayerListItemSkeleton';
-import { validateSquad, sportSquadConfig, type Player } from '@spectatr/shared-types';
+import { PLAYER_SORT_OPTIONS } from './playerSortConfig';
+import { validateSquad, sportSquadConfig, type Player, type PlayerSortBy } from '@spectatr/shared-types';
 import { getErrorType, getUserFriendlyError } from '@/config/validationErrors';
 import { usePlayersQuery, useSquadsQuery } from '@/hooks/api';
 import { VALIDATION } from '@/config/constants';
@@ -14,11 +16,12 @@ const PLAYERS_FETCH_LIMIT = 500;
 const DEFAULT_BUDGET = 42_000_000;
 
 export const PlayerList: FC = () => {
-  const { filters, getSelectedPlayers, getRemainingBudget, initializePriceRange } = useMyTeamStore();
+  const { filters, setFilters, getSelectedPlayers, getRemainingBudget, initializePriceRange } = useMyTeamStore();
 
   const { data: playersResult, isLoading: playersLoading } = usePlayersQuery({
     limit: PLAYERS_FETCH_LIMIT,
     offset: 0,
+    sortBy: filters.sortBy,
   });
   const { data: squadsData, isLoading: squadsLoading } = useSquadsQuery();
 
@@ -62,6 +65,11 @@ export const PlayerList: FC = () => {
   const currentLeagueRules = useMemo(() => leagueRules[0], []);
   const maxBudget = useMemo(() => currentLeagueRules?.priceCap ?? DEFAULT_BUDGET, [currentLeagueRules]);
   const remainingBudget = useMemo(() => getRemainingBudget(maxBudget), [getRemainingBudget, maxBudget]);
+
+  // Handle sort change
+  const handleSortChange = useCallback((event: SelectChangeEvent<PlayerSortBy>) => {
+    setFilters({ sortBy: event.target.value as PlayerSortBy });
+  }, [setFilters]);
 
   // Filter players
   const filteredPlayers: MockPlayer[] = useMemo(() => {
@@ -141,8 +149,34 @@ export const PlayerList: FC = () => {
     return { isDisabled: false, error: null };
   }, [selectedPlayers, currentLeagueRules]);
 
+  const isLoading = playersLoading || squadsLoading;
+
   return (
     <Paper sx={{ height: '100%', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+      {/* Sort control */}
+      <Box sx={{ px: 2, pt: 2, pb: 1 }}>
+        {isLoading ? (
+          <Skeleton variant="rounded" width={150} height={40} />
+        ) : (
+          <FormControl size="small" sx={{ minWidth: 150 }}>
+            <InputLabel id="sort-by-label">Sort By</InputLabel>
+            <Select
+              labelId="sort-by-label"
+              id="sort-by-select"
+              value={filters.sortBy}
+              label="Sort By"
+              onChange={handleSortChange}
+            >
+              {PLAYER_SORT_OPTIONS.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        )}
+      </Box>
+
       {/* Filter panel */}
       <Box sx={{
         borderBottom: 1,
@@ -160,7 +194,7 @@ export const PlayerList: FC = () => {
         scrollbarWidth: 'none', // Firefox
         msOverflowStyle: 'none', // IE/Edge
       }}>
-        {(playersLoading || squadsLoading) && (
+        {isLoading && (
           <List dense={true}>
             {Array.from({ length: 10 }, (_, i) => (
               <PlayerListItemSkeleton key={`skeleton-player-${i}`} />
@@ -168,7 +202,7 @@ export const PlayerList: FC = () => {
           </List>
         )}
         
-        {!playersLoading && !squadsLoading && filteredPlayers.length === 0 && (
+        {!isLoading && filteredPlayers.length === 0 && (
           <Box sx={{ p: 4, textAlign: 'center' }}>
             <Typography variant="body2" color="text.secondary">
               No players match your filters
@@ -176,7 +210,7 @@ export const PlayerList: FC = () => {
           </Box>
         )}
         
-        {!playersLoading && !squadsLoading && filteredPlayers.length > 0 && (
+        {!isLoading && filteredPlayers.length > 0 && (
           <List dense={true}>
             {filteredPlayers.map((player) => {
               const validation = getPlayerValidation(player);
@@ -186,6 +220,7 @@ export const PlayerList: FC = () => {
                   player={player}
                   validationError={validation.error}
                   isDisabled={validation.isDisabled}
+                  sortBy={filters.sortBy}
                 />
               );
             })}

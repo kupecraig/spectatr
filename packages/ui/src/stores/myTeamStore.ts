@@ -4,7 +4,7 @@ import type { Player, PlayerPosition, PlayerStats } from '../mocks/playerData';
 import { VALIDATION, STORAGE_KEYS } from '../config/constants';
 import { getPositionsByType, getAllPositions } from '../config/fieldLayouts';
 import { getActiveTenantId } from '../utils/tenant';
-import type { PlayerStatus, TeamWithPlayers } from '@spectatr/shared-types';
+import type { PlayerStatus, TeamWithPlayers, PlayerSortBy } from '@spectatr/shared-types';
 
 // Slot-based player storage: maps field slot ID to player (or null if vacant)
 export type PlayerSlots = Record<string, Player | null>;
@@ -17,6 +17,7 @@ export interface PlayerFilters {
   maxPrice: number;
   withinBudget: boolean;
   statuses: PlayerStatus[];
+  sortBy: PlayerSortBy;
 }
 
 /**
@@ -95,6 +96,7 @@ const defaultFilters: PlayerFilters = {
   maxPrice: VALIDATION.MAX_PRICE,
   withinBudget: false,
   statuses: [],
+  sortBy: 'totalPoints',
 };
 
 /**
