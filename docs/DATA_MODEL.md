@@ -154,6 +154,42 @@ interface Team {
 }
 ```
 
+### TeamPlayerSnapshot
+
+Captures the squad composition for a team at a specific round. Used for historical scoring and enables features like "view opponent's team for that round".
+
+**Relationships:**
+- Belongs to **Team**
+- Belongs to **League**
+- Belongs to **Round**
+- References **Player**
+
+**Attributes:**
+- `id` - Unique identifier
+- `tenantId` - Tenant scope
+- `teamId` - Team ID
+- `leagueId` - League ID
+- `roundId` - Round ID
+- `playerId` - Player ID
+- `position` - Player's position in the squad
+- `createdAt` - Snapshot creation timestamp
+
+**Unique Constraint:** `(tenantId, teamId, roundId, playerId)`
+
+**Example:**
+```typescript
+interface TeamPlayerSnapshot {
+  id: number;
+  tenantId: string;
+  teamId: number;
+  leagueId: number;
+  roundId: number;
+  playerId: number;
+  position: string;
+  createdAt: Date;
+}
+```
+
 ### Player
 
 Represents a real-world player available for selection.
@@ -161,6 +197,7 @@ Represents a real-world player available for selection.
 **Relationships:**
 - Belongs to **Squad** (real-world team)
 - Selected by many **Teams**
+- Has many **ScoringEvents**
 
 **Attributes:**
 - `id` - Unique identifier
@@ -176,6 +213,9 @@ Represents a real-world player available for selection.
 - `selected` - Selection percentage (% of users who selected this player)
 - `imagePitch` - Jersey image URL for field view
 - `imageProfile` - Headshot image URL for profile view
+- `totalPoints` - Cumulative fantasy points across all rounds (calculated by `calculateRoundPoints`)
+- `avgPoints` - Average points per round played
+- `lastRoundPoints` - Points scored in the most recently calculated round
 
 **Example:**
 ```typescript
@@ -193,6 +233,9 @@ interface Player {
   selected: PlayerSelected;
   imagePitch: string; // "image/trc/pitch/28160.png"
   imageProfile: string; // "image/trc/profile/28160.png"
+  totalPoints: number; // Calculated cumulative points
+  avgPoints: number;   // Average points per round
+  lastRoundPoints: number; // Points from last round
 }
 
 interface PlayerStats {
