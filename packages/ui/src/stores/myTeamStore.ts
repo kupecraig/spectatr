@@ -512,9 +512,18 @@ export const useMyTeamStore = create<MyTeamState>()(
       // This avoids needing explicit version migrations when adding new filter fields.
       merge: (persisted, current) => {
         const p = persisted as Partial<MyTeamState>;
+        // Initialize savedSlots/savedTotalCost from persisted slots/totalCost
+        // so that getIsDirty() returns false on cold load (no false-positive dirty state)
+        const slots = p.slots ?? current.slots;
+        const totalCost = p.totalCost ?? current.totalCost;
         return {
           ...current,
           ...p,
+          slots,
+          totalCost,
+          savedSlots: slots,
+          savedTotalCost: totalCost,
+          isEditing: false, // Always start in view mode on cold load
           filters: { ...current.filters, ...p.filters },
           priceRange: p.priceRange ?? current.priceRange,
         };
