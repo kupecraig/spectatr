@@ -84,14 +84,16 @@ export const gameweekRouter = router({
         });
       }
 
-      // Update round status to complete
-      await prisma.round.update({
-        where: { id: input.roundId },
-        data: { status: 'complete' },
-      });
+      // Wrap status update + point calculation in a single transaction
+      // so the operation is atomic - if point calculation fails, status won't change
+      const result = await prisma.$transaction(async (tx) => {
+        await tx.round.update({
+          where: { id: input.roundId },
+          data: { status: 'complete' },
+        });
 
-      // Calculate points
-      const result = await calculateRoundPoints(prisma, tenantId, input.roundId);
+        return calculateRoundPoints(tx, tenantId, input.roundId);
+      });
 
       logger.info(
         `Round ${input.roundId} finalised for tenant ${tenantId}: ${result.teamsUpdated} teams, ${result.playersUpdated} players updated`

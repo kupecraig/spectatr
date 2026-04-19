@@ -7,6 +7,7 @@ import {
   STAT_FIELD_TO_RULE_KEY,
   SUPER_2026_SCORING_RULES,
   calculateRoundPoints,
+  calculateStatPoints,
 } from '../utils/scoring.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -138,13 +139,22 @@ async function seedTenant(config: TenantSeedConfig): Promise<void> {
     }
   }
 
-  // Build tenant config with scoring rules if present
-  const tenantConfig = config.scoringRules
-    ? { scoring: { rules: config.scoringRules } }
-    : {};
-
+  // Build tenant config with scoring rules if present - merge with existing config
   // 1. Create / upsert tenant -------------------------------------------------
   console.log(`📦 Creating tenant: ${config.name}`);
+  
+  // First, fetch existing tenant to get current config (if any)
+  const existingTenant = await prisma.tenant.findUnique({
+    where: { id: TENANT_ID },
+    select: { config: true },
+  });
+  
+  // Merge scoring rules into existing config instead of overwriting
+  const existingConfig = (existingTenant?.config as Prisma.JsonObject) ?? {};
+  const tenantConfig: Prisma.InputJsonValue = config.scoringRules
+    ? { ...existingConfig, scoring: { rules: config.scoringRules } }
+    : existingConfig;
+  
   const tenant = await prisma.tenant.upsert({
     where: { id: TENANT_ID },
     update: {
@@ -368,7 +378,7 @@ async function seedTenant(config: TenantSeedConfig): Promise<void> {
 
       // Load player round stats
       interface RoundStat {
-        roundId: number;
+        roundNumber: number;
         stats: Record<string, number>;
       }
       interface PlayerRoundStats {
@@ -417,7 +427,7 @@ async function seedTenant(config: TenantSeedConfig): Promise<void> {
         if (!dbPlayerId) continue;
 
         for (const roundData of playerStats.rounds) {
-          const dbRoundId = roundNumberToDbId[roundData.roundId];
+          const dbRoundId = roundNumberToDbId[roundData.roundNumber];
           if (!dbRoundId) continue;
 
           const occurredAt = roundEndDates[dbRoundId] ?? new Date();
@@ -425,21 +435,11 @@ async function seedTenant(config: TenantSeedConfig): Promise<void> {
           for (const [statField, value] of Object.entries(roundData.stats)) {
             if (typeof value !== 'number' || value === 0) continue;
 
-            const ruleKey = STAT_FIELD_TO_RULE_KEY[statField];
-            if (!ruleKey) continue;
-
-            const pointsPerUnit = config.scoringRules[ruleKey];
-            if (pointsPerUnit === undefined) continue;
-
-            // Calculate points (special handling for metres gained)
-            let points: number;
-            if (ruleKey === 'MG_per10') {
-              points = Math.floor(value / 10) * pointsPerUnit;
-            } else {
-              points = value * pointsPerUnit;
-            }
+            // Use calculateStatPoints helper to avoid duplicating logic
+            const points = calculateStatPoints(statField, value, config.scoringRules);
 
             if (points !== 0) {
+              const ruleKey = STAT_FIELD_TO_RULE_KEY[statField];
               eventsToCreate.push({
                 tenantId: TENANT_ID,
                 playerId: dbPlayerId,

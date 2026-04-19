@@ -30,7 +30,6 @@ interface ScoringEventData {
   roundId: number;
   eventType: string;
   points: number;
-  round?: { roundNumber: number };
 }
 
 // Interface for team data
@@ -143,6 +142,7 @@ export function calculateStatPoints(
  * @returns Count of teams and players updated
  */
 export async function calculateRoundPoints(
+  // Using any to support both PrismaClient and transaction clients with extensions
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   prisma: any,
   tenantId: string,
@@ -187,7 +187,6 @@ export async function calculateRoundPoints(
       tenantId,
       roundId: { in: completeRoundIdArray },
     },
-    include: { round: { select: { roundNumber: true } } },
   });
 
   // Group scoring events by playerId and roundId
@@ -247,8 +246,8 @@ export async function calculateRoundPoints(
   for (const [playerId, events] of eventsByPlayer) {
     const totalPoints = events.reduce((sum: number, e: ScoringEventData) => sum + e.points, 0);
 
-    // Calculate rounds played (unique round numbers with events)
-    const roundsPlayed = new Set(events.map((e: ScoringEventData) => e.round?.roundNumber)).size;
+    // Calculate rounds played using unique roundIds (not roundNumber to avoid RLS issues)
+    const roundsPlayed = new Set(events.map((e: ScoringEventData) => e.roundId)).size;
 
     const avgPoints = roundsPlayed > 0 ? totalPoints / roundsPlayed : 0;
 
@@ -263,27 +262,56 @@ export async function calculateRoundPoints(
     });
   }
 
-  // Execute all updates in a transaction
+  // Helper to validate finite numbers
+  const toFiniteNumber = (value: number, label: string): number => {
+    if (!Number.isFinite(value)) {
+      throw new Error(`Invalid ${label} value generated during round scoring`);
+    }
+    return value;
+  };
+
+  // Helper to build VALUES clause for raw SQL
+  const buildValuesClause = (rows: number[][]): string =>
+    rows.map((row) => `(${row.join(', ')})`).join(', ');
+
+  const teamRows = Array.from(teamCumulativePoints.entries()).map(([teamId, points]) => [
+    teamId,
+    toFiniteNumber(points, 'team points'),
+  ]);
+
+  const playerRows = Array.from(playerStats.entries()).map(([playerId, stats]) => [
+    playerId,
+    toFiniteNumber(stats.totalPoints, 'player totalPoints'),
+    toFiniteNumber(stats.avgPoints, 'player avgPoints'),
+    toFiniteNumber(stats.lastRoundPoints, 'player lastRoundPoints'),
+  ]);
+
+  // Execute all updates in a transaction using set-based SQL to avoid per-row update overhead
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   await prisma.$transaction(async (tx: any) => {
-    // Update team points
-    for (const [teamId, points] of teamCumulativePoints) {
-      await tx.team.update({
-        where: { id: teamId },
-        data: { points },
-      });
+    if (teamRows.length > 0) {
+      const teamValuesClause = buildValuesClause(teamRows);
+
+      await tx.$executeRawUnsafe(`
+        UPDATE "teams" AS t
+        SET "points" = v.points
+        FROM (VALUES ${teamValuesClause}) AS v(id, points)
+        WHERE t."id" = v.id
+      `);
     }
 
-    // Update player stats
-    for (const [playerId, stats] of playerStats) {
-      await tx.player.update({
-        where: { id: playerId },
-        data: {
-          totalPoints: stats.totalPoints,
-          avgPoints: stats.avgPoints,
-          lastRoundPoints: stats.lastRoundPoints,
-        },
-      });
+    if (playerRows.length > 0) {
+      const playerValuesClause = buildValuesClause(playerRows);
+
+      await tx.$executeRawUnsafe(`
+        UPDATE "players" AS p
+        SET
+          "totalPoints" = v."totalPoints",
+          "avgPoints" = v."avgPoints",
+          "lastRoundPoints" = v."lastRoundPoints"
+        FROM (VALUES ${playerValuesClause}) AS v(id, "totalPoints", "avgPoints", "lastRoundPoints")
+        WHERE p."id" = v.id
+      `);
     }
   });
 

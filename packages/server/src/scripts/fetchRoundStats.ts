@@ -31,13 +31,13 @@ const REQUEST_DELAY_MS = 100;
 interface PlayerRoundStats {
   feedId: number;
   rounds: Array<{
-    roundId: number;
+    roundNumber: number;
     stats: Record<string, number>;
   }>;
 }
 
 interface ApiPlayerStats {
-  // The API returns stats keyed by round number
+  // The API returns stats keyed by round number, not a database Round.id
   [roundNumber: string]: {
     tries?: number;
     tryAssists?: number;
@@ -102,28 +102,28 @@ function sleep(ms: number): Promise<void> {
 /**
  * Convert API stats format to our internal format
  */
-function convertApiStats(apiStats: ApiPlayerStats): Array<{ roundId: number; stats: Record<string, number> }> {
-  const rounds: Array<{ roundId: number; stats: Record<string, number> }> = [];
+function convertApiStats(apiStats: ApiPlayerStats): Array<{ roundNumber: number; stats: Record<string, number> }> {
+  const rounds: Array<{ roundNumber: number; stats: Record<string, number> }> = [];
 
-  for (const [roundNumber, stats] of Object.entries(apiStats)) {
-    const roundId = parseInt(roundNumber, 10);
-    if (isNaN(roundId)) continue;
+  for (const [roundNumberStr, stats] of Object.entries(apiStats)) {
+    const roundNumber = parseInt(roundNumberStr, 10);
+    if (isNaN(roundNumber)) continue;
 
-    // Filter out null/undefined values and keep only non-zero stats
+    // Filter out null/undefined values and keep only finite positive stats
     const filteredStats: Record<string, number> = {};
     for (const [key, value] of Object.entries(stats)) {
-      if (typeof value === 'number') {
+      if (typeof value === 'number' && Number.isFinite(value) && value > 0) {
         filteredStats[key] = value;
       }
     }
 
     if (Object.keys(filteredStats).length > 0) {
-      rounds.push({ roundId, stats: filteredStats });
+      rounds.push({ roundNumber, stats: filteredStats });
     }
   }
 
-  // Sort by roundId
-  rounds.sort((a, b) => a.roundId - b.roundId);
+  // Sort by roundNumber
+  rounds.sort((a, b) => a.roundNumber - b.roundNumber);
 
   return rounds;
 }
@@ -151,11 +151,15 @@ async function main() {
     process.exit(1);
   }
 
-  // Fetch all players for this tenant
-  const players = await prisma.player.findMany({
-    where: { tenantId },
-    select: { id: true, feedId: true, firstName: true, lastName: true },
-    orderBy: { feedId: 'asc' },
+  // Fetch all players for this tenant within a tenant-scoped transaction
+  const players = await prisma.$transaction(async (tx) => {
+    await tx.$executeRaw`SELECT set_config('app.current_tenant', ${tenantId}, true)`;
+
+    return tx.player.findMany({
+      where: { tenantId },
+      select: { id: true, feedId: true, firstName: true, lastName: true },
+      orderBy: { feedId: 'asc' },
+    });
   });
 
   console.log(`📋 Found ${players.length} players for ${tenant.name}\n`);

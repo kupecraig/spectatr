@@ -17,7 +17,7 @@ import { z } from 'zod';
  *
  * Example: { T: 15, TA: 9, C: 2, CM: -1, TK: 1, MG_per10: 1 }
  */
-export const ScoringRulesSchema = z.record(z.string(), z.number());
+export const ScoringRulesSchema = z.record(z.string(), z.number().int());
 
 /**
  * Type for scoring rules

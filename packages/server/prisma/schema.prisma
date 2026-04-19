@@ -60,15 +60,16 @@ model Tenant {
   updatedAt    DateTime @updatedAt
 
   // Relations
-  squads         Squad[]
-  players        Player[]
-  tournaments    Tournament[]
-  rounds         Round[]
-  gameweekStates GameweekState[]
-  scoringEvents  ScoringEvent[]
-  checksums      Checksum[]
-  leagues        League[]
-  teams          Team[]
+  squads               Squad[]
+  players              Player[]
+  tournaments          Tournament[]
+  rounds               Round[]
+  gameweekStates       GameweekState[]
+  scoringEvents        ScoringEvent[]
+  checksums            Checksum[]
+  leagues              League[]
+  teams                Team[]
+  teamPlayerSnapshots  TeamPlayerSnapshot[]
 
   @@index([slug])
   @@index([isActive])
@@ -121,10 +122,11 @@ model Player {
   updatedAt    DateTime @updatedAt
 
   // Relations
-  tenant         Tenant          @relation(fields: [tenantId], references: [id])
-  squad          Squad           @relation(fields: [squadId], references: [id])
-  scoringEvents  ScoringEvent[]
-  teamPlayers    TeamPlayer[]
+  tenant              Tenant               @relation(fields: [tenantId], references: [id])
+  squad               Squad                @relation(fields: [squadId], references: [id])
+  scoringEvents       ScoringEvent[]
+  teamPlayers         TeamPlayer[]
+  teamPlayerSnapshots TeamPlayerSnapshot[]
 
   @@unique([tenantId, feedId])
   @@index([tenantId, position])
@@ -164,9 +166,10 @@ model Round {
   updatedAt    DateTime  @updatedAt
 
   // Relations
-  tenant         Tenant         @relation(fields: [tenantId], references: [id])
-  tournament     Tournament     @relation(fields: [tournamentId], references: [id])
-  scoringEvents  ScoringEvent[]
+  tenant              Tenant               @relation(fields: [tenantId], references: [id])
+  tournament          Tournament           @relation(fields: [tournamentId], references: [id])
+  scoringEvents       ScoringEvent[]
+  teamPlayerSnapshots TeamPlayerSnapshot[]
 
   @@unique([tenantId, tournamentId, roundNumber])
   @@index([tenantId, status])
@@ -284,9 +287,10 @@ model League {
   updatedAt       DateTime @updatedAt
 
   // Relations
-  tenant  Tenant       @relation(fields: [tenantId], references: [id])
-  teams   Team[]
-  members UserLeague[]
+  tenant              Tenant               @relation(fields: [tenantId], references: [id])
+  teams               Team[]
+  members             UserLeague[]
+  teamPlayerSnapshots TeamPlayerSnapshot[]
 
   @@index([tenantId])
   @@index([creatorId])
@@ -310,11 +314,12 @@ model Team {
   updatedAt DateTime @updatedAt
 
   // Relations
-  tenant      Tenant       @relation(fields: [tenantId], references: [id])
-  user        User         @relation(fields: [userId], references: [id])
-  league      League       @relation(fields: [leagueId], references: [id], onDelete: Cascade)
-  teamPlayers TeamPlayer[]
-  auditLogs   AuditLog[]
+  tenant              Tenant               @relation(fields: [tenantId], references: [id])
+  user                User                 @relation(fields: [userId], references: [id])
+  league              League               @relation(fields: [leagueId], references: [id], onDelete: Cascade)
+  teamPlayers         TeamPlayer[]
+  auditLogs           AuditLog[]
+  teamPlayerSnapshots TeamPlayerSnapshot[]
 
   @@unique([userId, leagueId])
   @@index([tenantId])
@@ -352,8 +357,18 @@ model TeamPlayerSnapshot {
   position  String
   createdAt DateTime @default(now())
 
+  // Relations
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+  team   Team   @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  league League @relation(fields: [leagueId], references: [id])
+  round  Round  @relation(fields: [roundId], references: [id], onDelete: Cascade)
+  player Player @relation(fields: [playerId], references: [id])
+
   @@unique([tenantId, teamId, roundId, playerId])
   @@index([tenantId, teamId, roundId])
+  @@index([tenantId, roundId])
+  @@index([tenantId, playerId, roundId])
+  @@index([tenantId, leagueId, roundId])
   @@map("team_player_snapshots")
 }
 

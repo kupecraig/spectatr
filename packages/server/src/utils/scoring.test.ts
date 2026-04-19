@@ -27,7 +27,7 @@ import {
   createTestTeamPlayerSnapshot,
   createTestScoringEvent,
 } from '../test/helpers/database.js';
-import { prisma } from '../db/prisma.js';
+import { createTenantScopedPrisma } from '../trpc/context.js';
 
 describe('scoring utility', () => {
   describe('calculateStatPoints', () => {
@@ -177,31 +177,34 @@ describe('scoring utility', () => {
     });
 
     it('produces correct team totals from known events', async () => {
-      const result = await calculateRoundPoints(prisma, tenant.tenant.id, round.round.id);
+      const tenantPrisma = createTenantScopedPrisma(tenant.tenant.id);
+      const result = await calculateRoundPoints(tenantPrisma, tenant.tenant.id, round.round.id);
 
       expect(result.teamsUpdated).toBeGreaterThan(0);
 
       // Check team1 got player1's points (15 for try)
-      const updatedTeam1 = await prisma.team.findUnique({
+      const updatedTeam1 = await tenantPrisma.team.findUnique({
         where: { id: team1.team.id },
       });
       expect(updatedTeam1?.points).toBe(15);
     });
 
     it('team with no snapshot for a round gets 0 pts', async () => {
+      const tenantPrisma = createTenantScopedPrisma(tenant.tenant.id);
       // team2 has no snapshot, should have 0 points
-      await calculateRoundPoints(prisma, tenant.tenant.id, round.round.id);
+      await calculateRoundPoints(tenantPrisma, tenant.tenant.id, round.round.id);
 
-      const updatedTeam2 = await prisma.team.findUnique({
+      const updatedTeam2 = await tenantPrisma.team.findUnique({
         where: { id: team2.team.id },
       });
       expect(updatedTeam2?.points).toBe(0);
     });
 
     it('updates player totalPoints and lastRoundPoints', async () => {
-      await calculateRoundPoints(prisma, tenant.tenant.id, round.round.id);
+      const tenantPrisma = createTenantScopedPrisma(tenant.tenant.id);
+      await calculateRoundPoints(tenantPrisma, tenant.tenant.id, round.round.id);
 
-      const updatedPlayer1 = await prisma.player.findUnique({
+      const updatedPlayer1 = await tenantPrisma.player.findUnique({
         where: { id: player1.player.id },
       });
       expect(updatedPlayer1?.totalPoints).toBe(15);

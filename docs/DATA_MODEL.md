@@ -214,7 +214,7 @@ Represents a real-world player available for selection.
 - `imagePitch` - Jersey image URL for field view
 - `imageProfile` - Headshot image URL for profile view
 - `totalPoints` - Cumulative fantasy points across all rounds (calculated by `calculateRoundPoints`)
-- `avgPoints` - Average points per round played
+- `avgPoints` - Average points per round with recorded events (rounds with zero events are not counted)
 - `lastRoundPoints` - Points scored in the most recently calculated round
 
 **Example:**

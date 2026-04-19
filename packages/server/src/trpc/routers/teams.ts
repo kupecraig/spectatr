@@ -96,23 +96,23 @@ export const teamsRouter = router({
         });
       }
 
-      // Check gameweek state for snapshot creation
-      const gameweekState = await prisma.gameweekState.findUnique({
-        where: { tenantId },
-      });
-
-      // Get the current round if status allows snapshots
-      let currentRoundId: number | null = null;
-      if (gameweekState && (gameweekState.status === 'pre_round' || gameweekState.status === 'active')) {
-        const currentRound = await prisma.round.findFirst({
-          where: { tenantId, roundNumber: gameweekState.currentRound },
-          select: { id: true },
-        });
-        currentRoundId = currentRound?.id ?? null;
-      }
-
       // Atomically replace TeamPlayer rows and upsert snapshot if applicable
       await prisma.$transaction(async (tx) => {
+        // Resolve the current round inside the transaction so snapshot writes
+        // cannot race with GameweekState advancing between read and write.
+        const gameweekState = await tx.gameweekState.findUnique({
+          where: { tenantId },
+        });
+
+        let currentRoundId: number | null = null;
+        if (gameweekState && (gameweekState.status === 'pre_round' || gameweekState.status === 'active')) {
+          const currentRound = await tx.round.findFirst({
+            where: { tenantId, roundNumber: gameweekState.currentRound },
+            select: { id: true },
+          });
+          currentRoundId = currentRound?.id ?? null;
+        }
+
         // Delete and recreate TeamPlayer rows
         await tx.teamPlayer.deleteMany({ where: { teamId: team.id } });
         await tx.teamPlayer.createMany({

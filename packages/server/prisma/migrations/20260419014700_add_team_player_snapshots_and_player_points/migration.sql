@@ -11,7 +11,7 @@
 -- ============================================================
 
 -- ------------------------------------------------------------
--- 1. Create team_player_snapshots table
+-- 1. Create team_player_snapshots table with foreign keys
 -- ------------------------------------------------------------
 CREATE TABLE "team_player_snapshots" (
   "id" SERIAL PRIMARY KEY,
@@ -22,12 +22,36 @@ CREATE TABLE "team_player_snapshots" (
   "playerId" INTEGER NOT NULL,
   "position" TEXT NOT NULL,
   "createdAt" TIMESTAMP NOT NULL DEFAULT NOW(),
+  CONSTRAINT "team_player_snapshots_tenantId_fkey"
+    FOREIGN KEY ("tenantId") REFERENCES "tenants"("id")
+    ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT "team_player_snapshots_teamId_fkey"
+    FOREIGN KEY ("teamId") REFERENCES "teams"("id")
+    ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT "team_player_snapshots_leagueId_fkey"
+    FOREIGN KEY ("leagueId") REFERENCES "leagues"("id")
+    ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT "team_player_snapshots_roundId_fkey"
+    FOREIGN KEY ("roundId") REFERENCES "rounds"("id")
+    ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT "team_player_snapshots_playerId_fkey"
+    FOREIGN KEY ("playerId") REFERENCES "players"("id")
+    ON DELETE RESTRICT ON UPDATE CASCADE,
   UNIQUE ("tenantId", "teamId", "roundId", "playerId")
 );
 
--- Create index for efficient lookup
-CREATE INDEX "team_player_snapshots_tenantId_teamId_roundId_idx" 
+-- Create indexes for expected scoring and snapshot lookup patterns
+CREATE INDEX "team_player_snapshots_tenantId_teamId_roundId_idx"
   ON "team_player_snapshots" ("tenantId", "teamId", "roundId");
+
+CREATE INDEX "team_player_snapshots_tenantId_roundId_idx"
+  ON "team_player_snapshots" ("tenantId", "roundId");
+
+CREATE INDEX "team_player_snapshots_tenantId_playerId_roundId_idx"
+  ON "team_player_snapshots" ("tenantId", "playerId", "roundId");
+
+CREATE INDEX "team_player_snapshots_tenantId_leagueId_roundId_idx"
+  ON "team_player_snapshots" ("tenantId", "leagueId", "roundId");
 
 -- ------------------------------------------------------------
 -- 2. Add point columns to players table

@@ -5,7 +5,7 @@
 ```powershell
 docker compose up -d
 npm run db:migrate --workspace=@spectatr/server
-npm run db:seed --workspace=@spectatr/server
+npm run seed:all --workspace=@spectatr/server
 ```
 
 ## ✅ Starting the Server
@@ -197,7 +197,10 @@ When seeding `super-2026`, the seed script:
 
 ```bash
 # Seed super-2026 with scoring data
-npm run db:seed -- --tenant super-2026
+npm run seed:super
+
+# Or seed all tenants
+npm run seed:all
 ```
 
 ### Admin Procedures for Round Management
