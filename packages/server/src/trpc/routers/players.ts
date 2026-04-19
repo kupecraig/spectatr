@@ -8,12 +8,16 @@ import { playerStatusSchema, PlayerSortBySchema } from '@spectatr/shared-types';
 const NATIVE_SORT_COLUMNS = ['totalPoints', 'avgPoints', 'lastRoundPoints', 'cost'] as const;
 
 // Mapping from sort option to JSONB stat field name
+// SECURITY: These values are used in raw SQL, so they must be hardcoded strings only
 const JSONB_STAT_FIELDS: Record<string, string> = {
   tries: 'tries',
   tackles: 'tackles',
   conversions: 'conversions',
   metresGained: 'metresGained',
 };
+
+// Safelist of allowed JSONB field names for raw SQL (prevents injection if mapping is modified)
+const ALLOWED_JSONB_FIELDS = new Set(Object.values(JSONB_STAT_FIELDS));
 
 export const playersRouter = router({
   /**
@@ -77,6 +81,11 @@ export const playersRouter = router({
       let players: Player[];
 
       if (jsonbField) {
+        // SECURITY: Validate field name against safelist before using in raw SQL
+        if (!ALLOWED_JSONB_FIELDS.has(jsonbField)) {
+          throw new Error(`Invalid JSONB field: ${jsonbField}`);
+        }
+
         // JSONB stat sorting requires raw SQL
         // Build where conditions for raw query
         const whereConditions: string[] = [`"tenantId" = $1`];
