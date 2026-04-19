@@ -71,6 +71,17 @@ cd packages/ui && npm run storybook
 cd packages/ui && npm run test-storybook
 ```
 
+### Database / Services — IMPORTANT
+**Do NOT run `docker-compose up` or start Docker services manually.** In the Copilot agent environment (GitHub Actions), PostgreSQL and Redis are already running at `localhost:5432` and `localhost:6379` via the `copilot-setup-steps` workflow's `services:` block. They are reachable directly — no Docker startup needed.
+
+If you start containers manually via `docker-compose`, they will be placed on an isolated bridge network and unreachable via `localhost`, causing integration test failures with connection errors.
+
+To run migrations before integration tests:
+```bash
+# Apply migrations using the postgres superuser (no docker-compose needed)
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/spectatr npx prisma migrate deploy --schema=packages/server/prisma/schema.prisma
+```
+
 ## Phase 2: Implement
 
 Work through plan tasks in order. Use `todo` to track progress. For each task:
@@ -107,8 +118,3 @@ Rules are enforced by `.github/copilot-instructions.md` — read it. The critica
 - Skip Phase 0 — context gathering prevents wrong implementations
 - Duplicate rules from `copilot-instructions.md` into components as comments
 - Over-engineer beyond what the issue spec asks for
-- Add features not in the acceptance criteria
-- Guess at MUI component APIs — look them up via `mui/*`
-- Hardcode rugby-specific values (positions, squad size 15, etc.)
-- Use `db:push` for any schema change
-- Create migrations that touch RLS without noting they need `db:migrate:superuser`

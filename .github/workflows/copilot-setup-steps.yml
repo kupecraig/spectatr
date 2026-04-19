@@ -138,6 +138,11 @@ jobs:
 
       # Run backend integration tests against the real PostgreSQL service.
       # Uses spectatr_app credentials (via .env.test) so RLS is enforced.
+      #
+      # NOTE FOR AGENTS: Do NOT run docker-compose up before this step.
+      # The services: block above already provides postgres/redis at localhost.
+      # Manually started Docker containers land on an isolated bridge network
+      # and are unreachable via localhost in this nested-container environment.
       - name: Test server (integration)
         run: npm run test:integration
         working-directory: packages/server
