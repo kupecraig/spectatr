@@ -12,10 +12,10 @@ const players = playersData as Player[];
 
 // Pre-seed the React Query cache so PlayerList renders without a live backend.
 // Keys mirror what useTenantQuery produces: [tenantId, ...queryKey]
-// PlayerList calls usePlayersQuery({ limit: 500, offset: 0 }) → cleanInput = { limit: 500, offset: 0 }
-function seedPlayerCache() {
+// PlayerList calls usePlayersQuery({ limit: 500, offset: 0, sortBy }) → cleanInput includes sortBy
+function seedPlayerCache(sortBy = 'totalPoints') {
   storyQueryClient.setQueryData(
-    ['trc-2025', 'players', { limit: 500, offset: 0 }],
+    ['trc-2025', 'players', { limit: 500, offset: 0, sortBy }],
     { players, total: players.length, limit: 500, offset: 0 },
   );
   storyQueryClient.setQueryData(['trc-2025', 'squads'], squadsData);
@@ -148,6 +148,32 @@ export const Loading: Story = {
     store.clearSquad();
     store.resetFilters();
     store.setIsLoading(true);
+    
+    return <PlayerList />;
+  },
+};
+
+// Sort by Total Points (default)
+export const SortByPoints: Story = {
+  render: () => {
+    const store = useMyTeamStore.getState();
+    store.clearSquad();
+    store.resetFilters();
+    store.setFilters({ sortBy: 'totalPoints' });
+    seedPlayerCache('totalPoints');
+    
+    return <PlayerList />;
+  },
+};
+
+// Sort by Tries
+export const SortByTries: Story = {
+  render: () => {
+    const store = useMyTeamStore.getState();
+    store.clearSquad();
+    store.resetFilters();
+    store.setFilters({ sortBy: 'tries' });
+    seedPlayerCache('tries');
     
     return <PlayerList />;
   },
