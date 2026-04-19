@@ -129,9 +129,10 @@ export const teamsRouter = router({
 
         // Upsert TeamPlayerSnapshot for current round if allowed
         if (currentRoundId !== null) {
+          const roundIdForSnapshot = currentRoundId; // Capture to avoid non-null assertion
           // Delete existing snapshots for this team+round (idempotent)
           await tx.teamPlayerSnapshot.deleteMany({
-            where: { teamId: team.id, roundId: currentRoundId },
+            where: { teamId: team.id, roundId: roundIdForSnapshot },
           });
           // Create new snapshots
           await tx.teamPlayerSnapshot.createMany({
@@ -139,7 +140,7 @@ export const teamsRouter = router({
               tenantId,
               teamId: team.id,
               leagueId: team.leagueId,
-              roundId: currentRoundId!,
+              roundId: roundIdForSnapshot,
               playerId: p.playerId,
               position: p.position,
             })),

@@ -162,140 +162,101 @@ export async function calculateRoundPoints(
   // Also include the round we're calculating (in case it's not marked complete yet)
   completeRoundIds.add(roundId);
 
-  // Get all snapshots for this round
-  const snapshots: SnapshotData[] = await prisma.teamPlayerSnapshot.findMany({
+  const completeRoundIdArray = Array.from(completeRoundIds);
+
+  // Load ALL snapshots for complete rounds upfront (avoids N+1)
+  const allSnapshots: SnapshotData[] = await prisma.teamPlayerSnapshot.findMany({
     where: {
       tenantId,
-      roundId,
+      roundId: { in: completeRoundIdArray },
     },
   });
 
-  // Group snapshots by teamId
-  const snapshotsByTeam = new Map<number, SnapshotData[]>();
-  for (const snapshot of snapshots) {
-    const existing = snapshotsByTeam.get(snapshot.teamId) ?? [];
+  // Group snapshots by teamId and roundId
+  const snapshotsByTeamAndRound = new Map<string, SnapshotData[]>();
+  for (const snapshot of allSnapshots) {
+    const key = `${snapshot.teamId}:${snapshot.roundId}`;
+    const existing = snapshotsByTeamAndRound.get(key) ?? [];
     existing.push(snapshot);
-    snapshotsByTeam.set(snapshot.teamId, existing);
+    snapshotsByTeamAndRound.set(key, existing);
   }
 
-  // Get all scoring events for this round
-  const scoringEvents: ScoringEventData[] = await prisma.scoringEvent.findMany({
+  // Load ALL scoring events for complete rounds upfront (avoids N+1)
+  const allScoringEvents: ScoringEventData[] = await prisma.scoringEvent.findMany({
     where: {
       tenantId,
-      roundId,
+      roundId: { in: completeRoundIdArray },
     },
+    include: { round: { select: { roundNumber: true } } },
   });
 
-  // Group scoring events by playerId
+  // Group scoring events by playerId and roundId
+  const eventsByPlayerAndRound = new Map<string, ScoringEventData[]>();
   const eventsByPlayer = new Map<number, ScoringEventData[]>();
-  for (const event of scoringEvents) {
-    const existing = eventsByPlayer.get(event.playerId) ?? [];
-    existing.push(event);
-    eventsByPlayer.set(event.playerId, existing);
+  for (const event of allScoringEvents) {
+    // Group by player+round
+    const key = `${event.playerId}:${event.roundId}`;
+    const existingByRound = eventsByPlayerAndRound.get(key) ?? [];
+    existingByRound.push(event);
+    eventsByPlayerAndRound.set(key, existingByRound);
+
+    // Group by player only
+    const existingByPlayer = eventsByPlayer.get(event.playerId) ?? [];
+    existingByPlayer.push(event);
+    eventsByPlayer.set(event.playerId, existingByPlayer);
   }
 
-  // Calculate points per player for this round
-  const playerRoundPoints = new Map<number, number>();
-  for (const [playerId, events] of eventsByPlayer) {
+  // Calculate points per player per round
+  const playerRoundPoints = new Map<string, number>();
+  for (const [key, events] of eventsByPlayerAndRound) {
     const totalPoints = events.reduce((sum: number, e: ScoringEventData) => sum + e.points, 0);
-    playerRoundPoints.set(playerId, totalPoints);
+    playerRoundPoints.set(key, totalPoints);
   }
 
-  // Calculate team round points based on snapshots
-  const teamRoundPoints = new Map<number, number>();
-  for (const [teamId, teamSnapshots] of snapshotsByTeam) {
-    let teamPoints = 0;
-    for (const snapshot of teamSnapshots) {
-      teamPoints += playerRoundPoints.get(snapshot.playerId) ?? 0;
-    }
-    teamRoundPoints.set(teamId, teamPoints);
-  }
-
-  // Now we need to calculate cumulative team points across all complete rounds
   // Get all teams in this tenant
   const teams: TeamData[] = await prisma.team.findMany({
     where: { tenantId },
     select: { id: true },
   });
 
-  // For each team, get all their snapshots across complete rounds and sum scoring events
+  // Calculate cumulative team points across all complete rounds
   const teamCumulativePoints = new Map<number, number>();
 
   for (const team of teams) {
-    const allSnapshots = await prisma.teamPlayerSnapshot.findMany({
-      where: {
-        tenantId,
-        teamId: team.id,
-        roundId: { in: Array.from(completeRoundIds) },
-      },
-    });
-
-    // Group by round to get player sets per round
-    const snapshotsByRound = new Map<number, Set<number>>();
-    for (const s of allSnapshots as SnapshotData[]) {
-      const existing = snapshotsByRound.get(s.roundId) ?? new Set();
-      existing.add(s.playerId);
-      snapshotsByRound.set(s.roundId, existing);
-    }
-
     let cumulativePoints = 0;
-    for (const [rId, playerIds] of snapshotsByRound) {
-      // Get scoring events for these players in this round
-      const roundEvents: ScoringEventData[] = await prisma.scoringEvent.findMany({
-        where: {
-          tenantId,
-          roundId: rId,
-          playerId: { in: Array.from(playerIds) },
-        },
-      });
-      cumulativePoints += roundEvents.reduce((sum: number, e: ScoringEventData) => sum + e.points, 0);
+
+    for (const rId of completeRoundIdArray) {
+      const snapshotKey = `${team.id}:${rId}`;
+      const teamSnapshots = snapshotsByTeamAndRound.get(snapshotKey) ?? [];
+
+      for (const snapshot of teamSnapshots) {
+        const pointsKey = `${snapshot.playerId}:${rId}`;
+        cumulativePoints += playerRoundPoints.get(pointsKey) ?? 0;
+      }
     }
 
     teamCumulativePoints.set(team.id, cumulativePoints);
   }
 
-  // Get all players with scoring events to update their stats
-  const playersWithEvents = await prisma.player.findMany({
-    where: {
-      tenantId,
-      scoringEvents: {
-        some: {
-          roundId: { in: Array.from(completeRoundIds) },
-        },
-      },
-    },
-    select: { id: true },
-  });
-
-  // Calculate player stats
+  // Calculate player stats using already-loaded events
   const playerStats = new Map<
     number,
     { totalPoints: number; avgPoints: number; lastRoundPoints: number }
   >();
 
-  for (const player of playersWithEvents as Array<{ id: number }>) {
-    // Get all scoring events for this player across complete rounds
-    const allEvents: ScoringEventData[] = await prisma.scoringEvent.findMany({
-      where: {
-        tenantId,
-        playerId: player.id,
-        roundId: { in: Array.from(completeRoundIds) },
-      },
-      include: { round: { select: { roundNumber: true } } },
-    });
-
-    const totalPoints = allEvents.reduce((sum: number, e: ScoringEventData) => sum + e.points, 0);
+  for (const [playerId, events] of eventsByPlayer) {
+    const totalPoints = events.reduce((sum: number, e: ScoringEventData) => sum + e.points, 0);
 
     // Calculate rounds played (unique round numbers with events)
-    const roundsPlayed = new Set(allEvents.map((e: ScoringEventData) => e.round?.roundNumber)).size;
+    const roundsPlayed = new Set(events.map((e: ScoringEventData) => e.round?.roundNumber)).size;
 
     const avgPoints = roundsPlayed > 0 ? totalPoints / roundsPlayed : 0;
 
     // Last round points = points from the specified round
-    const lastRoundEvents = allEvents.filter((e: ScoringEventData) => e.roundId === roundId);
+    const lastRoundEvents = events.filter((e: ScoringEventData) => e.roundId === roundId);
     const lastRoundPoints = lastRoundEvents.reduce((sum: number, e: ScoringEventData) => sum + e.points, 0);
 
-    playerStats.set(player.id, {
+    playerStats.set(playerId, {
       totalPoints,
       avgPoints: Math.round(avgPoints * 100) / 100, // Round to 2 decimal places
       lastRoundPoints,

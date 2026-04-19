@@ -86,7 +86,8 @@ async function fetchPlayerStats(feedId: number): Promise<ApiPlayerStats | null> 
     }
     return await response.json() as ApiPlayerStats;
   } catch (error) {
-    console.error(`  ❌ Failed to fetch stats for feedId ${feedId}:`, error);
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    console.error(`  ❌ Failed to fetch stats for feedId ${feedId}: ${errorMessage}`);
     return null;
   }
 }
