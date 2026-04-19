@@ -12,6 +12,8 @@
     "db:migrate": "dotenv -e env/.env -- prisma migrate dev",
     "db:migrate:deploy": "dotenv -e env/.env -- prisma migrate deploy",
     "db:migrate:superuser": "cross-env DATABASE_URL=postgresql://postgres:postgres@localhost:5432/spectatr prisma migrate deploy",
+    "db:fetch:super": "tsx src/scripts/fetchRoundStats.ts --tenant super-2026",
+    "db:refresh:super": "npm run db:migrate:deploy && npm run db:generate && npm run db:fetch:super && npm run seed:super",
     "seed:trc": "dotenv -e env/.env.superuser -- tsx src/scripts/seed.ts --tenant trc-2025",
     "seed:super": "dotenv -e env/.env.superuser -- tsx src/scripts/seed.ts --tenant super-2026",
     "seed:all": "dotenv -e env/.env.superuser -- tsx src/scripts/seed.ts --all",
