@@ -18,7 +18,8 @@
     "preview": "npm run preview --workspace=@spectatr/ui",
     "seed:trc": "npm run seed:trc --workspace=@spectatr/server",
     "seed:super": "npm run seed:super --workspace=@spectatr/server",
-    "seed:all": "npm run seed:all --workspace=@spectatr/server"
+    "seed:all": "npm run seed:all --workspace=@spectatr/server",
+    "db:refresh:super": "npm run db:refresh:super --workspace=@spectatr/server"
   },
   "engines": {
     "node": ">=20.0.0",
