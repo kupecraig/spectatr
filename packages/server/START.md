@@ -72,9 +72,10 @@ npm run test:coverage
  ✓ src/trpc/routers/rounds.test.ts (3 tests)
  ✓ src/trpc/routers/gameweek.test.ts (2 tests)
  ✓ src/trpc/routers/leagues.test.ts (6 tests)
+ ✓ src/trpc/procedures.test.ts (5 tests)
 
- Test Files  5 passed
-      Tests  19 passed
+ Test Files  6 passed
+      Tests  24 passed
 ```
 
 ### Writing New Tests
@@ -135,3 +136,41 @@ npm run db:migrate:deploy
 
 # Check your .env.test file has correct DATABASE_URL
 ```
+
+## 👤 Granting Admin Access
+
+Admin access is required for features like round finalisation, scoring rule management, and other administrative tasks. The `isAdmin` flag is a boolean on the `User` model.
+
+> **Note:** This is a temporary manual process until the Admin UI is built (Phase 2).
+
+### Option 1: Using Prisma Studio (GUI)
+
+```powershell
+# Start Prisma Studio
+npm run db:studio
+
+# Navigate to the 'User' table
+# Find your user by email
+# Set 'isAdmin' to true
+# Click 'Save 1 change'
+```
+
+### Option 2: Using SQL (psql)
+
+```sql
+-- Connect to the database
+psql -h localhost -U postgres -d spectatr
+
+-- Find your user
+SELECT id, email, "isAdmin" FROM users WHERE email = 'your@email.com';
+
+-- Grant admin access
+UPDATE users SET "isAdmin" = true WHERE email = 'your@email.com';
+
+-- Verify
+SELECT id, email, "isAdmin" FROM users WHERE email = 'your@email.com';
+```
+
+### Verifying Admin Access
+
+Once `isAdmin` is set, the user can access admin-only tRPC procedures (like `gameweek.finaliseRound`). The admin check happens on every request by querying the database — it does not rely on JWT claims.

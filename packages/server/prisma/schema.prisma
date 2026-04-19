@@ -23,6 +23,7 @@ model User {
   lastName      String?
   avatar        String?
   emailVerified DateTime?
+  isAdmin       Boolean   @default(false) // Global admin flag (Phase 2: tenant-scoped roles)
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
