@@ -36,6 +36,50 @@ export const playerStatusSchema = z.enum([
 export type PlayerStatus = z.infer<typeof playerStatusSchema>;
 
 /**
+ * Player sort options for list endpoint
+ * Native columns: totalPoints, avgPoints, lastRoundPoints, cost
+ * JSONB stat fields: tries, tackles, conversions, metresGained
+ */
+export const PlayerSortBySchema = z.enum([
+  'totalPoints',
+  'avgPoints',
+  'lastRoundPoints',
+  'cost',
+  'tries',
+  'tackles',
+  'conversions',
+  'metresGained',
+]);
+
+export type PlayerSortBy = z.infer<typeof PlayerSortBySchema>;
+
+/**
+ * Schema for player list item response (includes scoring columns)
+ * Used by players.list tRPC procedure
+ */
+export const playerListItemSchema = z.object({
+  id: z.number(),
+  feedId: z.number(),
+  squadId: z.number(),
+  firstName: z.string(),
+  lastName: z.string(),
+  position: playerPositionSchema,
+  cost: z.number().positive(),
+  status: playerStatusSchema,
+  isLocked: z.boolean(),
+  stats: z.record(z.unknown()).default({}),
+  selected: z.record(z.unknown()).default({}),
+  imagePitch: z.string().nullable(),
+  imageProfile: z.string().nullable(),
+  // Scoring columns (populated by calculateRoundPoints)
+  totalPoints: z.number().int().default(0),
+  avgPoints: z.number().default(0),
+  lastRoundPoints: z.number().int().default(0),
+});
+
+export type PlayerListItem = z.infer<typeof playerListItemSchema>;
+
+/**
  * Player schema - represents a rugby player
  */
 export const playerSchema = z.object({
