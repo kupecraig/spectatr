@@ -113,6 +113,10 @@ model Player {
   imageProfile String?
   stats        Json     @default("{}") // JSONB for flexible stats
   selected     Json     @default("{}") // Selection percentage data
+  // Scoring columns - populated by calculateRoundPoints
+  totalPoints     Int   @default(0)
+  avgPoints       Float @default(0)
+  lastRoundPoints Int   @default(0)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
@@ -332,6 +336,25 @@ model TeamPlayer {
   @@unique([teamId, playerId])
   @@index([teamId])
   @@map("team_players")
+}
+
+// ============================================================================
+// TEAM PLAYER SNAPSHOTS (Historical squad composition per round)
+// ============================================================================
+
+model TeamPlayerSnapshot {
+  id        Int      @id @default(autoincrement())
+  tenantId  String
+  teamId    Int
+  leagueId  Int
+  roundId   Int
+  playerId  Int
+  position  String
+  createdAt DateTime @default(now())
+
+  @@unique([tenantId, teamId, roundId, playerId])
+  @@index([tenantId, teamId, roundId])
+  @@map("team_player_snapshots")
 }
 
 // ============================================================================

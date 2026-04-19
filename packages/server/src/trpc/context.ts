@@ -22,7 +22,7 @@ import { prisma } from '../db/prisma.js';
 // Prisma model names lowercased — these models carry a tenantId column
 const TENANT_SCOPED_MODELS = new Set([
   'player', 'squad', 'round', 'tournament', 'league', 'team',
-  'gameweekstate', 'scoringevent', 'checksum',
+  'gameweekstate', 'scoringevent', 'checksum', 'teamplayersnapshot',
 ]);
 
 /**
