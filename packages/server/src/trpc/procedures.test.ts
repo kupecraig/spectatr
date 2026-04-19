@@ -46,14 +46,6 @@ describe('adminProcedure', () => {
   });
 
   afterAll(async () => {
-    // Reset admin flag before cleanup
-    await prisma.user.update({
-      where: { id: adminUser.user.id },
-      data: { isAdmin: false },
-    }).catch(() => {
-      // User may already be deleted
-    });
-
     // Cleanup in reverse order
     await adminUser?.cleanup();
     await normalUser?.cleanup();
